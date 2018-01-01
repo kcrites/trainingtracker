@@ -7,11 +7,11 @@ const Navigation = ({onRouteChange, isSignedIn, isAdmin}) => {
 		return(
 			<nav style={{display: 'flex', justifyContent: 'flex-end'}}>
 				<img className='ma4 mt0 br2' style={{marginRight: 'auto', height: '60px', justifyContent: 'flex-start', paddingTop: '10px'}} alt='Logo' src={boat} />
-				<p onClick={() => onRouteChange('home')} className='f4 link dim black  pa3 pointer'>Home</p>
-				<p onClick={() => onRouteChange('trainingHistory')} className='f4 link dim black  pa3 pointer'>Training History</p>
-				<p onClick={() => onRouteChange('stats')} className='f4 link dim black  pa3 pointer'>User Stats</p>
-				<p onClick={() => onRouteChange('statsInputForm')} className='f4 link dim black  pa3 pointer'>Enter Stats</p>
-				<p onClick={() => onRouteChange('signout')} className='f4 link dim black pa3 pointer'>Sign Out</p>
+				<p onClick={() => onRouteChange('home')} className='f5 link dim black  pa3 pointer'>Home</p>
+				<p onClick={() => onRouteChange('trainingHistory')} className='f5 link dim black  pa3 pointer'>Training History</p>
+				<p onClick={() => onRouteChange('stats')} className='f5 link dim black  pa3 pointer'>User Stats</p>
+				<p onClick={() => onRouteChange('statsInputForm')} className='f5 link dim black  pa3 pointer'>Enter Stats</p>
+				<p onClick={() => onRouteChange('signout')} className='f5 link dim black pa3 pointer'>Sign Out</p>
 				
 				{(isAdmin ? <p onClick={() => onRouteChange('admin')} className='f4 link dim black pa3 pointer'>Administration</p>
 				: ''
@@ -22,8 +22,8 @@ const Navigation = ({onRouteChange, isSignedIn, isAdmin}) => {
 				return(
 				<nav style={{display: 'flex', justifyContent: 'flex-end'}}>
 					<img className='ma4 mt0 br2' style={{marginRight: 'auto', height: '60px', justifyContent: 'flex-start', paddingTop: '10px'}} alt='Logo' src={boat} />
-					<p onClick={() => onRouteChange('signin')} className='f4 link dim black  pa3 pointer'>Sign in</p>
-					<p onClick={() => onRouteChange('register')} className='f4 link dim black  pa3 pointer'>Register</p>
+					<p onClick={() => onRouteChange('signin')} className='f5 link dim black  pa3 pointer'>Sign in</p>
+					<p onClick={() => onRouteChange('register')} className='f5 link dim black  pa3 pointer'>Register</p>
 				</nav>
 				);
 			}

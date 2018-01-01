@@ -21,8 +21,9 @@ loadPackage = () => {
     .then(response => response.json())
     .then(pack => {
       if(pack.id){
-        
+        console.log('packid: ', pack.packageid)
         this.props.loadUserPack(pack);
+        this.getHistory();
       } else {
       		console.log('Empty pack')
       }
@@ -30,11 +31,11 @@ loadPackage = () => {
     
   }
 
-componentDidMount(){
+async getHistory(){
 	const { loaded } = this.props;
 	if(!loaded) {
-		this.props.getStatsHistory();
-		// this errors out every time => this.props.getTrainingHistory();
+		let [result1, result2] = await Promise.all([this.props.getStatsHistory(), this.props.getTrainingHistory()]);
+		console.log('getHistory async' , result1, result2);
 		this.props.historyLoaded(true);
 	}
 }

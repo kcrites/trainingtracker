@@ -35,23 +35,37 @@ class TrainingInputForm extends React.Component {
 				//this.props.onRouteChange('trainingHistory');
 			}
 		})
+		let newSession = {
+				id: this.props.sessionCount,
+				sessiondate: sessionDate,
+				email: email,
+				packageid: packageId,
+				packagedate: packagedate
+		}
+		this.updatePackage();
+		this.props.addSession(newSession);
+		this.props.onRouteChange('trainingHistory');
 
-		fetch('http://localhost:3001/updatepackage', {
+	
+	}
+
+	updatePackage() {
+		const { packageId, email } = this.props;
+			fetch('http://localhost:3001/updatepackage', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
 				email: email,
-				packageid: packageId
+				packageid: packageId,
 			})
 		})
 		.then(response => response.json())
 		.then(userStats => {
 			if(userStats){
-				
-				this.props.onRouteChange('trainingHistory');
+				//this.props.loadUserPack(userStats);
+				//this.props.onRouteChange('trainingHistory');
 			}
 		})
-		
 	}
 
 	render() {

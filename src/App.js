@@ -62,10 +62,12 @@ class App extends Component {
         percentwater: 0.0
       }
     }
-    this.getTrainingHistory();
+    //this.getTrainingHistory();
   }
 
-
+componentDidMount() {
+  console.log(trainingHistoryArr.length);
+}
 
 //Puts user information into state after signin
  loadUser = (data) => {
@@ -79,6 +81,8 @@ class App extends Component {
         joined: data.joined
     }})
   }
+
+
 
 //Training Package Information
    loadUserPack = (data) => {
@@ -98,22 +102,21 @@ class App extends Component {
   
   packageAdmin = (session, email) => {
     const { packageId } = this.state.trainingPackage;
-    if(packageId === '104'){
-      //console.log(`Package Id: ${packageId}, data: ${session}`)
-      trainingHistoryArr.push({user:email, packageId:packageId, sessionDate: session})
-      //console.log(`trainingHistoryArr: ${trainingHistoryArr[trainingHistoryArr.length-1]}`)
+    if(packageId){
+      console.log('packageadmin');
     }
   }
 
 //Stats (Measurements) Information ***MOVE THE ARGS INTO STATE IN THE COMPONENT
   statAdmin = (d, w, mm, fl, bmi, vv, pw) => {
-   //console.log(`statAdmin: ${d} ${w} ${mm} ${fl} ${bmi} ${vv} ${pw}`);
+   console.log(`statAdmin:`);
   //  statHistoryArr.push({statsdate: d, weight: w, musclemass: mm, fatlevel: fl, bmi: bmi, vv: vv, percentwater: pw});
     this.getStatsHistory();
   } 
 
   getStatsHistory = () => {
     //refreashstatHistoryArr
+    console.log('calling getStatsHistory');
     if(!this.state.loaded) {
     fetch('http://localhost:3001/getstats', {
       method: 'post',
@@ -126,17 +129,17 @@ class App extends Component {
     .then(pack => {
       if(pack){
         pack.forEach(e => {statHistoryArr.push(e)});
-      //  console.log(`pack: ${pack}, statHistArr: ${statHistoryArr}`);
       }
     })
   }
+  return true;
   }
 
 //Training Session Information
 
   getTrainingHistory = () => {
-   // console.log('getTrainingHistory function');
-    fetch('http://localhost:3001/gettrainings', {
+    console.log('getTrainingHistory function', this.state.user.email, this.state.package.packageId);
+   fetch('http://localhost:3001/gettrainings', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -150,13 +153,12 @@ class App extends Component {
         train.forEach(e => {trainingHistoryArr.push(e)});
       }
     }).catch(err => {console.log(err)});
-  }
+    return true;
+  } 
 
-  showUser = (c) => {
-    console.log(this.state.user.name, this.state.trainingPackage.sessionCount,
-      this.state.trainingPackage.packageId, this.state.trainingPackage.completed,
-      this.state.trainingPackage.dateStarted, this.state.newTrainingDate, 'c:', c);
-        //console.log(this.state);
+  //Tracks new sessions in an array (the session is also sent to the DB for persistant storage)
+ addSession = (e) => {
+    trainingHistoryArr.push(e);
   }
 
  //indicates if the history for stats and training sessions has been loaded from the DB
@@ -170,23 +172,24 @@ class App extends Component {
 
   onButtonSubmit = () => {
     
-    const { completed, maxSessions } = this.state.trainingPackage;
+    const { completed, maxSessions, sessionCount, sessionsLeft } = this.state.trainingPackage;
+    const { input, trainingPackage } = this.state;
     
-    let c = this.state.trainingPackage.sessionCount;
-    let l = this.state.trainingPackage.sessionsLeft;
-    if(this.state.input !== '') {
+    let c = sessionCount;
+    let l = sessionsLeft;
+    if(input !== '') {
         c++;
         l--;
   
-        this.setState({newTrainingDate: this.state.input});
-        this.packageAdmin(this.state.input, this.state.user.email);
-        //setState is an asyc call, so might not be set immediatly
+        this.setState({newTrainingDate: input});
+        this.packageAdmin(input, this.state.user.email);
+        
         if(!completed) {
-    //this.showUser(c);
-          this.setState(Object.assign(this.state.trainingPackage, {sessionCount: c, sessionsLeft: l}));
+   
+          this.setState(Object.assign(trainingPackage, {sessionCount: c, sessionsLeft: l}));
         }
         if(c >= maxSessions){
-          this.setState(Object.assign(this.state.trainingPackage, {completed: true}));
+          this.setState(Object.assign(trainingPackage, {completed: true}));
 
         }
     }
@@ -222,6 +225,8 @@ class App extends Component {
                   packageId={this.state.package.packageId}
                   packagedate={this.state.package.dateStarted}
                   completed={this.state.package.completed}
+                  addSession={this.addSession}
+                  sessionCount={this.state.package.sessionCount}
                   onRouteChange={this.onRouteChange}/> : '')}
               </div>
     }
@@ -235,7 +240,7 @@ class App extends Component {
       return <div><Register loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>
     }
     else if (route === 'trainingHistory'){
-      return <div><TrainingHistory history={trainingHistoryArr}  getTrainingHistory={this.getTrainingHistory}/></div>
+      return <div><TrainingHistory packageId={this.state.package.packageId} trainingHistoryArr={trainingHistoryArr} email={this.state.user.email}  getTrainingHistory={this.getTrainingHistory}/></div>
     }
     else if (route === 'statsInputForm'){
       return <div><StatsInputForm name={this.state.user.name}  email={this.state.user.email}
