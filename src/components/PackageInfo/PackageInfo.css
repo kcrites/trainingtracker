@@ -1,0 +1,9 @@
+.tableInfo {
+  border: 1px solid black;
+   border-collapse: collapse;
+}
+
+.tableHeader {
+	color: blue;
+}
+
