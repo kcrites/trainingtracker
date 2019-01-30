@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navigation from './components/Navigation/Navigation';
 import PackageInfo from './components/PackageInfo/PackageInfo';
+import Signin from './components/Signin/Signin';
 import TrainingInputForm from './components/TrainingInputForm/TrainingInputForm';
 import './App.css';
 
@@ -10,7 +11,7 @@ constructor() {
   super();
   this.state= {
     input: '',
-    trainingInputDate: '',
+    newTrainingDate: '',
     route: 'signin',
     isSignedIn: false,
     user: {
@@ -24,25 +25,31 @@ constructor() {
 }
 
   onInputChange = (event) => {
-    console.log(event.target.value);
      this.setState({input: event.target.value});
   }
 
   onButtonSubmit = () => {
-    console.log('click');
-    this.setState({trainingInputDate: this.state.input} );
-    console.log(this.state.input);
+    
+    this.setState({newTrainingDate: this.state.input});
+    //setState is an asyc call, so might not be set immediatly
+  }
 
-
+  onRouteChange = () => {
+    this.setState({route: 'home'});
   }
 
   render() {
     return (
       <div className="App">
-        <Navigation />
-        <PackageInfo />
-        <TrainingInputForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-       
+        <Navigation onRouteChange={this.onRouteChange} />
+        {this.state.route === 'signin'
+        ? <Signin onRouteChange={this.onRouteChange} />
+        :
+          <div>
+            <PackageInfo />
+            <TrainingInputForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
+          </div>
+       }
       </div>
     );
   }
