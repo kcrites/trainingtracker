@@ -9,16 +9,31 @@ class App extends Component {
 constructor() {
   super();
   this.state= {
-    input: ''
+    input: '',
+    trainingInputDate: '',
+    route: 'signin',
+    isSignedIn: false,
+    user: {
+      id: '',
+      name: '',
+      email: '',
+      entries: 0,
+      joined: '',
+    }
   }
 }
 
   onInputChange = (event) => {
     console.log(event.target.value);
+     this.setState({input: event.target.value});
   }
 
   onButtonSubmit = () => {
     console.log('click');
+    this.setState({trainingInputDate: this.state.input} );
+    console.log(this.state.input);
+
+
   }
 
   render() {

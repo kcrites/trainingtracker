@@ -19,10 +19,10 @@ const  PackageInfo = () => {
 					</thead>
 					<tbody>
 						<tr>
-							<td className='tableInfo'>{'Current package started on ' + date}</td>
+							<td className='tableInfo rows'>{'Current package started on ' + date}</td>
 						</tr>
 						<tr>
-							<td className='tableInfo'>{`You have used ${sessionsUsed} of ${sessionsTotal} sessions so far.`}</td>
+							<td className='tableInfo rows'>{`You have used ${sessionsUsed} of ${sessionsTotal} sessions so far.`}</td>
 						</tr>
 					</tbody>
 				</table>
