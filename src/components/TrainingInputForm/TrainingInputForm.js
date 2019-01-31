@@ -7,7 +7,7 @@ const  TrainingInputForm = ({onInputChange, onButtonSubmit}) => {
 	return (
 		<div>
 			<p className='f3'>
-				{'Please input your training sessions'}
+				{'Please input your training session'}
 			</p>
 			<div className='center'>
 				<div className='pa4 br2 shadow-5 form center'>
