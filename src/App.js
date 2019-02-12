@@ -9,9 +9,9 @@ import TrainingHistory from './components/TrainingHistory/TrainingHistory';
 import './App.css';
 
 
-const trainingHistory = [
+const trainingHistoryArr = [
    
-       { user: 'ken@gmail.com',
+/*       { user: 'ken@gmail.com',
         packageId: '10-11-I',
         sessionDate: '7-1-1970'
       },
@@ -22,7 +22,7 @@ const trainingHistory = [
       },
       {user: 'ken@gmail.com',
         packageId: '10-11-I',
-        sessionDate: '7-3-1970'}
+        sessionDate: '7-3-1970'}*/
   ];
 
 class App extends Component {
@@ -37,15 +37,14 @@ class App extends Component {
         id: '',
         name: '',
         email: '',
-        entries: 0,
         joined: ''
       },
       trainingPackage: {
         dataStarted: new Date(),
-        packageId: '10-11-I',
+        packageId: '104',
         completed: false,
-        sessionCount: 7,
-        sessionsLeft: 4,
+        sessionCount: 0,
+        sessionsLeft: 11,
         maxSessions: 11
       }
     }
@@ -62,11 +61,20 @@ class App extends Component {
     }})
   }
 
+  packageAdmin = (session, email) => {
+    const { packageId } = this.state.trainingPackage;
+    if(packageId === '104'){
+      //console.log(`Package Id: ${packageId}, data: ${session}`)
+      trainingHistoryArr.push({user:email, packageId:packageId, sessionDate: session})
+      //console.log(`trainingHistoryArr: ${trainingHistoryArr[trainingHistoryArr.length-1]}`)
+    }
+  }
+
   showUser = (c) => {
     console.log(this.state.user.name, this.state.trainingPackage.sessionCount,
-      this.state.trainingPackage.pacakgeId, this.state.trainingPackage.completed,
+      this.state.trainingPackage.packageId, this.state.trainingPackage.completed,
       this.state.trainingPackage.dateStarted, this.state.newTrainingDate, 'c:', c);
-        console.log(this.state);
+        //console.log(this.state);
   }
 
   onInputChange = (event) => {
@@ -76,16 +84,18 @@ class App extends Component {
   onButtonSubmit = () => {
     
     const { completed, packageId, maxSessions } = this.state.trainingPackage;
+    
     let c = this.state.trainingPackage.sessionCount;
     let l = this.state.trainingPackage.sessionsLeft;
     if(this.state.input !== '') {
         c++;
         l--;
-    console.log(`input: ${this.state.input}`);
+  
         this.setState({newTrainingDate: this.state.input});
+        this.packageAdmin(this.state.input, this.state.user.email);
         //setState is an asyc call, so might not be set immediatly
         if(!completed) {
-          this.showUser(c);
+    //this.showUser(c);
           this.setState(Object.assign(this.state.trainingPackage, {sessionCount: c, sessionsLeft: l}));
         }
         if(c >= maxSessions){
@@ -127,8 +137,8 @@ class App extends Component {
     else if (route === 'register'){
       return <div><Register loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>
     }
-    else if (route === 'trainingPackage'){
-      return <div><TrainingHistory history1={trainingHistory[0]} history2={trainingHistory[1]} history3={trainingHistory[2]}  /></div>
+    else if (route === 'trainingHistory'){
+      return <div><TrainingHistory history={trainingHistoryArr} /></div>
     }
   }
 

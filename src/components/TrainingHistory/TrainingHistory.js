@@ -1,52 +1,72 @@
 
 import React from 'react';
 
+// needs a for loop to only display rows when there is enough data. Should only show sessions for this package.
 
+const renderRow= (array) =>{
+  
+  return array.map((item, index)  => 
+            <tr className="stripe-dark">
+            <td className="pa3">{index+1}</td>
+              <td className="pa3">{item.sessionDate}</td>
+              <td className="pa3">{item.packageId}</td>
+            </tr>
 
-const  TrainingHistory = ({history1, history2, history3}) => {
+    );
+}
 
-	return (
+const  TrainingHistory = ({history}) => {
 
-<div className="pa4">
-  <div className="overflow-auto center">
-    <table className="f6 w-75 mw8 " cellSpacing="0">
-      <thead>
-        <tr className="stripe-dark">
-          <th className="fw6 tl pa3 bg-white">Date</th>
-          <th className="fw6 tl pa3 bg-white">Package ID</th>
-        </tr>
-      </thead>
-      <tbody className="lh-copy">
-        <tr className="stripe-dark">
-          <td className="pa3">{history1.sessionDate}</td>
-          <td className="pa3">{history1.packageId}</td>
+if(!history[0]) {
+  return("Your history is empty");
+} else{
 
-        </tr>
-        <tr className="stripe-dark">
-          <td className="pa3">{history2.sessionDate}</td>
-          <td className="pa3">{history2.packageId}</td>
+    return (
 
-        </tr>
-        <tr className="stripe-dark">
-          <td className="pa3">{history3.sessionDate}</td>
-          <td className="pa3">{history3.packageId}</td>
+    <div className="pa4">
+      <div className="overflow-auto center">
+        <table className="f6 w-75 mw8 " cellSpacing="0">
+          <thead>
+            <tr className="stripe-dark">
+            <th className="fw6 tl pa3 bg-white">Number</th>
+              <th className="fw6 tl pa3 bg-white">Date</th>
+              <th className="fw6 tl pa3 bg-white">Package ID</th>
+            </tr>
+          </thead>
+          <tbody className="lh-copy">
+          {renderRow(history)}
+{/*            <tr className="stripe-dark">
 
-        </tr>
-        <tr className="stripe-dark">
-          <td className="pa3">{history3.sessionDate}</td>
-          <td className="pa3">{history3.packageId}</td>
+              <td className="pa3">history[0].sessionDate</td>
+              <td className="pa3">history[0].packageId</td>
 
-        </tr>
-        <tr className="stripe-dark">
-          <td className="pa3">date</td>
-          <td className="pa3">packageId</td>
+            </tr>
+           <tr className="stripe-dark">
+              <td className="pa3">history[0].sessionDate</td>
+              <td className="pa3">history[0].packageId</td>
 
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-);
+            </tr> 
+            <tr className="stripe-dark">
+              <td className="pa3">history3.sessionDate</td>
+              <td className="pa3">history3.packageId</td>
+
+            </tr>
+            <tr className="stripe-dark">
+              <td className="pa3">history3.sessionDate</td>
+              <td className="pa3">history3.packageId</td>
+
+            </tr>
+            <tr className="stripe-dark">
+              <td className="pa3">date</td>
+              <td className="pa3">packageId</td>
+
+            </tr>*/}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    );
+  }
 }
 
 export default TrainingHistory;

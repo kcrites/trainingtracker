@@ -4,7 +4,7 @@ import './PackageInfo.css';
 
 
 const PackageInfo = ({name, used, left, type, completed}) => {
-console.log({name, used, left, type});
+
 	return (
 		<div>
 		{(!completed ? 
