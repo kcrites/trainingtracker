@@ -21,7 +21,15 @@ class App extends Component {
         name: '',
         email: '',
         entries: 0,
-        joined: '',
+        joined: ''
+      },
+      trainingPackage: {
+        dataStarted: new Date(),
+        packageId: '10-11-I',
+        completed: false,
+        sessionCount: 7,
+        sessionsLeft: 4,
+        maxSessions: 11
       }
     }
   }
@@ -37,15 +45,40 @@ class App extends Component {
     }})
   }
 
+  showUser = (c) => {
+    console.log(this.state.user.name, this.state.trainingPackage.sessionCount,
+      this.state.trainingPackage.pacakgeId, this.state.trainingPackage.completed,
+      this.state.trainingPackage.dateStarted, this.state.newTrainingDate, 'c:', c);
+        console.log(this.state);
+  }
+
   onInputChange = (event) => {
      this.setState({input: event.target.value});
   }
 
   onButtonSubmit = () => {
     
-    this.setState({newTrainingDate: this.state.input});
-    //setState is an asyc call, so might not be set immediatly
+    const { completed, packageId, maxSessions } = this.state.trainingPackage;
+    let c = this.state.trainingPackage.sessionCount;
+    let l = this.state.trainingPackage.sessionsLeft;
+    if(this.state.input !== '') {
+        c++;
+        l--;
+    console.log(`input: ${this.state.input}`);
+        this.setState({newTrainingDate: this.state.input});
+        //setState is an asyc call, so might not be set immediatly
+        if(!completed) {
+          this.showUser(c);
+          this.setState(Object.assign(this.state.trainingPackage, {sessionCount: c, sessionsLeft: l}));
+        }
+        if(c >= maxSessions){
+          this.setState(Object.assign(this.state.trainingPackage, {completed: true}));
+
+        }
+    }
   }
+
+ 
 
   onRouteChange = (route) => {
     if(route === 'signout') {
@@ -60,7 +93,11 @@ class App extends Component {
   renderOption = (route) => {
     if(route === 'home'){
       return  <div>
-                <PackageInfo />
+                <PackageInfo name={this.state.user.name}
+                  used={this.state.trainingPackage.sessionCount}
+                  left={this.state.trainingPackage.sessionsLeft}
+                  type={this.state.trainingPackage.packageId}
+                  completed={this.state.trainingPackage.completed}/>
                 <TrainingInputForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
               </div>
     }
@@ -68,7 +105,7 @@ class App extends Component {
       return <div> <Stats onRouteChange={this.onRouteChange}/></div>
     }
     else if (route === 'signout'){
-      return <div><Signin onRouteChange={this.onRouteChange} /></div>
+      return <div><Signin loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>
     }
     else if (route === 'register'){
       return <div><Register loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>
@@ -90,7 +127,7 @@ class App extends Component {
           </div> */
         : 
             route === 'signin'
-            ? <Signin onRouteChange={this.onRouteChange} />
+            ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
             : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
           
             )
