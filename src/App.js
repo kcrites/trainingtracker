@@ -5,8 +5,25 @@ import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 import Stats from './components/Stats/Stats';
 import TrainingInputForm from './components/TrainingInputForm/TrainingInputForm';
+import TrainingHistory from './components/TrainingHistory/TrainingHistory';
 import './App.css';
 
+
+const trainingHistory = [
+   
+       { user: 'ken@gmail.com',
+        packageId: '10-11-I',
+        sessionDate: '7-1-1970'
+      },
+      {
+        user: 'ken@gmail.com',
+        packageId: '10-11-I',
+        sessionDate: '7-2-1970'
+      },
+      {user: 'ken@gmail.com',
+        packageId: '10-11-I',
+        sessionDate: '7-3-1970'}
+  ];
 
 class App extends Component {
   constructor() {
@@ -109,6 +126,9 @@ class App extends Component {
     }
     else if (route === 'register'){
       return <div><Register loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>
+    }
+    else if (route === 'trainingPackage'){
+      return <div><TrainingHistory history1={trainingHistory[0]} history2={trainingHistory[1]} history3={trainingHistory[2]}  /></div>
     }
   }
 
