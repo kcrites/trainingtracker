@@ -9,21 +9,25 @@ import TrainingHistory from './components/TrainingHistory/TrainingHistory';
 import './App.css';
 
 
-const trainingHistoryArr = [
-   
-/*       { user: 'ken@gmail.com',
-        packageId: '10-11-I',
-        sessionDate: '7-1-1970'
-      },
-      {
-        user: 'ken@gmail.com',
-        packageId: '10-11-I',
-        sessionDate: '7-2-1970'
-      },
-      {user: 'ken@gmail.com',
-        packageId: '10-11-I',
-        sessionDate: '7-3-1970'}*/
-  ];
+const trainingHistoryArr = [];
+const statHistoryArr = [{
+  weight: 93.4,
+  date: '02/27/2019',
+  muscleMass: 16,
+  fatLevel: 13,
+  bmi: 30.1,
+  vv: 14,
+  percentWater: 30
+},
+{
+  weight: 94.4,
+  date: '03/01/2019',
+  muscleMass: 16.1,
+  fatLevel: 13.2,
+  bmi: 30.4,
+  vv: 14,
+  percentWater: 31
+}];
 
 class App extends Component {
   constructor() {
@@ -129,7 +133,7 @@ class App extends Component {
               </div>
     }
     else if (route === 'stats'){
-      return <div> <Stats onRouteChange={this.onRouteChange}/></div>
+      return <div> <Stats statHistory={statHistoryArr}/></div>
     }
     else if (route === 'signout'){
       return <div><Signin loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>

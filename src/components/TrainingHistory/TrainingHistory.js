@@ -35,32 +35,7 @@ if(!history[0]) {
           </thead>
           <tbody className="lh-copy">
           {renderRow(history)}
-{/*            <tr className="stripe-dark">
 
-              <td className="pa3">history[0].sessionDate</td>
-              <td className="pa3">history[0].packageId</td>
-
-            </tr>
-           <tr className="stripe-dark">
-              <td className="pa3">history[0].sessionDate</td>
-              <td className="pa3">history[0].packageId</td>
-
-            </tr> 
-            <tr className="stripe-dark">
-              <td className="pa3">history3.sessionDate</td>
-              <td className="pa3">history3.packageId</td>
-
-            </tr>
-            <tr className="stripe-dark">
-              <td className="pa3">history3.sessionDate</td>
-              <td className="pa3">history3.packageId</td>
-
-            </tr>
-            <tr className="stripe-dark">
-              <td className="pa3">date</td>
-              <td className="pa3">packageId</td>
-
-            </tr>*/}
           </tbody>
         </table>
       </div>
