@@ -26,8 +26,8 @@ const  Stats = ({statHistory}) => {
 
 	return (
 
-      <div className="pa4">
-        <div className="overflow-auto center">
+      <div className="pa4"><p>Stats History</p>
+        <div className="overflow-auto center">      
           <table className="f6 w-100 mw8 " cellSpacing="0">
             <thead>
               <tr className="stripe-dark">

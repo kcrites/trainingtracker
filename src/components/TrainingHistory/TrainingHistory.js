@@ -24,6 +24,7 @@ if(!history[0]) {
     return (
 
     <div className="pa4">
+    <p>Training History</p>
       <div className="overflow-auto center">
         <table className="f6 w-75 mw8 " cellSpacing="0">
           <thead>
