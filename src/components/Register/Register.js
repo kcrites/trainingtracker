@@ -9,7 +9,8 @@ class Register extends React.Component {
 		this.state = {
 			email: '',
 			password: '',
-			name: ''
+			name: '',
+			height:''
 			}
 		}	
 
@@ -25,6 +26,10 @@ class Register extends React.Component {
 		this.setState({password: event.target.value})
 	}
 
+	onHeightChange = (event) => {
+		this.setState({height: event.target.value})
+	}
+
 	onSubmitSignIn = () => {
 		fetch('http://localhost:3001/register', {
 			method: 'post',
@@ -32,7 +37,8 @@ class Register extends React.Component {
 			body: JSON.stringify({
 				name: this.state.name,
 				email: this.state.email,
-				password: this.state.password
+				password: this.state.password,
+				height: this.state.height
 			})
 		})
 		.then(response => response.json())
@@ -55,17 +61,21 @@ class Register extends React.Component {
 				    <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
 				      <legend className="f2 fw6 ph0 mh0">Register</legend>
 				        <div className="mt3">
-				        <label className="db fw6 lh-copy f6" htmlFor="Name">Name</label>
-				        <input onChange={this.onNameChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="name"  id="name"/>
-				      </div>
-				      <div className="mt3">
-				        <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
-				        <input onChange={this.onEmailChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address"  id="email-address"/>
-				      </div>
-				      <div className="mv3">
-				        <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
-				        <input onChange={this.onPasswordChange} className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="password"  id="password"/>
-				      </div>
+				        	<label className="db fw6 lh-copy f6" htmlFor="Name">Name</label>
+				       		<input onChange={this.onNameChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="name"  id="name"/>
+				     	</div>
+				      	<div className="mt3">
+				       		<label className="db fw6 lh-copy f6" htmlFor="height">Height</label>
+				       		<input onChange={this.onHeightChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="height"  id="height"/>
+				      	</div>
+				      	<div className="mt3">
+				        	<label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+				       		<input onChange={this.onEmailChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="email" name="email-address"  id="email-address"/>
+				      	</div>
+				      	<div className="mv3">
+				       		<label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+				       		<input onChange={this.onPasswordChange} className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="password"  id="password"/>
+				      	</div>
 				     
 				    </fieldset>
 				    <div className="">

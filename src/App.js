@@ -11,24 +11,7 @@ import './App.css';
 
 
 const trainingHistoryArr = [];
-const statHistoryArr = [{
-  weight: 93.4,
-  date: '02/27/2019',
-  muscleMass: 16,
-  fatLevel: 13,
-  bmi: 30.1,
-  vv: 14,
-  percentWater: 30
-},
-{
-  weight: 94.4,
-  date: '03/01/2019',
-  muscleMass: 16.1,
-  fatLevel: 13.2,
-  bmi: 30.4,
-  vv: 14,
-  percentWater: 31
-}];
+const statHistoryArr = [];
 
 class App extends Component {
   constructor() {
@@ -44,6 +27,8 @@ class App extends Component {
         id: '',
         name: '',
         email: '',
+        height: '',
+        //admin: false; - add this next
         joined: ''
       },
       trainingPackage: 
@@ -131,16 +116,16 @@ class App extends Component {
 onStatsInputChange = (evt) => {
   let n = evt.target.name;
   let v = evt.target.value;
-    // this.setState({statInput: evt.target.value})  
-   this.setState(Object.assign(this.state.stats, {[n]: v}));
-    
+  
+  this.setState(Object.assign(this.state.stats, {[n]: v}));
 }
 
 onStatsButtonSubmit = (evt) => {
-  console.log('onStatButtonSubmit called');
+  //console.log('onStatButtonSubmit called');
   const {date, weight, muscleMass, fatLevel, bmi, vv, percentWater} = this.state.stats;
-  console.log(this.state.stats);
+  //console.log(this.state.stats);
   this.statAdmin(date, weight, muscleMass, fatLevel, bmi, vv, percentWater );
+  this.setState({route: 'stats'});
 
 }
  
@@ -189,13 +174,6 @@ onStatsButtonSubmit = (evt) => {
       <div className="App">
         <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
         {(route !== 'signin' ? this.renderOption(route)
-          /*route === 'home'
-          ? 
-         <div>
-            <PackageInfo />
-            <TrainingInputForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-            <Stats />
-          </div> */
         : 
             route === 'signin'
             ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
