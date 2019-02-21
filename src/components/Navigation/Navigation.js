@@ -9,6 +9,7 @@ const Navigation = ({onRouteChange, isSignedIn}) => {
 				<p onClick={() => onRouteChange('home')} className='f4 link dim black  pa3 pointer'>Home</p>
 				<p onClick={() => onRouteChange('trainingHistory')} className='f4 link dim black  pa3 pointer'>Training History</p>
 				<p onClick={() => onRouteChange('stats')} className='f4 link dim black  pa3 pointer'>User Stats</p>
+				<p onClick={() => onRouteChange('statsInputForm')} className='f4 link dim black  pa3 pointer'>Enter Stats</p>
 				<p onClick={() => onRouteChange('signout')} className='f4 link dim black pa3 pointer'>Sign Out</p>
 			</nav>
 			);

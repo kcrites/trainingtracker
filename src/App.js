@@ -4,6 +4,7 @@ import PackageInfo from './components/PackageInfo/PackageInfo';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 import Stats from './components/Stats/Stats';
+import StatsInputForm from './components/StatsInputForm/StatsInputForm';
 import TrainingInputForm from './components/TrainingInputForm/TrainingInputForm';
 import TrainingHistory from './components/TrainingHistory/TrainingHistory';
 import './App.css';
@@ -32,24 +33,37 @@ const statHistoryArr = [{
 class App extends Component {
   constructor() {
     super();
-    this.state= {
+    this.state= 
+    {
       input: '',
       newTrainingDate: '',
       route: 'signin',
       isSignedIn: false,
+      statInput: '',
       user: {
         id: '',
         name: '',
         email: '',
         joined: ''
       },
-      trainingPackage: {
+      trainingPackage: 
+      {
         dataStarted: new Date(),
         packageId: '104',
         completed: false,
         sessionCount: 0,
         sessionsLeft: 11,
         maxSessions: 11
+      },
+      stats :
+      {
+        date: '',
+        weight: 0.0,
+        muscleMass: 0.0,
+        fatLevel: 0.0,
+        bmi: 0.0,
+        vv: 0.0,
+        percentWater: 0.0
       }
     }
   }
@@ -74,6 +88,11 @@ class App extends Component {
     }
   }
 
+  statAdmin = (d, w, mm, fl, bmi, vv, pw) => {
+    console.log(`statAdmin: ${d} ${w} ${mm} ${fl} ${bmi} ${vv} ${pw}`);
+    statHistoryArr.push({date: d, weight: w, muscleMass: mm, fatLevel: fl, bmi: bmi, vv: vv, percentWater: pw});
+  }
+
   showUser = (c) => {
     console.log(this.state.user.name, this.state.trainingPackage.sessionCount,
       this.state.trainingPackage.packageId, this.state.trainingPackage.completed,
@@ -87,7 +106,7 @@ class App extends Component {
 
   onButtonSubmit = () => {
     
-    const { completed, packageId, maxSessions } = this.state.trainingPackage;
+    const { completed, maxSessions } = this.state.trainingPackage;
     
     let c = this.state.trainingPackage.sessionCount;
     let l = this.state.trainingPackage.sessionsLeft;
@@ -109,6 +128,21 @@ class App extends Component {
     }
   }
 
+onStatsInputChange = (evt) => {
+  let n = evt.target.name;
+  let v = evt.target.value;
+    // this.setState({statInput: evt.target.value})  
+   this.setState(Object.assign(this.state.stats, {[n]: v}));
+    
+}
+
+onStatsButtonSubmit = (evt) => {
+  console.log('onStatButtonSubmit called');
+  const {date, weight, muscleMass, fatLevel, bmi, vv, percentWater} = this.state.stats;
+  console.log(this.state.stats);
+  this.statAdmin(date, weight, muscleMass, fatLevel, bmi, vv, percentWater );
+
+}
  
 
   onRouteChange = (route) => {
@@ -143,6 +177,9 @@ class App extends Component {
     }
     else if (route === 'trainingHistory'){
       return <div><TrainingHistory history={trainingHistoryArr} /></div>
+    }
+    else if (route === 'statsInputForm'){
+      return <div><StatsInputForm onStatsInputChange={this.onStatsInputChange}  onStatsButtonSubmit={this.onStatsButtonSubmit}/></div>
     }
   }
 

@@ -3,55 +3,40 @@ import React from 'react';
 
 
 
-const  TrainingInputForm = ({onInputChange, onButtonSubmit}) => {
+const  StatsInputForm = ({onStatsInputChange, onStatsButtonSubmit}) => {
 	return (
 		<div>
 			<p className='f3'>
-				{'Please input your measurement stats'}
+				{'Please input your measurments'}
 			</p>
 			<div className='center'>
-				<div className='pa4 br2 shadow-5 form center'>
-				<article className="pa1 pa5-ns" data-name="slab-stat-small">
-				  <h3 className="f6 ttu tracked">{date}</h3>
-				  <div className="cf">
-				    
-				     <dl className="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
-				      <dd className="f6 fw4 ml0">Date</dd>
-				      <dd className="f3 fw6 ml0"><input type='date' name='date' /></dd>
-				    </dl>
-				    <dl className="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
-				      <dd className="f6 fw4 ml0">Weight</dd>
-				      <dd className="f3 fw6 ml0"><input type-'text' name='weight' /></dd>
-				    </dl>
-				    <dl className="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
-				      <dd className="f6 fw4 ml0">Muscle Mass</dd>
-				      <dd className="f3 fw6 ml0"><input type-'text' name='musclemass' /></dd>
-				    </dl>
-				    <dl className="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
-				      <dd className="f6 fw4 ml0">Fat Level</dd>
-				      <dd className="f3 fw6 ml0"><input type-'text' name='fatlevel' /></dd>
-				    </dl>
-				    <dl className="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
-				      <dd className="f6 fw4 ml0">BMI</dd>
-				      <dd className="f3 fw6 ml0"><input type-'text' name='bmi' /></dd>
-				    </dl>
-				    <dl className="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
-				      <dd className="f6 fw4 ml0">Fat Level Organs</dd>
-				      <dd className="f3 fw6 ml0"><input type-'text' name='fatlevelorgans' /></dd>
-				    </dl>
-				    <dl className="fl fn-l w-50 dib-l w-auto-l lh-title">
-				      <dd className="f6 fw4 ml0">App Downloads</dd>
-				      <dd className="f3 fw6 ml0">1,200</dd>
-				    </dl>
-				  </div>
-				</article>
-					 <input className='f4 pa2 w-70 center' type='date'onChange={onInputChange}/>
-					<button className='w-30 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={onButtonSubmit}>Submit</button>
+				<div className='pa4 br2 shadow-5 center'>
+				<table>
+				<tr>
+				<td><label>Date</label></td>
+				 <td><input className='f4 pa2 w-80 center' name='date' type='date'onChange={onStatsInputChange}/></td>
+				 </tr>
+				 <tr><td>   <label>Weight</label></td>
+				<td><input className='f4 pa2 w-50 center' name='weight' type='number' step='.1' onChange={onStatsInputChange} /></td>
+				</tr>
+				<tr><td>   <label>Muscle Mass</label></td>
+				<td><input className='f4 pa2 w-50 center' name='muscleMass' type='number' step='.1' onChange={onStatsInputChange} /></td></tr>
+				<tr><td>   <label>Fat Level</label></td>
+				<td><input className='f4 pa2 w-50 center' name='fatLevel' type='number' step='.1' onChange={onStatsInputChange} /></td></tr>
+				<tr><td>   <label>BMI</label></td>
+				<td><input className='f4 pa2 w-50 center' name='bmi' type='number' step='.1' onChange={onStatsInputChange} /></td></tr>
+				<tr><td>   <label>VV</label></td>
+				<td><input className='f4 pa2 w-50 center' name='vv' type='number' step='.1' onChange={onStatsInputChange}/></td></tr>
+				<tr><td>   <label>Percent Water</label></td>
+				<td><input className='f4 pa2 w-50 center' name='percentWater'  type='number' step='.1' onChange={onStatsInputChange}/></td></tr>
+				<tr>
+				<td><button className='w-100 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={onStatsButtonSubmit}>Submit</button></td>
+					</tr>
+				</table>
 				</div>
 			</div>
 		</div>
 		);
 }
 
-export default TrainingInputForm;
-
+export default StatsInputForm;
