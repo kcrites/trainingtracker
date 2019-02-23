@@ -7,6 +7,8 @@ import Stats from './components/Stats/Stats';
 import StatsInputForm from './components/StatsInputForm/StatsInputForm';
 import TrainingInputForm from './components/TrainingInputForm/TrainingInputForm';
 import TrainingHistory from './components/TrainingHistory/TrainingHistory';
+import Admin from './components/Admin/Admin';
+import PackageInputForm from './components/PackageInputForm/PackageInputForm';
 import './App.css';
 
 
@@ -28,7 +30,7 @@ class App extends Component {
         name: '',
         email: '',
         height: '',
-        //admin: false; - add this next
+        isAdmin: false, 
         joined: ''
       },
       trainingPackage: 
@@ -59,7 +61,9 @@ class App extends Component {
         id: data.id,
         name: data.name,
         email: data.email,
+        height: data.height,
         entries: data.entries,
+        isAdmin: data.isAdmin,
         joined: data.joined
     }})
   }
@@ -165,14 +169,21 @@ onStatsButtonSubmit = (evt) => {
     }
     else if (route === 'statsInputForm'){
       return <div><StatsInputForm onStatsInputChange={this.onStatsInputChange}  onStatsButtonSubmit={this.onStatsButtonSubmit}/></div>
+    }   
+    else if (route === 'admin'){
+      return <div><Admin onStatsInputChange={this.onStatsInputChange}  onStatsButtonSubmit={this.onStatsButtonSubmit}/></div>
     }
+    else if (route === 'packageInputForm'){
+      return <div><PackageInputForm onStatsInputChange={this.onStatsInputChange}  onStatsButtonSubmit={this.onStatsButtonSubmit}/></div>
+    }   
   }
 
   render() {
     const {isSignedIn, route} = this.state;
+    const { isAdmin } = this.state.user;
     return (
       <div className="App">
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
+        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} isAdmin={isAdmin} />
         {(route !== 'signin' ? this.renderOption(route)
         : 
             route === 'signin'
