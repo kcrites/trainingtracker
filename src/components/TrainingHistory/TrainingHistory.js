@@ -29,9 +29,9 @@ if(!history[0]) {
         <table className="f6 w-75 mw8 " cellSpacing="0">
           <thead>
             <tr className="stripe-dark">
-            <th className="fw6 tl pa3 bg-white center">Number</th>
-              <th className="fw6 tl pa3 bg-white center">Date</th>
-              <th className="fw6 tl pa3 bg-white center">Package ID</th>
+            <th className="fw6 tl pa3 bg-white">Number</th>
+              <th className="fw6 tl pa3 bg-white">Date</th>
+              <th className="fw6 tl pa3 bg-white">Package ID</th>
             </tr>
           </thead>
           <tbody className="lh-copy">

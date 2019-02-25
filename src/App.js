@@ -14,6 +14,27 @@ import './App.css';
 
 const trainingHistoryArr = [];
 const statHistoryArr = [];
+const allUserHistoryArr = [{
+  number: '23',
+  user: 'Ken',
+  packageId: '101',
+  date: '01-01-2000',
+  sessionsLeft: 3,
+  sessionsUsed: 7,
+  action: 'false'
+
+},
+{
+  number: '24',
+  user: 'Jen',
+  packageId: '100',
+  date: '01-01-2000',
+  sessionsLeft: 4,
+  sessionsUsed: 7,
+  action: 'false'
+
+}];
+
 
 class App extends Component {
   constructor() {
@@ -171,7 +192,7 @@ onStatsButtonSubmit = (evt) => {
       return <div><StatsInputForm onStatsInputChange={this.onStatsInputChange}  onStatsButtonSubmit={this.onStatsButtonSubmit}/></div>
     }   
     else if (route === 'admin'){
-      return <div><Admin onStatsInputChange={this.onStatsInputChange}  onStatsButtonSubmit={this.onStatsButtonSubmit}/></div>
+      return <div><Admin history={allUserHistoryArr}/></div>
     }
     else if (route === 'packageInputForm'){
       return <div><PackageInputForm onStatsInputChange={this.onStatsInputChange}  onStatsButtonSubmit={this.onStatsButtonSubmit}/></div>
