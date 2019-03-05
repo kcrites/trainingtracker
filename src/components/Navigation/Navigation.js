@@ -1,5 +1,6 @@
 import React from 'react';
 import boat from './boat.png';
+import Select from './Select'
 
 const Navigation = ({onRouteChange, isSignedIn, isAdmin}) => {
 	if(isSignedIn) {
@@ -11,6 +12,7 @@ const Navigation = ({onRouteChange, isSignedIn, isAdmin}) => {
 				<p onClick={() => onRouteChange('stats')} className='f4 link dim black  pa3 pointer'>User Stats</p>
 				<p onClick={() => onRouteChange('statsInputForm')} className='f4 link dim black  pa3 pointer'>Enter Stats</p>
 				<p onClick={() => onRouteChange('signout')} className='f4 link dim black pa3 pointer'>Sign Out</p>
+				
 				{(isAdmin ? <p onClick={() => onRouteChange('admin')} className='f4 link dim black pa3 pointer'>Administration</p>
 				: ''
 					)}
@@ -29,3 +31,4 @@ const Navigation = ({onRouteChange, isSignedIn, isAdmin}) => {
 
 
 export default Navigation;
+//<Select onRouteChange={onRouteChange}/>

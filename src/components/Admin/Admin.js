@@ -45,7 +45,8 @@ if(!history[0]) {
 
           </tbody>
         </table>
-      </div>
+	 </div>
+				 
     </div>
     );
   }

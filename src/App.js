@@ -88,7 +88,7 @@ class App extends Component {
         joined: data.joined
     }})
   }
-
+  
   packageAdmin = (session, email) => {
     const { packageId } = this.state.trainingPackage;
     if(packageId === '104'){
