@@ -54,14 +54,14 @@ class App extends Component {
         isAdmin: false, 
         joined: ''
       },
-      trainingPackage: 
+      package: 
       {
-        dataStarted: new Date(),
-        packageId: '104',
+        dataStarted: '',
+        packageId: '',
         completed: false,
         sessionCount: 0,
-        sessionsLeft: 11,
-        maxSessions: 11
+        sessionsLeft: 0,
+        maxSessions: 0
       },
       stats :
       {
@@ -88,7 +88,21 @@ class App extends Component {
         joined: data.joined
     }})
   }
+
+   loadUserPack = (data) => {
+    let sl = data.maxsessions - data.sessioncount;
+    this.setState( {package: {
+
+      dateStarted: data.datestarted,
+      packageId: data.packageid,
+      completed:data.completed,
+      maxSessions:data.maxsessions,
+      sessionsLeft:sl,
+      sessionCount: data.sessioncount
+    }})
+  }
   
+
   packageAdmin = (session, email) => {
     const { packageId } = this.state.trainingPackage;
     if(packageId === '104'){
@@ -169,11 +183,16 @@ onStatsButtonSubmit = (evt) => {
     if(route === 'home'){
       return  <div>
                 <PackageInfo name={this.state.user.name}
-                  used={this.state.trainingPackage.sessionCount}
-                  left={this.state.trainingPackage.sessionsLeft}
-                  type={this.state.trainingPackage.packageId}
-                  completed={this.state.trainingPackage.completed}/>
-                <TrainingInputForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
+                  email={this.state.user.email}
+                  completed={this.state.package.completed}
+                  sessionCount={this.state.package.sessionCount}
+                  sessionsLeft={this.state.package.sessionsLeft}
+                  sessionsUsed={this.state.package.sessionsUsed}
+                  maxSessions={this.state.package.maxSessions}
+                  packageId={this.state.package.packageId}
+                  loadUserPack={this.loadUserPack}/>
+                <TrainingInputForm email={this.state.user.email} packageId={this.state.package.packageId}
+                 onRouteChange={this.onRouteChange}/>
               </div>
     }
     else if (route === 'stats'){
@@ -189,7 +208,8 @@ onStatsButtonSubmit = (evt) => {
       return <div><TrainingHistory history={trainingHistoryArr} /></div>
     }
     else if (route === 'statsInputForm'){
-      return <div><StatsInputForm onStatsInputChange={this.onStatsInputChange}  onStatsButtonSubmit={this.onStatsButtonSubmit}/></div>
+      return <div><StatsInputForm name={this.state.user.name}  email={this.state.user.email}
+                                  height={this.state.user.height} onRouteChange={this.onRouteChange}/></div>
     }   
     else if (route === 'admin'){
       return <div><Admin history={allUserHistoryArr}/></div>

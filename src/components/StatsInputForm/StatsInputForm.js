@@ -1,42 +1,113 @@
 import React from 'react';
 
+class StatsInputForm extends React.Component {
+	constructor(props){
+		super(props);
+		this.state = {
+			email: this.props.email,
+			height: this.props.height,
+			name: this.props.name,
+			statsWeight: 0,
+			statsMuscleMass: 0,
+			statsFatLevel:0,
+			statsBMI:0,
+			statsVV:0,
+			statsPercentWater:0,
+			statsDate: ''
+			}
+		}
 
+	onDateChange = (event) => {
+		this.setState({statsDate: event.target.value})
+	}
 
+	onWeightChange = (event) => {
+		this.setState({statsWeight: event.target.value})
+	}
 
-const  StatsInputForm = ({onStatsInputChange, onStatsButtonSubmit}) => {
-	return (
-		<div>
-			<p className='f3'>
-				{'Please input your measurments'}
-			</p>
-			<div className='center'>
-				<div className='pa4 br2 shadow-5 center'>
-				<table>
-				<tr>
-				<td><label>Date</label></td>
-				 <td><input className='f4 pa2 w-80 center' name='date' type='date'onChange={onStatsInputChange}/></td>
-				 </tr>
-				 <tr><td>   <label>Weight</label></td>
-				<td><input className='f4 pa2 w-50 center' name='weight' type='number' step='.1' onChange={onStatsInputChange} /></td>
-				</tr>
-				<tr><td>   <label>Muscle Mass</label></td>
-				<td><input className='f4 pa2 w-50 center' name='muscleMass' type='number' step='.1' onChange={onStatsInputChange} /></td></tr>
-				<tr><td>   <label>Fat Level</label></td>
-				<td><input className='f4 pa2 w-50 center' name='fatLevel' type='number' step='.1' onChange={onStatsInputChange} /></td></tr>
-				<tr><td>   <label>BMI</label></td>
-				<td><input className='f4 pa2 w-50 center' name='bmi' type='number' step='.1' onChange={onStatsInputChange} /></td></tr>
-				<tr><td>   <label>VV</label></td>
-				<td><input className='f4 pa2 w-50 center' name='vv' type='number' step='.1' onChange={onStatsInputChange}/></td></tr>
-				<tr><td>   <label>Percent Water</label></td>
-				<td><input className='f4 pa2 w-50 center' name='percentWater'  type='number' step='.1' onChange={onStatsInputChange}/></td></tr>
-				<tr>
-				<td><button className='w-100 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={onStatsButtonSubmit}>Submit</button></td>
+	onMuscleMassChange = (event) => {
+		this.setState({statsMuscleMass: event.target.value})
+	}
+
+	onFatLevelChange = (event) => {
+		this.setState({statsFatLevel: event.target.value})
+	}
+
+	onBMIChange = (event) => {
+		this.setState({statsBMI: event.target.value})
+	}
+
+	onVVChange = (event) => {
+		this.setState({statsVV: event.target.value})
+	}
+
+	onPercentWaterChange = (event) => {
+		this.setState({statsPercentWater: event.target.value})
+	}
+
+	onSubmitStats = () => {
+		fetch('http://localhost:3001/addstats', {
+			method: 'post',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({
+				name: this.state.name,
+				email: this.state.email,
+				height: this.state.height,
+				statsWeight: this.state.statsWeight,
+				statsMuscleMass: this.state.statsMuscleMass,
+				statsFatLevel: this.state.statsFatLevel,
+				statsBMI: this.state.statsBMI,
+				statsVV: this.state.statsVV,
+				statsPercentWater: this.state.statsPercentWater,
+				statsDate: this.state.statsDate
+			})
+		})
+		.then(response => response.json())
+		.then(userStats => {
+			if(userStats){
+				//this.props.loadUser(userStats);
+				this.props.onRouteChange('stats');
+			}
+		})
+		
+	}
+
+	render(){
+
+		return (
+			<div>
+				<p className='f3'>
+					{this.state.name + ': Please input your measurments'}
+				</p>
+				<div className='center'>
+					<div className='pa4 br2 shadow-5 center'>
+					<table>
+					<tr>
+					<td><label>Date</label></td>
+					 <td><input className='f4 pa2 w-80 center' name='date' type='date'onChange={this.onDateChange}/></td>
+					 </tr>
+					 <tr><td>   <label>Weight</label></td>
+					<td><input className='f4 pa2 w-50 center' name='weight' type='number' step='.1' onChange={this.onWeightChange} /></td>
 					</tr>
-				</table>
+					<tr><td>   <label>Muscle Mass</label></td>
+					<td><input className='f4 pa2 w-50 center' name='muscleMass' type='number' step='.1' onChange={this.onMuscleMassChange} /></td></tr>
+					<tr><td>   <label>Fat Level</label></td>
+					<td><input className='f4 pa2 w-50 center' name='fatLevel' type='number' step='.1' onChange={this.onFatLevelChange} /></td></tr>
+					<tr><td>   <label>BMI</label></td>
+					<td><input className='f4 pa2 w-50 center' name='bmi' type='number' step='.1' onChange={this.onBMIChange} /></td></tr>
+					<tr><td>   <label>VV</label></td>
+					<td><input className='f4 pa2 w-50 center' name='vv' type='number' step='.1' onChange={this.onVVChange}/></td></tr>
+					<tr><td>   <label>Percent Water</label></td>
+					<td><input className='f4 pa2 w-50 center' name='percentWater'  type='number' step='.1' onChange={this.onPercentWaterChange}/></td></tr>
+					<tr>
+					<td><button className='w-100 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.onSubmitStats}>Submit</button></td>
+					</tr>
+					</table>
+					</div>
 				</div>
 			</div>
-		</div>
-		);
+			);
+	}
 }
 
 export default StatsInputForm;

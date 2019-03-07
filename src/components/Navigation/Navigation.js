@@ -1,6 +1,6 @@
 import React from 'react';
 import boat from './boat.png';
-import Select from './Select'
+//import Select from './Select'
 
 const Navigation = ({onRouteChange, isSignedIn, isAdmin}) => {
 	if(isSignedIn) {
