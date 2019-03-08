@@ -30,7 +30,7 @@ loadPackage = () => {
     .then(response => response.json())
     .then(pack => {
       if(pack){
-      	console.log(pack);
+      	//console.log(pack);
         this.props.loadUserPack(pack);
         //this.props.onRouteChange('home');
         

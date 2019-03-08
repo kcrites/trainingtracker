@@ -7,7 +7,7 @@ const renderRow= (array) =>{
   return array.map((item, index)  => 
             <tr className="stripe-dark">
             <td className="pa3">{index+1}</td>
-              <td className="pa3">{item.date}</td>
+              <td className="pa3">{item.statsDate}</td>
               <td className="pa3">{item.weight}</td>
               <td className="pa3">{item.muscleMass}</td>
               <td className="pa3">{item.fatLevel}</td>

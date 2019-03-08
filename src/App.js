@@ -113,9 +113,23 @@ class App extends Component {
   }
 
   statAdmin = (d, w, mm, fl, bmi, vv, pw) => {
-    console.log(`statAdmin: ${d} ${w} ${mm} ${fl} ${bmi} ${vv} ${pw}`);
-    statHistoryArr.push({date: d, weight: w, muscleMass: mm, fatLevel: fl, bmi: bmi, vv: vv, percentWater: pw});
-  }
+   console.log(`statAdmin: ${d} ${w} ${mm} ${fl} ${bmi} ${vv} ${pw}`);
+    statHistoryArr.push({statsDate: d, weight: w, muscleMass: mm, fatLevel: fl, bmi: bmi, vv: vv, percentWater: pw});
+      fetch('http://localhost:3001/getstats', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        email: this.state.user.email
+      })
+    })
+    .then(response => response.json())
+    .then(pack => {
+      if(pack){
+        pack.forEach(e => {statHistoryArr.push(e)});
+        console.log(`pack: ${pack}, statHistArr: ${statHistoryArr}`)
+      }
+    })
+  } 
 
   showUser = (c) => {
     console.log(this.state.user.name, this.state.trainingPackage.sessionCount,
@@ -152,22 +166,6 @@ class App extends Component {
     }
   }
 
-onStatsInputChange = (evt) => {
-  let n = evt.target.name;
-  let v = evt.target.value;
-  
-  this.setState(Object.assign(this.state.stats, {[n]: v}));
-}
-
-onStatsButtonSubmit = (evt) => {
-  //console.log('onStatButtonSubmit called');
-  const {date, weight, muscleMass, fatLevel, bmi, vv, percentWater} = this.state.stats;
-  //console.log(this.state.stats);
-  this.statAdmin(date, weight, muscleMass, fatLevel, bmi, vv, percentWater );
-  this.setState({route: 'stats'});
-
-}
- 
 
   onRouteChange = (route) => {
     if(route === 'signout') {
@@ -209,7 +207,8 @@ onStatsButtonSubmit = (evt) => {
     }
     else if (route === 'statsInputForm'){
       return <div><StatsInputForm name={this.state.user.name}  email={this.state.user.email}
-                                  height={this.state.user.height} onRouteChange={this.onRouteChange}/></div>
+                                  height={this.state.user.height} onRouteChange={this.onRouteChange}
+                                  statAdmin={this.statAdmin}/></div>
     }   
     else if (route === 'admin'){
       return <div><Admin history={allUserHistoryArr}/></div>

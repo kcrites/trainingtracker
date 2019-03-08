@@ -53,19 +53,22 @@ class StatsInputForm extends React.Component {
 				name: this.state.name,
 				email: this.state.email,
 				height: this.state.height,
-				statsWeight: this.state.statsWeight,
-				statsMuscleMass: this.state.statsMuscleMass,
-				statsFatLevel: this.state.statsFatLevel,
-				statsBMI: this.state.statsBMI,
-				statsVV: this.state.statsVV,
-				statsPercentWater: this.state.statsPercentWater,
-				statsDate: this.state.statsDate
+				weight: this.state.statsWeight,
+				musclemass: this.state.statsMuscleMass,
+				fatlevel: this.state.statsFatLevel,
+				bmi: this.state.statsBMI,
+				vv: this.state.statsVV,
+				percentwater: this.state.statsPercentWater,
+				statsdate: this.state.statsDate
 			})
 		})
 		.then(response => response.json())
 		.then(userStats => {
 			if(userStats){
-				//this.props.loadUser(userStats);
+			let d = new Date(userStats.statsdate);
+			let tempD = d.toLocaleDateString();
+				this.props.statAdmin(tempD, userStats.weight, userStats.musclemass, userStats.fatlevel, 
+					userStats.bmi, userStats.vv, userStats.percentwater);
 				this.props.onRouteChange('stats');
 			}
 		})
