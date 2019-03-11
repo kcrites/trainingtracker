@@ -2,18 +2,28 @@
 import React from 'react';
 
 
+const fixDate = (array) => {
+      array.map((item) => {
+      let d = new Date(item.statsdate);
+      item.statsdate = d.toLocaleDateString();
+      return array;
+  })
+}
+
 const renderRow= (array) =>{
+
+    fixDate(array);
   
   return array.map((item, index)  => 
-            <tr className="stripe-dark">
+            <tr key={index} className="stripe-dark">
             <td className="pa3">{index+1}</td>
-              <td className="pa3">{item.statsDate}</td>
+              <td className="pa3">{item.statsdate}</td>
               <td className="pa3">{item.weight}</td>
-              <td className="pa3">{item.muscleMass}</td>
-              <td className="pa3">{item.fatLevel}</td>
+              <td className="pa3">{item.musclemass}</td>
+              <td className="pa3">{item.fatlevel}</td>
               <td className="pa3">{item.bmi}</td>
               <td className="pa3">{item.vv}</td>
-              <td className="pa3">{item.percentWater}</td>
+              <td className="pa3">{item.percentwater}</td>
             </tr>
 
     );

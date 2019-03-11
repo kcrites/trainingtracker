@@ -9,7 +9,7 @@ const renderRow= (array) =>{
             <tr className="stripe-dark">
             <td className="pa3">{index+1}</td>
               <td className="pa3">{item.sessionDate}</td>
-              <td className="pa3">{item.packageId}</td>
+              <td className="pa3">{item.datestarted}</td>
             </tr>
 
     );
@@ -31,7 +31,7 @@ if(!history[0]) {
             <tr className="stripe-dark">
             <th className="fw6 tl pa3 bg-white">Number</th>
               <th className="fw6 tl pa3 bg-white">Date</th>
-              <th className="fw6 tl pa3 bg-white">Package ID</th>
+              <th className="fw6 tl pa3 bg-white">Package Date</th>
             </tr>
           </thead>
           <tbody className="lh-copy">

@@ -33,6 +33,8 @@ class Signin extends React.Component {
 		.then(user => {
 			if(user.id){
 				this.props.loadUser(user);
+				this.props.getStatsHistory();
+				//this.props.getTrainingHistory();
 				this.props.onRouteChange('home');
 			}
 		})

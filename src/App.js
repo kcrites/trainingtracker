@@ -14,27 +14,14 @@ import './App.css';
 
 const trainingHistoryArr = [];
 const statHistoryArr = [];
-const allUserHistoryArr = [{
-  number: '23',
-  user: 'Ken',
-  packageId: '101',
-  date: '01-01-2000',
-  sessionsLeft: 3,
-  sessionsUsed: 7,
-  action: 'false'
-
-},
-{
-  number: '24',
-  user: 'Jen',
-  packageId: '100',
-  date: '01-01-2000',
-  sessionsLeft: 4,
-  sessionsUsed: 7,
-  action: 'false'
-
-}];
-
+const allUserHistoryArr = [];
+const fixDate = (olddate) => {
+      
+      let d = new Date(olddate);
+      let newdate = d.toLocaleDateString();
+      return newdate;
+  
+}
 
 class App extends Component {
   constructor() {
@@ -56,8 +43,8 @@ class App extends Component {
       },
       package: 
       {
-        dataStarted: '',
-        packageId: '',
+        dataStarted: undefined,
+        packageId: 0,
         completed: false,
         sessionCount: 0,
         sessionsLeft: 0,
@@ -67,42 +54,45 @@ class App extends Component {
       {
         date: '',
         weight: 0.0,
-        muscleMass: 0.0,
-        fatLevel: 0.0,
+        musclemass: 0.0,
+        fatlevel: 0.0,
         bmi: 0.0,
         vv: 0.0,
-        percentWater: 0.0
+        percentwater: 0.0
       }
     }
   }
 
 
+//Puts user information into state after signin
  loadUser = (data) => {
-    this.setState({user: {
+    this.setState({
+      user: {
         id: data.id,
         name: data.name,
         email: data.email,
         height: data.height,
-        entries: data.entries,
         isAdmin: data.isAdmin,
         joined: data.joined
     }})
   }
 
+//Training Package Information
    loadUserPack = (data) => {
     let sl = data.maxsessions - data.sessioncount;
-    this.setState( {package: {
-
-      dateStarted: data.datestarted,
-      packageId: data.packageid,
-      completed:data.completed,
-      maxSessions:data.maxsessions,
-      sessionsLeft:sl,
-      sessionCount: data.sessioncount
+    let fixed = fixDate(data.datestarted);
+    this.setState( {
+      package: {
+        dateStarted: fixed,
+        packageId: data.packageid,
+        completed:data.completed,
+        maxSessions:data.maxsessions,
+        sessionsLeft:sl,
+        sessionCount: data.sessioncount
     }})
   }
-  
 
+  
   packageAdmin = (session, email) => {
     const { packageId } = this.state.trainingPackage;
     if(packageId === '104'){
@@ -112,10 +102,16 @@ class App extends Component {
     }
   }
 
+//Stats (Measurements) Information ***MOVE THE ARGS INTO STATE IN THE COMPONENT
   statAdmin = (d, w, mm, fl, bmi, vv, pw) => {
    console.log(`statAdmin: ${d} ${w} ${mm} ${fl} ${bmi} ${vv} ${pw}`);
-    statHistoryArr.push({statsDate: d, weight: w, muscleMass: mm, fatLevel: fl, bmi: bmi, vv: vv, percentWater: pw});
-      fetch('http://localhost:3001/getstats', {
+    statHistoryArr.push({statsdate: d, weight: w, musclemass: mm, fatlevel: fl, bmi: bmi, vv: vv, percentwater: pw});
+    this.getStatsHistory();
+  } 
+
+  getStatsHistory = () => {
+    console.log('getStatHistory function');
+    fetch('http://localhost:3001/getstats', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -126,10 +122,31 @@ class App extends Component {
     .then(pack => {
       if(pack){
         pack.forEach(e => {statHistoryArr.push(e)});
-        console.log(`pack: ${pack}, statHistArr: ${statHistoryArr}`)
+        console.log(`pack: ${pack}, statHistArr: ${statHistoryArr}`);
       }
     })
-  } 
+  }
+
+//Training Session Information
+
+  getTrainingHistory = () => {
+    console.log('getTrainingHistory function');
+    fetch('http://localhost:3001/gettrainings', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        email: this.state.user.email,
+        packageid: this.state.package.packageId
+      })
+    })
+    .then(response => response.json())
+    .then(train => {
+      if(train){
+        train.forEach(e => {trainingHistoryArr.push(e)});
+        console.log(`train: ${train}, trainingHistArr: ${trainingHistoryArr}`);
+      }
+    })
+  }
 
   showUser = (c) => {
     console.log(this.state.user.name, this.state.trainingPackage.sessionCount,
@@ -185,12 +202,15 @@ class App extends Component {
                   completed={this.state.package.completed}
                   sessionCount={this.state.package.sessionCount}
                   sessionsLeft={this.state.package.sessionsLeft}
-                  sessionsUsed={this.state.package.sessionsUsed}
-                  maxSessions={this.state.package.maxSessions}
+               //   sessionsUsed={this.state.package.sessionsUsed}
+               //   maxSessions={this.state.package.maxSessions}
                   packageId={this.state.package.packageId}
+                  dateStarted={this.state.package.dateStarted}
                   loadUserPack={this.loadUserPack}/>
-                <TrainingInputForm email={this.state.user.email} packageId={this.state.package.packageId}
-                 onRouteChange={this.onRouteChange}/>
+                <TrainingInputForm email={this.state.user.email}
+                  packageId={this.state.package.packageId}
+                  packagedate={this.state.package.dateStarted}
+                  onRouteChange={this.onRouteChange}/>
               </div>
     }
     else if (route === 'stats'){
@@ -227,7 +247,7 @@ class App extends Component {
         {(route !== 'signin' ? this.renderOption(route)
         : 
             route === 'signin'
-            ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+            ? <Signin loadUser={this.loadUser} getStatsHistory={this.getStatsHistory} onRouteChange={this.onRouteChange} />
             : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
           
             )

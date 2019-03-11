@@ -7,25 +7,25 @@ class TrainingInputForm extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			email: this.props.email,
-			trainingdate: '',
-			packageId: this.props.packageId
+			sessionDate: '',
 			}
 		}
 
 	onDateChange = (event) => {
-		this.setState({trainingdate: event.target.value})
+		this.setState({sessionDate: event.target.value})
 	}
 
 	onSubmitDate = () => {
-		const { trainingdate, email, packageid} = this.state;
+		const { sessionDate } = this.state;
+		const { packageId, packagedate, email } = this.props;
 		fetch('http://localhost:3001/addtraining', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
-				trainingdate: trainingdate,
-				email: this.state.email,
-				packageid: this.state.packageid
+				sessiondate: sessionDate,
+				email: email,
+				packageid: packageId,
+				packagedate: packagedate
 			})
 		})
 		.then(response => response.json())

@@ -4,9 +4,6 @@ class StatsInputForm extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			email: this.props.email,
-			height: this.props.height,
-			name: this.props.name,
 			statsWeight: 0,
 			statsMuscleMass: 0,
 			statsFatLevel:0,
@@ -50,9 +47,9 @@ class StatsInputForm extends React.Component {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
-				name: this.state.name,
-				email: this.state.email,
-				height: this.state.height,
+				name: this.props.name,
+				email: this.props.email,
+				height: this.props.height,
 				weight: this.state.statsWeight,
 				musclemass: this.state.statsMuscleMass,
 				fatlevel: this.state.statsFatLevel,
@@ -80,11 +77,12 @@ class StatsInputForm extends React.Component {
 		return (
 			<div>
 				<p className='f3'>
-					{this.state.name + ': Please input your measurments'}
+					{this.props.name + ': Please input your measurments'}
 				</p>
 				<div className='center'>
 					<div className='pa4 br2 shadow-5 center'>
 					<table>
+					<tbody>
 					<tr>
 					<td><label>Date</label></td>
 					 <td><input className='f4 pa2 w-80 center' name='date' type='date'onChange={this.onDateChange}/></td>
@@ -103,8 +101,8 @@ class StatsInputForm extends React.Component {
 					<tr><td>   <label>Percent Water</label></td>
 					<td><input className='f4 pa2 w-50 center' name='percentWater'  type='number' step='.1' onChange={this.onPercentWaterChange}/></td></tr>
 					<tr>
-					<td><button className='w-100 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.onSubmitStats}>Submit</button></td>
-					</tr>
+					<td colSpan="2"><button className='w-100 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.onSubmitStats}>Submit</button></td>
+					</tr></tbody>
 					</table>
 					</div>
 				</div>
