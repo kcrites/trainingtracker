@@ -32,6 +32,7 @@ class App extends Component {
       newTrainingDate: '',
       route: 'signin',
       isSignedIn: false,
+      loaded: false,
       statInput: '',
       user: {
         id: '',
@@ -61,7 +62,9 @@ class App extends Component {
         percentwater: 0.0
       }
     }
+    this.getTrainingHistory();
   }
+
 
 
 //Puts user information into state after signin
@@ -104,13 +107,14 @@ class App extends Component {
 
 //Stats (Measurements) Information ***MOVE THE ARGS INTO STATE IN THE COMPONENT
   statAdmin = (d, w, mm, fl, bmi, vv, pw) => {
-   console.log(`statAdmin: ${d} ${w} ${mm} ${fl} ${bmi} ${vv} ${pw}`);
-    statHistoryArr.push({statsdate: d, weight: w, musclemass: mm, fatlevel: fl, bmi: bmi, vv: vv, percentwater: pw});
+   //console.log(`statAdmin: ${d} ${w} ${mm} ${fl} ${bmi} ${vv} ${pw}`);
+  //  statHistoryArr.push({statsdate: d, weight: w, musclemass: mm, fatlevel: fl, bmi: bmi, vv: vv, percentwater: pw});
     this.getStatsHistory();
   } 
 
   getStatsHistory = () => {
-    console.log('getStatHistory function');
+    //refreashstatHistoryArr
+    if(!this.state.loaded) {
     fetch('http://localhost:3001/getstats', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -122,15 +126,16 @@ class App extends Component {
     .then(pack => {
       if(pack){
         pack.forEach(e => {statHistoryArr.push(e)});
-        console.log(`pack: ${pack}, statHistArr: ${statHistoryArr}`);
+      //  console.log(`pack: ${pack}, statHistArr: ${statHistoryArr}`);
       }
     })
+  }
   }
 
 //Training Session Information
 
   getTrainingHistory = () => {
-    console.log('getTrainingHistory function');
+   // console.log('getTrainingHistory function');
     fetch('http://localhost:3001/gettrainings', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -143,9 +148,8 @@ class App extends Component {
     .then(train => {
       if(train){
         train.forEach(e => {trainingHistoryArr.push(e)});
-        console.log(`train: ${train}, trainingHistArr: ${trainingHistoryArr}`);
       }
-    })
+    }).catch(err => {console.log(err)});
   }
 
   showUser = (c) => {
@@ -153,6 +157,11 @@ class App extends Component {
       this.state.trainingPackage.packageId, this.state.trainingPackage.completed,
       this.state.trainingPackage.dateStarted, this.state.newTrainingDate, 'c:', c);
         //console.log(this.state);
+  }
+
+ //indicates if the history for stats and training sessions has been loaded from the DB
+  historyLoaded= (value)=> {
+    this.setState({loaded: value})
   }
 
   onInputChange = (event) => {
@@ -202,15 +211,18 @@ class App extends Component {
                   completed={this.state.package.completed}
                   sessionCount={this.state.package.sessionCount}
                   sessionsLeft={this.state.package.sessionsLeft}
-               //   sessionsUsed={this.state.package.sessionsUsed}
-               //   maxSessions={this.state.package.maxSessions}
-                  packageId={this.state.package.packageId}
                   dateStarted={this.state.package.dateStarted}
+                  loaded={this.state.loaded}
+                  getTrainingHistory={this.getTrainingHistory}
+                  getStatsHistory={this.getStatsHistory}
+                  historyLoaded={this.historyLoaded}
                   loadUserPack={this.loadUserPack}/>
-                <TrainingInputForm email={this.state.user.email}
+
+              {(!this.state.package.completed ? <TrainingInputForm email={this.state.user.email}
                   packageId={this.state.package.packageId}
                   packagedate={this.state.package.dateStarted}
-                  onRouteChange={this.onRouteChange}/>
+                  completed={this.state.package.completed}
+                  onRouteChange={this.onRouteChange}/> : '')}
               </div>
     }
     else if (route === 'stats'){
@@ -223,7 +235,7 @@ class App extends Component {
       return <div><Register loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>
     }
     else if (route === 'trainingHistory'){
-      return <div><TrainingHistory history={trainingHistoryArr} /></div>
+      return <div><TrainingHistory history={trainingHistoryArr}  getTrainingHistory={this.getTrainingHistory}/></div>
     }
     else if (route === 'statsInputForm'){
       return <div><StatsInputForm name={this.state.user.name}  email={this.state.user.email}
@@ -247,7 +259,7 @@ class App extends Component {
         {(route !== 'signin' ? this.renderOption(route)
         : 
             route === 'signin'
-            ? <Signin loadUser={this.loadUser} getStatsHistory={this.getStatsHistory} onRouteChange={this.onRouteChange} />
+            ? <Signin loadUser={this.loadUser}  onRouteChange={this.onRouteChange}  />
             : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
           
             )

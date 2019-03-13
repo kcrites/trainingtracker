@@ -32,6 +32,22 @@ class TrainingInputForm extends React.Component {
 		.then(userStats => {
 			if(userStats){
 				//this.props.loadUser(userStats);
+				//this.props.onRouteChange('trainingHistory');
+			}
+		})
+
+		fetch('http://localhost:3001/updatepackage', {
+			method: 'post',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({
+				email: email,
+				packageid: packageId
+			})
+		})
+		.then(response => response.json())
+		.then(userStats => {
+			if(userStats){
+				
 				this.props.onRouteChange('trainingHistory');
 			}
 		})
@@ -39,7 +55,7 @@ class TrainingInputForm extends React.Component {
 	}
 
 	render() {
-
+	
 	return (
 		<div>
 			<p className='f3'>

@@ -30,7 +30,14 @@ loadPackage = () => {
     
   }
 
-
+componentDidMount(){
+	const { loaded } = this.props;
+	if(!loaded) {
+		this.props.getStatsHistory();
+		// this errors out every time => this.props.getTrainingHistory();
+		this.props.historyLoaded(true);
+	}
+}
 
 render() {
 	
