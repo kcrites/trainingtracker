@@ -166,6 +166,7 @@ componentDidMount() {
     this.setState({loaded: value})
   }
 
+  //Next two functions are for the training input form
   onInputChange = (event) => {
      this.setState({input: event.target.value});
   }
@@ -195,14 +196,13 @@ componentDidMount() {
     }
   }
 
-
+// Custom routing based on the 'route' variable in state
   onRouteChange = (route) => {
     if(route === 'signout') {
       this.setState({isSignedIn: false})
     } else if (route === 'home' || route === 'stats') {
-      this.setState({isSignedIn: true})
-    }
-
+              this.setState({isSignedIn: true})
+              }
     this.setState({route: route});
   }
 

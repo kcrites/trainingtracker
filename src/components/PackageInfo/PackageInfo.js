@@ -10,6 +10,10 @@ class PackageInfo extends React.Component {
 		this.loadPackage();
 		}
 
+componentDidMount() {
+
+}
+
 loadPackage = () => {
     fetch('http://localhost:3001/getpackage', {
       method: 'post',
@@ -25,11 +29,15 @@ loadPackage = () => {
         this.props.loadUserPack(pack);
         this.getHistory();
       } else {
-      		console.log('Empty pack')
+					console.log('Empty pack');
+					//need to load completed to true
+					this.getHistory();
       }
     })
     
-  }
+	}
+	
+
 
 async getHistory(){
 	const { loaded } = this.props;
@@ -63,7 +71,8 @@ render() {
 			  </dl>
 			</article>
 		: <article className="pa1 pa5-ns" data-name="slab-stat">
-			<h1>You are out of sessions in your current package</h1>
+			<h3>You are out of sessions in your current package</h3>
+			<p>Contact your trainer to set up a new training package</p>
 		  </article>
 		)}
 		</div>
