@@ -37,16 +37,14 @@ loadPackage = () => {
     
 	}
 	
-
-
-async getHistory(){
-	const { loaded } = this.props;
-	if(!loaded) {
-		let [result1, result2] = await Promise.all([this.props.getStatsHistory(), this.props.getTrainingHistory()]);
-		console.log('getHistory async' , result1, result2);
-		this.props.historyLoaded(true);
+	async getHistory(){
+		const { loaded } = this.props;
+		if(!loaded) {
+			let [result1, result2] = await Promise.all([this.props.getStatsHistory(), this.props.getTrainingHistory()]);
+			console.log('getHistory async' , result1, result2);
+			this.props.historyLoaded(true);
+		}
 	}
-}
 
 render() {
 	

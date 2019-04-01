@@ -62,10 +62,10 @@ class StatsInputForm extends React.Component {
 		.then(response => response.json())
 		.then(userStats => {
 			if(userStats){
-			let d = new Date(userStats.statsdate);
+			let d = new Date(this.state.statsDate);
 			let tempD = d.toLocaleDateString();
-				this.props.statAdmin(tempD, userStats.weight, userStats.musclemass, userStats.fatlevel, 
-					userStats.bmi, userStats.vv, userStats.percentwater);
+				this.props.statAdmin(tempD, this.state.statsWeight, this.state.statsMuscleMass, this.state.statsFatLevel, 
+					this.state.statsBMI, this.state.statsVV, this.state.statsPercentWater);
 				this.props.onRouteChange('stats');
 			}
 		})

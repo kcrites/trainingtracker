@@ -14,7 +14,7 @@ import './App.css';
 
 const trainingHistoryArr = [];
 const statHistoryArr = [];
-const allUserHistoryArr = [];
+const allUserHistoryArr = []; //For Admin Panel
 const fixDate = (olddate) => {
       
       let d = new Date(olddate);
@@ -28,12 +28,10 @@ class App extends Component {
     super();
     this.state= 
     {
-      input: '',
-      newTrainingDate: '',
+      input: '',     
       route: 'signin',
       isSignedIn: false,
-      loaded: false,
-      statInput: '',
+      loaded: false,   
       user: {
         id: '',
         name: '',
@@ -66,9 +64,10 @@ class App extends Component {
   }
 
 componentDidMount() {
-  console.log(trainingHistoryArr.length);
+  //console.log(trainingHistoryArr.length);
 }
 
+//Load Data into State and Arrays
 //Puts user information into state after signin
  loadUser = (data) => {
     this.setState({
@@ -81,8 +80,20 @@ componentDidMount() {
         joined: data.joined
     }})
   }
-
-
+//Loads last items in the stats array to state for display in panel
+  loadLastStat = (data) => {
+    this.setState({
+      stats: {
+        date: data.date,
+        weight: data.weight,
+        musclemass: data.musclemass,
+        fatlevel: data.fatlevel,
+        bmi: data.bmi,
+        vv: data.vv,
+        percentwater: data.percentwater
+      }
+    })
+  }
 
 //Training Package Information
    loadUserPack = (data) => {
@@ -98,47 +109,58 @@ componentDidMount() {
         sessionCount: data.sessioncount
     }})
   }
-
   
-  packageAdmin = (session, email) => {
+/*   packageAdmin = (session, email) => {
     const { packageId } = this.state.trainingPackage;
     if(packageId){
       console.log('packageadmin');
     }
-  }
+  } */
 
 //Stats (Measurements) Information ***MOVE THE ARGS INTO STATE IN THE COMPONENT
   statAdmin = (d, w, mm, fl, bmi, vv, pw) => {
-   console.log(`statAdmin:`);
-  //  statHistoryArr.push({statsdate: d, weight: w, musclemass: mm, fatlevel: fl, bmi: bmi, vv: vv, percentwater: pw});
     this.getStatsHistory();
+    this.loadLastStat({d, w, mm, fl, bmi, vv, pw}); //Loads last stat into State
+    statHistoryArr.push({
+    statsdate: d,
+    weight: w,
+    musclemass: mm,
+    fatlevel: fl,
+    bmi: bmi,
+    vv: vv,
+    percentwater: pw,
+    id: statHistoryArr.length-1});
+    
   } 
 
   getStatsHistory = () => {
-    //refreashstatHistoryArr
-    console.log('calling getStatsHistory');
     if(!this.state.loaded) {
-    fetch('http://localhost:3001/getstats', {
-      method: 'post',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        email: this.state.user.email
+      fetch('http://localhost:3001/getstats', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          email: this.state.user.email
+        })
       })
-    })
-    .then(response => response.json())
-    .then(pack => {
-      if(pack){
-        pack.forEach(e => {statHistoryArr.push(e)});
-      }
-    })
-  }
-  return true;
+      .then(response => response.json())
+      .then(pack => {
+        if(pack.length > 0){
+          pack.forEach(e => {statHistoryArr.push(e)});
+          this.loadLastStat(statHistoryArr[statHistoryArr.length-1]);
+          //set state and put last element of array into state for display
+        } else {
+            //the stats history table is empty. What to do then?
+            console.log(`stat history table is empty in getStatsHistory`);
+        }
+      })
+    }
+    return true;
   }
 
 //Training Session Information
 
   getTrainingHistory = () => {
-    console.log('getTrainingHistory function', this.state.user.email, this.state.package.packageId);
+
    fetch('http://localhost:3001/gettrainings', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -153,7 +175,7 @@ componentDidMount() {
         train.forEach(e => {trainingHistoryArr.push(e)});
       }
     }).catch(err => {console.log(err)});
-    return true;
+      return true;
   } 
 
   //Tracks new sessions in an array (the session is also sent to the DB for persistant storage)
@@ -164,6 +186,15 @@ componentDidMount() {
  //indicates if the history for stats and training sessions has been loaded from the DB
   historyLoaded= (value)=> {
     this.setState({loaded: value})
+  }
+
+  clearArrays = () => {
+    //clear the arrays when signing out
+    if(statHistoryArr.length > 0) {
+      for(let i = statHistoryArr.length; i >0; i--){
+        statHistoryArr.pop();
+      }
+    }
   }
 
   //Next two functions are for the training input form
@@ -199,7 +230,7 @@ componentDidMount() {
 // Custom routing based on the 'route' variable in state
   onRouteChange = (route) => {
     if(route === 'signout') {
-      this.setState({isSignedIn: false})
+      this.setState({isSignedIn: false, user: {}, package: {}, stats:{}})
     } else if (route === 'home' || route === 'stats') {
               this.setState({isSignedIn: true})
               }
@@ -234,7 +265,8 @@ componentDidMount() {
       return <div> <Stats statHistory={statHistoryArr}/></div>
     }
     else if (route === 'signout'){
-      return <div><Signin loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>
+      return <div><Signin loadUser={ this.loadUser } onRouteChange={this.onRouteChange} 
+                          isSignedIn={this.state.status} clearArrays={this.clearArrays} /></div>
     }
     else if (route === 'register'){
       return <div><Register loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>
@@ -264,7 +296,7 @@ componentDidMount() {
         {(route !== 'signin' ? this.renderOption(route)
         : 
             route === 'signin'
-            ? <Signin loadUser={this.loadUser}  onRouteChange={this.onRouteChange}  />
+            ? <Signin loadUser={this.loadUser}  onRouteChange={this.onRouteChange} clearArrays={this.clearArrays}  />
             : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
           
             )

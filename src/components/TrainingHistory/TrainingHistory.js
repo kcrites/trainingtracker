@@ -39,47 +39,9 @@ class TrainingHistory extends React.Component {
    
   }
 
-//
 componentWillMount(){
- // if(trainingHistoryArr.length < 1) {
- // this.getHistory();
- // console.log('WillMount called');
-//}
 }
-
-/*//
-  loadHistory = (data) => {
-    this.setState({
-      history: { this.props.trainingHistoryArr }
-    }, () => {console.log('loadHistory in traininghistory.js');})
-    
-  }*/
-
-//
-/*getHistory = () => {
-  // trainingHistoryArr = [];
-  // console.log('getHistory function');
-    fetch('http://localhost:3001/gettrainings', {
-      method: 'post',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        email: this.props.email,
-        packageid: this.props.packageId
-      })
-    })
-    .then(response => response.json())
-    .then(train => {
-      if(train){
-        train.forEach(e => {trainingHistoryArr.push(e)});
-      }
-    })
-    .then(this.loadHistory(trainingHistoryArr))
-    .catch(err => {console.log(err)});
-   // console.log('end of getHistory');
-  }*/
-
   render(){
-   // console.log('start of render',trainingHistoryArr[0]);
 
     if(this.props.trainingHistoryArr.length === 0) {
       return("Your history is empty");

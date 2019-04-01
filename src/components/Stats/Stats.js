@@ -29,8 +29,23 @@ const renderRow= (array) =>{
     );
 }
 
-const  Stats = ({statHistory}) => {
-  if(!statHistory[0]) {
+
+class Stats extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      history: []
+    };
+   
+  }
+
+componentWillMount(){
+}
+
+render() {
+  const {statHistory} = this.props;
+  if(statHistory.length === 0) {
     return("Your history is empty");
   } else{
 
@@ -60,6 +75,7 @@ const  Stats = ({statHistory}) => {
       </div>
       );
     }
+}
 }
 
 export default Stats;

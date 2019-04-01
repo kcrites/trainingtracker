@@ -1,8 +1,5 @@
 import React from 'react';
 
-
-
-
 class Signin extends React.Component { 
 	constructor(props){
 		super(props);
@@ -10,9 +7,11 @@ class Signin extends React.Component {
 			signInEmail: '',
 			signInPassword: ''
 		}
-		//this.getStatsHistory = this.getStatsHistory.bind(this);
+	
 	}
-
+componentDidMount(){
+	//this.props.clearArrays();
+}
 	onEmailChange = (event) => {
 		this.setState({signInEmail: event.target.value})
 	}
@@ -39,6 +38,7 @@ class Signin extends React.Component {
 		})
 		
 	}
+
 
 	render() {
 				const { onRouteChange } = this.props;
