@@ -1,6 +1,6 @@
 import React from 'react';
 import boat from './boat.png';
-//import Select from './Select'
+import './Navigation.css'
 
 const Navigation = ({onRouteChange, isSignedIn, isAdmin}) => {
 	if(isSignedIn) {
@@ -32,3 +32,4 @@ const Navigation = ({onRouteChange, isSignedIn, isAdmin}) => {
 
 export default Navigation;
 //<Select onRouteChange={onRouteChange}/>
+//<nav style={{display: 'flex', justifyContent: 'flex-end'}}>

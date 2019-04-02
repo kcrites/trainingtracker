@@ -230,7 +230,7 @@ componentDidMount() {
 // Custom routing based on the 'route' variable in state
   onRouteChange = (route) => {
     if(route === 'signout') {
-      this.setState({isSignedIn: false, user: {}, package: {}, stats:{}})
+      this.setState({isSignedIn: false })
     } else if (route === 'home' || route === 'stats') {
               this.setState({isSignedIn: true})
               }
@@ -239,24 +239,26 @@ componentDidMount() {
 
   renderOption = (route) => {
     const {date, weight, musclemass, fatlevel, bmi, vv, percentwater} = this.state.stats;
+    const {name} = this.state.user;
     if(route === 'home'){
       return    <div className="wrapper">
-                  <div className="box header">{this.state.user.name}</div>
+                  <div className="box header">{name}</div>
                     <div className="box sidebar"><p className="sidetitle">Stats</p>
-                      <table>
-                          <tr>
+                      <table style={{width:'100%'}}> 
+                          <tbody >
+                          <tr className='sidetable'>
                               <td className='tabletext'>Date</td>
                               <td className='tabletext'>{date}</td>
                           </tr>
-                          <tr>
+                          <tr className='sidetable'>
                               <td className='tabletext'>Weight</td>
                               <td className='tabletext'>{weight}</td>
                           </tr>
-                          <tr>
+                          <tr className='sidetable'>
                                   <td className='tabletext'>Muscle Mass</td>
                                   <td className='tabletext'>{musclemass}</td>
                           </tr>
-                          <tr>
+                          <tr className='sidetable'>
                                   <td className='tabletext'>Fat Level</td>
                                   <td className='tabletext' >{fatlevel}</td>
                           </tr>
@@ -272,6 +274,7 @@ componentDidMount() {
                                   <td className='tabletext'>Water %</td>
                                   <td className='tabletext'>{percentwater}</td>
                           </tr>
+                          </tbody>
                       </table>
                      </div>
                     <div className="box content">

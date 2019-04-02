@@ -12,3 +12,13 @@
 	align-content: left;
 }
 
+.packtable {
+    text-align: center
+}
+
+.sidetitle {
+	font-size: 1.25em;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+

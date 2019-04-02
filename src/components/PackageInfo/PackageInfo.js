@@ -53,22 +53,25 @@ render() {
 	return (
 		<div>
 		{(!completed ?  <div >
-					 <table width="100%">
-									<tr>
-											 <td colspan='3' className='packtable'><p className="sidetitle">Package Information</p></td>
-									 </tr>
-									<tr>
-										<td className='packtable'>Sessions Used: </td><td>{sessionCount}</td>
-									 </tr>
-									<tr>
-											<td className='packtable'>Sessions left: </td><td>{sessionsLeft}</td>
-									 </tr>
-								 <tr>
-										 <td className='packtable'> Package Date: </td><td>{dateStarted}</td>
-									 </tr>
-						 
+					 <table width="50%">
+					 	<thead>
+							<tr>
+								<td colSpan='3' className='packtable'><p className="sidetitle">Package Information</p></td>
+							</tr>
+						</thead>
+						<tbody className='packtable'>
+							<tr>
+								<td >Sessions Used: </td><td>{sessionCount}</td>
+							</tr>
+							<tr>
+								<td >Sessions left: </td><td>{sessionsLeft}</td>
+							</tr>
+							<tr>
+								<td > Package Date: </td><td>{dateStarted}</td>
+							</tr>
+						</tbody>
 					</table>
-					 </div>
+				</div>
 
 		: <article className="pa1 pa5-ns" data-name="slab-stat">
 			<h3>You are out of sessions in your current package</h3>
@@ -82,19 +85,3 @@ render() {
 
 
 export default PackageInfo;
-
-{/* <article className="pa1 pa5-ns" data-name="slab-stat">
-<h1>{name}</h1>
-<dl className="dib mr5">
-	 <dd className="f6 f5-ns b ml0">Sessions Used</dd>
-	<dd className="f3 f2-ns b ml0">{sessionCount}</dd>
-</dl>
-<dl className="dib mr5">
-	 <dd className="f6 f5-ns b ml0">Sessions Left</dd>
-	 <dd className="f3 f2-ns b ml0">{sessionsLeft}</dd>
-</dl>
-<dl className="dib mr5">
-	<dd className="f6 f5-ns b ml0">Package Date</dd>
-	<dd className="f3 f2-ns b ml0">{dateStarted}</dd>
-</dl>
-</article> */}

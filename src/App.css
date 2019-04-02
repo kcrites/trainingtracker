@@ -47,7 +47,7 @@
 .wrapper {
         display: grid;
         grid-gap: 10px;
-        grid-template-columns: 300px 300px 300px;
+        grid-template-columns: auto auto auto;
         grid-template-areas:
         "header  header  header"
         "sidebar content content"
@@ -75,9 +75,12 @@
 
 .sidetitle {
     font-size: 1.25em;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     margin-top: 10px;
+    text-align: left;
 }
+
+
 
 .content {
   grid-area: content;
@@ -96,6 +99,7 @@
 
 .tabletext {
     font-size: .75em;
+    text-align: left;
 }
 
 .footertext {
@@ -103,5 +107,9 @@
 }
 
 .packtable {
-    text-align: center
+    text-align: left;
+}
+
+.sidetable {
+  border-bottom: 3px solid #ddd;
 }
