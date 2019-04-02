@@ -84,7 +84,7 @@ componentDidMount() {
   loadLastStat = (data) => {
     this.setState({
       stats: {
-        date: data.date,
+        date: fixDate(data.statsdate),
         weight: data.weight,
         musclemass: data.musclemass,
         fatlevel: data.fatlevel,
@@ -238,28 +238,65 @@ componentDidMount() {
   }
 
   renderOption = (route) => {
+    const {date, weight, musclemass, fatlevel, bmi, vv, percentwater} = this.state.stats;
     if(route === 'home'){
-      return  <div>
-                <PackageInfo name={this.state.user.name}
-                  email={this.state.user.email}
-                  completed={this.state.package.completed}
-                  sessionCount={this.state.package.sessionCount}
-                  sessionsLeft={this.state.package.sessionsLeft}
-                  dateStarted={this.state.package.dateStarted}
-                  loaded={this.state.loaded}
-                  getTrainingHistory={this.getTrainingHistory}
-                  getStatsHistory={this.getStatsHistory}
-                  historyLoaded={this.historyLoaded}
-                  loadUserPack={this.loadUserPack}/>
+      return    <div className="wrapper">
+                  <div className="box header">{this.state.user.name}</div>
+                    <div className="box sidebar"><p className="sidetitle">Stats</p>
+                      <table>
+                          <tr>
+                              <td className='tabletext'>Date</td>
+                              <td className='tabletext'>{date}</td>
+                          </tr>
+                          <tr>
+                              <td className='tabletext'>Weight</td>
+                              <td className='tabletext'>{weight}</td>
+                          </tr>
+                          <tr>
+                                  <td className='tabletext'>Muscle Mass</td>
+                                  <td className='tabletext'>{musclemass}</td>
+                          </tr>
+                          <tr>
+                                  <td className='tabletext'>Fat Level</td>
+                                  <td className='tabletext' >{fatlevel}</td>
+                          </tr>
+                          <tr>
+                                  <td className='tabletext'>BMI</td>
+                                  <td className='tabletext'>{bmi}</td>
+                          </tr>
+                          <tr>
+                                  <td className='tabletext'>VV</td>
+                                  <td className='tabletext'>{vv}</td>
+                          </tr>
+                          <tr>
+                                  <td className='tabletext'>Water %</td>
+                                  <td className='tabletext'>{percentwater}</td>
+                          </tr>
+                      </table>
+                     </div>
+                    <div className="box content">
+                      <PackageInfo name={this.state.user.name}
+                        email={this.state.user.email}
+                        completed={this.state.package.completed}
+                        sessionCount={this.state.package.sessionCount}
+                        sessionsLeft={this.state.package.sessionsLeft}
+                        dateStarted={this.state.package.dateStarted}
+                        loaded={this.state.loaded}
+                        getTrainingHistory={this.getTrainingHistory}
+                        getStatsHistory={this.getStatsHistory}
+                        historyLoaded={this.historyLoaded}
+                        loadUserPack={this.loadUserPack}/>
 
-              {(!this.state.package.completed ? <TrainingInputForm email={this.state.user.email}
-                  packageId={this.state.package.packageId}
-                  packagedate={this.state.package.dateStarted}
-                  completed={this.state.package.completed}
-                  addSession={this.addSession}
-                  sessionCount={this.state.package.sessionCount}
-                  onRouteChange={this.onRouteChange}/> : '')}
-              </div>
+                    {(!this.state.package.completed ? <TrainingInputForm email={this.state.user.email}
+                        packageId={this.state.package.packageId}
+                        packagedate={this.state.package.dateStarted}
+                        completed={this.state.package.completed}
+                        addSession={this.addSession}
+                        sessionCount={this.state.package.sessionCount}
+                        onRouteChange={this.onRouteChange}/> : '')}
+                    </div>
+                    <div className="box footer footertext">Trainer Information - Help - Admin</div>
+                  </div>
     }
     else if (route === 'stats'){
       return <div> <Stats statHistory={statHistoryArr}/></div>
