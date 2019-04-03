@@ -80,7 +80,11 @@
     text-align: left;
 }
 
-
+.headertitle {
+  font-size: 2em;
+  font-weight: 700;
+  
+}
 
 .content {
   grid-area: content;
@@ -113,3 +117,5 @@
 .sidetable {
   border-bottom: 3px solid #ddd;
 }
+
+tr:hover {background-color: #555555;}

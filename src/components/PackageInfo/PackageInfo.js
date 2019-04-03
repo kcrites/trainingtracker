@@ -53,12 +53,8 @@ render() {
 	return (
 		<div>
 		{(!completed ?  <div >
+			<p className="sidetitle">Package Information</p>
 					 <table width="50%">
-					 	<thead>
-							<tr>
-								<td colSpan='3' className='packtable'><p className="sidetitle">Package Information</p></td>
-							</tr>
-						</thead>
 						<tbody className='packtable'>
 							<tr>
 								<td >Sessions Used: </td><td>{sessionCount}</td>

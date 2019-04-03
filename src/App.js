@@ -8,13 +8,27 @@ import StatsInputForm from './components/StatsInputForm/StatsInputForm';
 import TrainingInputForm from './components/TrainingInputForm/TrainingInputForm';
 import TrainingHistory from './components/TrainingHistory/TrainingHistory';
 import Admin from './components/Admin/Admin';
+import Footer from './components/Footer/Footer';
 import PackageInputForm from './components/PackageInputForm/PackageInputForm';
 import './App.css';
 
 
 const trainingHistoryArr = [];
 const statHistoryArr = [];
-const allUserHistoryArr = []; //For Admin Panel
+const allUserHistoryArr = [
+    {index: 1,
+    user: 'Ken',
+    packageId: '103',
+    sessionsUsed: 3,
+    sessionsLeft: 8,
+    action: 'TBD' },
+    {index: 2,
+      user: 'Jen',
+      packageId: '100',
+      sessionsUsed: 1,
+      sessionsLeft: 10,
+      action: 'TBD' }
+]; //For Admin Panel
 const fixDate = (olddate) => {
       
       let d = new Date(olddate);
@@ -37,12 +51,14 @@ class App extends Component {
         name: '',
         email: '',
         height: '',
-        isAdmin: false, 
+        isAdmin: false,
+        isTrainer: false,
+        trainer: '', 
         joined: ''
       },
       package: 
       {
-        dataStarted: undefined,
+        dateStarted: undefined,
         packageId: 0,
         completed: false,
         sessionCount: 0,
@@ -60,12 +76,7 @@ class App extends Component {
         percentwater: 0.0
       }
     }
-    //this.getTrainingHistory();
   }
-
-componentDidMount() {
-  //console.log(trainingHistoryArr.length);
-}
 
 //Load Data into State and Arrays
 //Puts user information into state after signin
@@ -76,12 +87,15 @@ componentDidMount() {
         name: data.name,
         email: data.email,
         height: data.height,
-        isAdmin: data.isAdmin,
+        isAdmin: data.isadmin,
+        isTrainer: data.istrainer,
+        trainer: data.trainer, 
         joined: data.joined
     }})
   }
 //Loads last items in the stats array to state for display in panel
   loadLastStat = (data) => {
+    console.log(data.d, data.statsdate)
     this.setState({
       stats: {
         date: fixDate(data.statsdate),
@@ -110,27 +124,19 @@ componentDidMount() {
     }})
   }
   
-/*   packageAdmin = (session, email) => {
-    const { packageId } = this.state.trainingPackage;
-    if(packageId){
-      console.log('packageadmin');
-    }
-  } */
-
 //Stats (Measurements) Information ***MOVE THE ARGS INTO STATE IN THE COMPONENT
-  statAdmin = (d, w, mm, fl, bmi, vv, pw) => {
+  statAdmin = (statsdate, weight, musclemass, fatlevel, bmi, vv, percentwater) => {
     this.getStatsHistory();
-    this.loadLastStat({d, w, mm, fl, bmi, vv, pw}); //Loads last stat into State
+    this.loadLastStat({statsdate, weight, musclemass, fatlevel, bmi, vv, percentwater}); //Loads last stat into State
     statHistoryArr.push({
-    statsdate: d,
-    weight: w,
-    musclemass: mm,
-    fatlevel: fl,
-    bmi: bmi,
-    vv: vv,
-    percentwater: pw,
-    id: statHistoryArr.length-1});
-    
+      statsdate: statsdate,
+      weight: weight,
+      musclemass: musclemass,
+      fatlevel: fatlevel,
+      bmi: bmi,
+      vv: vv,
+      percentwater: percentwater,
+      id: statHistoryArr.length-1});
   } 
 
   getStatsHistory = () => {
@@ -239,10 +245,11 @@ componentDidMount() {
 
   renderOption = (route) => {
     const {date, weight, musclemass, fatlevel, bmi, vv, percentwater} = this.state.stats;
-    const {name} = this.state.user;
+    const {name, email, height, isAdmin} = this.state.user;
+    const { completed, sessionCount, sessionsLeft, dateStarted, packageId} = this.state.package;
     if(route === 'home'){
       return    <div className="wrapper">
-                  <div className="box header">{name}</div>
+                  <div className="box header headertitle">{name}</div>
                     <div className="box sidebar"><p className="sidetitle">Stats</p>
                       <table style={{width:'100%'}}> 
                           <tbody >
@@ -278,27 +285,29 @@ componentDidMount() {
                       </table>
                      </div>
                     <div className="box content">
-                      <PackageInfo name={this.state.user.name}
+                      <PackageInfo name={name}
                         email={this.state.user.email}
-                        completed={this.state.package.completed}
-                        sessionCount={this.state.package.sessionCount}
-                        sessionsLeft={this.state.package.sessionsLeft}
-                        dateStarted={this.state.package.dateStarted}
+                        completed={completed}
+                        sessionCount={sessionCount}
+                        sessionsLeft={sessionsLeft}
+                        dateStarted={dateStarted}
                         loaded={this.state.loaded}
                         getTrainingHistory={this.getTrainingHistory}
                         getStatsHistory={this.getStatsHistory}
                         historyLoaded={this.historyLoaded}
                         loadUserPack={this.loadUserPack}/>
 
-                    {(!this.state.package.completed ? <TrainingInputForm email={this.state.user.email}
-                        packageId={this.state.package.packageId}
-                        packagedate={this.state.package.dateStarted}
-                        completed={this.state.package.completed}
+                    {(!completed ? <TrainingInputForm email={email}
+                        packageId={packageId}
+                        packagedate={dateStarted}
+                        completed={completed}
                         addSession={this.addSession}
-                        sessionCount={this.state.package.sessionCount}
+                        sessionCount={sessionCount}
                         onRouteChange={this.onRouteChange}/> : '')}
                     </div>
-                    <div className="box footer footertext">Trainer Information - Help - Admin</div>
+                    <div className="box footer">
+                      <Footer onRouteChange={this.onRouteChange} isAdmin={isAdmin} />
+                      </div>
                   </div>
     }
     else if (route === 'stats'){
@@ -312,11 +321,11 @@ componentDidMount() {
       return <div><Register loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>
     }
     else if (route === 'trainingHistory'){
-      return <div><TrainingHistory packageId={this.state.package.packageId} trainingHistoryArr={trainingHistoryArr} email={this.state.user.email}  getTrainingHistory={this.getTrainingHistory}/></div>
+      return <div><TrainingHistory packageId={packageId} trainingHistoryArr={trainingHistoryArr} email={email}  getTrainingHistory={this.getTrainingHistory}/></div>
     }
     else if (route === 'statsInputForm'){
-      return <div><StatsInputForm name={this.state.user.name}  email={this.state.user.email}
-                                  height={this.state.user.height} onRouteChange={this.onRouteChange}
+      return <div><StatsInputForm name={name}  email={email}
+                                  height={height} onRouteChange={this.onRouteChange}
                                   statAdmin={this.statAdmin}/></div>
     }   
     else if (route === 'admin'){
