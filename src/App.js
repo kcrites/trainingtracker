@@ -15,20 +15,7 @@ import './App.css';
 
 const trainingHistoryArr = [];
 const statHistoryArr = [];
-const allUserHistoryArr = [
-    {index: 1,
-    user: 'Ken',
-    packageId: '103',
-    sessionsUsed: 3,
-    sessionsLeft: 8,
-    action: 'TBD' },
-    {index: 2,
-      user: 'Jen',
-      packageId: '100',
-      sessionsUsed: 1,
-      sessionsLeft: 10,
-      action: 'TBD' }
-]; //For Admin Panel
+const allUserHistoryArr = []; //For Admin Panel
 const fixDate = (olddate) => {
       
       let d = new Date(olddate);
@@ -110,7 +97,7 @@ class App extends Component {
   }
 
 //Training Package Information
-   loadUserPack = (data) => {
+  loadUserPack = (data) => {
     let sl = data.maxsessions - data.sessioncount;
     let fixed = fixDate(data.datestarted);
     this.setState( {
@@ -158,7 +145,7 @@ class App extends Component {
             //the stats history table is empty. What to do then?
             console.log(`stat history table is empty in getStatsHistory`);
         }
-      })
+      }).catch(err => {console.log(err)});
     }
     return true;
   }
@@ -269,15 +256,15 @@ class App extends Component {
                                   <td className='tabletext'>Fat Level</td>
                                   <td className='tabletext' >{fatlevel}</td>
                           </tr>
-                          <tr>
+                          <tr className='sidetable'>
                                   <td className='tabletext'>BMI</td>
                                   <td className='tabletext'>{bmi}</td>
                           </tr>
-                          <tr>
+                          <tr className='sidetable'>
                                   <td className='tabletext'>VV</td>
                                   <td className='tabletext'>{vv}</td>
                           </tr>
-                          <tr>
+                          <tr className='sidetable'>
                                   <td className='tabletext'>Water %</td>
                                   <td className='tabletext'>{percentwater}</td>
                           </tr>

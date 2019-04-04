@@ -83,6 +83,12 @@
 .headertitle {
   font-size: 2em;
   font-weight: 700;
+  color: white;
+  text-shadow:
+   -1px -1px 0 #555,  
+    1px -1px 0 #555,
+    -1px 1px 0 #555,
+     1px 1px 0 #555;
   
 }
 
@@ -118,4 +124,4 @@
   border-bottom: 3px solid #ddd;
 }
 
-tr:hover {background-color: #555555;}
+.sidetable:hover {background-color: #555555;}

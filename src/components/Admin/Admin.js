@@ -1,5 +1,5 @@
 import React from 'react';
-import boat from '../Navigation/boat.png';
+
 
 
 // needs a for loop to only display rows when there is enough data. Should only show sessions for this package.
@@ -26,7 +26,7 @@ class Admin extends React.Component {
     constructor(props){
       super(props);
       this.state = {
-        loading: false
+        loading: null
       }
     }
      
@@ -36,7 +36,7 @@ componentWillMount() {
 
 getClients = () => {
   
-  this.setState(Object.assign({loading: true}));
+  //this.setState(Object.assign({loading: true}));
   console.log(this.state.loading);
     if(clientListArr.length === 0) {
       fetch('http://localhost:3001/getclients', {
@@ -52,10 +52,12 @@ getClients = () => {
         if(list){
           list.forEach(e => {clientListArr.push(e)});
         }
-      }).then(() => {
-        this.setState({loading: false});
+      })
+      .then(() => {
+        this.setState({loading: true});
         console.log(this.state.loading);
           })
+          .catch(err => {console.log(err)});
     }
   } 
 
@@ -68,6 +70,8 @@ getClients = () => {
             <div className="pa4">
             <p>Administration: Client Information</p>
               <div className="overflow-auto center">
+              {this.state.loading === null && <p>Loading ...</p>}
+              { this.state.loading && (
                 <table className="f6 w-75 mw8 " cellSpacing="0">
                   <thead>
                     <tr className="stripe-dark">
@@ -82,7 +86,7 @@ getClients = () => {
                   <tbody className="lh-copy">
                   {renderRow(clientListArr)}
                   </tbody>
-                </table>
+              </table> )}
               </div>  
             </div>
           </div>
