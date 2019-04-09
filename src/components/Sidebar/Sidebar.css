@@ -1,0 +1,25 @@
+.sidebar {
+    grid-area: sidebar;
+  }
+  
+.sidetitle {
+      font-size: 1.25em;
+      margin-bottom: 15px;
+      margin-top: 10px;
+      text-align: left;
+      text-shadow:
+      -1px -1px 0 #777,  
+       1px -1px 0 #777,
+       -1px 1px 0 #777,
+        1px 1px 0 #777;
+  }
+
+.tabletext {
+    font-size: .75em;
+    text-align: left;
+}
+
+.sidetable {
+    border-bottom: 3px solid #ddd;
+  }
+.sidetable:hover {background-color: #555555;}

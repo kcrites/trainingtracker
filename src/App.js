@@ -11,6 +11,7 @@ import Admin from './components/Admin/Admin';
 import Footer from './components/Footer/Footer';
 import PackageInputForm from './components/PackageInputForm/PackageInputForm';
 import './App.css';
+import Sidebar from './components/Sidebar/Sidebar';
 
 
 const trainingHistoryArr = [];
@@ -237,40 +238,9 @@ class App extends Component {
     if(route === 'home'){
       return    <div className="wrapper">
                   <div className="box header headertitle">{name}</div>
-                    <div className="box sidebar"><p className="sidetitle">Stats</p>
-                      <table style={{width:'100%'}}> 
-                          <tbody >
-                          <tr className='sidetable'>
-                              <td className='tabletext'>Date</td>
-                              <td className='tabletext'>{date}</td>
-                          </tr>
-                          <tr className='sidetable'>
-                              <td className='tabletext'>Weight</td>
-                              <td className='tabletext'>{weight}</td>
-                          </tr>
-                          <tr className='sidetable'>
-                                  <td className='tabletext'>Muscle Mass</td>
-                                  <td className='tabletext'>{musclemass}</td>
-                          </tr>
-                          <tr className='sidetable'>
-                                  <td className='tabletext'>Fat Level</td>
-                                  <td className='tabletext' >{fatlevel}</td>
-                          </tr>
-                          <tr className='sidetable'>
-                                  <td className='tabletext'>BMI</td>
-                                  <td className='tabletext'>{bmi}</td>
-                          </tr>
-                          <tr className='sidetable'>
-                                  <td className='tabletext'>VV</td>
-                                  <td className='tabletext'>{vv}</td>
-                          </tr>
-                          <tr className='sidetable'>
-                                  <td className='tabletext'>Water %</td>
-                                  <td className='tabletext'>{percentwater}</td>
-                          </tr>
-                          </tbody>
-                      </table>
-                     </div>
+                    <Sidebar date={date} weight={weight} 
+                        musclemass={musclemass} fatlevel={fatlevel}
+                        bmi={bmi} vv={vv} percentwater={percentwater} />
                     <div className="box content">
                       <PackageInfo name={name}
                         email={this.state.user.email}
@@ -294,7 +264,7 @@ class App extends Component {
                     </div>
                     <div className="box footer">
                       <Footer onRouteChange={this.onRouteChange} isAdmin={isAdmin} />
-                      </div>
+                    </div>
                   </div>
     }
     else if (route === 'stats'){

@@ -43,20 +43,22 @@ class StatsInputForm extends React.Component {
 	}
 
 	onSubmitStats = () => {
+		const { name, email, height }  = this.props;
+		const { statsWeight, statsMuscleMass, statsFatLevel, statsBMI, statsVV, statsPercentWater, statsDate} = this.state;
 		fetch('http://localhost:3001/addstats', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
-				name: this.props.name,
-				email: this.props.email,
-				height: this.props.height,
-				weight: this.state.statsWeight,
-				musclemass: this.state.statsMuscleMass,
-				fatlevel: this.state.statsFatLevel,
-				bmi: this.state.statsBMI,
-				vv: this.state.statsVV,
-				percentwater: this.state.statsPercentWater,
-				statsdate: this.state.statsDate
+				name: name,
+				email: email,
+				height: height,
+				weight: statsWeight,
+				musclemass: statsMuscleMass,
+				fatlevel: statsFatLevel,
+				bmi: statsBMI,
+				vv: statsVV,
+				percentwater: statsPercentWater,
+				statsdate: statsDate
 			})
 		})
 		.then(response => response.json())
@@ -64,8 +66,8 @@ class StatsInputForm extends React.Component {
 			if(userStats){
 			let d = new Date(this.state.statsDate);
 			let tempD = d.toLocaleDateString();
-				this.props.statAdmin(tempD, this.state.statsWeight, this.state.statsMuscleMass, this.state.statsFatLevel, 
-					this.state.statsBMI, this.state.statsVV, this.state.statsPercentWater);
+				this.props.statAdmin(tempD, statsWeight, statsMuscleMass, statsFatLevel, 
+					statsBMI, statsVV, statsPercentWater);
 					console.log(tempD, this.state.statsWeight, this.state.statsMuscleMass, this.state.statsFatLevel, 
 						this.state.statsBMI, this.state.statsVV, this.state.statsPercentWater);
 				this.props.onRouteChange('stats');
