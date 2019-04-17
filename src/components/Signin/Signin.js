@@ -10,7 +10,8 @@ class Signin extends React.Component {
 	
 	}
 componentDidMount(){
-	//this.props.clearArrays();
+	this.props.clearArrays();
+	console.log("cleararrays call");
 }
 	onEmailChange = (event) => {
 		this.setState({signInEmail: event.target.value})
@@ -38,7 +39,6 @@ componentDidMount(){
 		})
 		
 	}
-
 
 	render() {
 				const { onRouteChange } = this.props;

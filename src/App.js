@@ -25,45 +25,81 @@ const fixDate = (olddate) => {
   
 }
 
+const initialState = {
+  
+    input: '',     
+    route: 'signin',
+    isSignedIn: false,
+    loaded: false,   
+    user: {
+      id: '',
+      name: '',
+      email: '',
+      height: '',
+      isAdmin: false,
+      isTrainer: false,
+      trainer: '', 
+      joined: ''
+    },
+    package: 
+    {
+      dateStarted: undefined,
+      packageId: 0,
+      completed: false,
+      sessionCount: 0,
+      sessionsLeft: 0,
+      maxSessions: 0
+    },
+    stats :
+    {
+      date: '',
+      weight: 0.0,
+      musclemass: 0.0,
+      fatlevel: 0.0,
+      bmi: 0.0,
+      vv: 0.0,
+      percentwater: 0.0
+    }
+  }
+
+  const resetForSignout = {
+    loaded: false,   
+    user: {
+      id: '',
+      name: '',
+      email: '',
+      height: '',
+      isAdmin: false,
+      isTrainer: false,
+      trainer: '', 
+      joined: ''
+    },
+    package: 
+    {
+      dateStarted: undefined,
+      packageId: 0,
+      completed: false,
+      sessionCount: 0,
+      sessionsLeft: 0,
+      maxSessions: 0
+    },
+    stats :
+    {
+      date: '',
+      weight: 0.0,
+      musclemass: 0.0,
+      fatlevel: 0.0,
+      bmi: 0.0,
+      vv: 0.0,
+      percentwater: 0.0
+    }
+  }
+  
 class App extends Component {
   constructor() {
     super();
-    this.state= 
-    {
-      input: '',     
-      route: 'signin',
-      isSignedIn: false,
-      loaded: false,   
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        height: '',
-        isAdmin: false,
-        isTrainer: false,
-        trainer: '', 
-        joined: ''
-      },
-      package: 
-      {
-        dateStarted: undefined,
-        packageId: 0,
-        completed: false,
-        sessionCount: 0,
-        sessionsLeft: 0,
-        maxSessions: 0
-      },
-      stats :
-      {
-        date: '',
-        weight: 0.0,
-        musclemass: 0.0,
-        fatlevel: 0.0,
-        bmi: 0.0,
-        vv: 0.0,
-        percentwater: 0.0
-      }
-    }
+    this.state = initialState;
+   
   }
 
 //Load Data into State and Arrays
@@ -83,7 +119,6 @@ class App extends Component {
   }
 //Loads last items in the stats array to state for display in panel
   loadLastStat = (data) => {
-    console.log(data.d, data.statsdate)
     this.setState({
       stats: {
         date: fixDate(data.statsdate),
@@ -154,7 +189,6 @@ class App extends Component {
 //Training Session Information
 
   getTrainingHistory = () => {
-
    fetch('http://localhost:3001/gettrainings', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -184,11 +218,15 @@ class App extends Component {
 
   clearArrays = () => {
     //clear the arrays when signing out
+   // console.log(`clear arrays sizes before: ${statHistoryArr.length} ${trainingHistoryArr.length}`)
     if(statHistoryArr.length > 0) {
-      for(let i = statHistoryArr.length; i >0; i--){
-        statHistoryArr.pop();
-      }
+      statHistoryArr.length = 0;
     }
+    if(trainingHistoryArr.length > 0) {
+      trainingHistoryArr.length = 0;
+    }
+    this.setState(resetForSignout);
+   // console.log(`clear arrays sizes after: ${statHistoryArr.length} ${trainingHistoryArr.length}`)
   }
 
   //Next two functions are for the training input form
@@ -197,16 +235,13 @@ class App extends Component {
   }
 
   onButtonSubmit = () => {
-    
     const { completed, maxSessions, sessionCount, sessionsLeft } = this.state.trainingPackage;
     const { input, trainingPackage } = this.state;
-    
     let c = sessionCount;
     let l = sessionsLeft;
     if(input !== '') {
         c++;
         l--;
-  
         this.setState({newTrainingDate: input});
         this.packageAdmin(input, this.state.user.email);
         
@@ -272,7 +307,7 @@ class App extends Component {
     }
     else if (route === 'signout'){
       return <div><Signin loadUser={ this.loadUser } onRouteChange={this.onRouteChange} 
-                          isSignedIn={this.state.status} clearArrays={this.clearArrays} /></div>
+                           clearArrays={this.clearArrays} /></div>
     }
     else if (route === 'register'){
       return <div><Register loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>
