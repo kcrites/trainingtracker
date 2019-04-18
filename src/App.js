@@ -18,11 +18,9 @@ const trainingHistoryArr = [];
 const statHistoryArr = [];
 const allUserHistoryArr = []; //For Admin Panel
 const fixDate = (olddate) => {
-      
       let d = new Date(olddate);
       let newdate = d.toLocaleDateString();
       return newdate;
-  
 }
 
 const initialState = {
@@ -62,39 +60,7 @@ const initialState = {
     }
   }
 
-  const resetForSignout = {
-    loaded: false,   
-    user: {
-      id: '',
-      name: '',
-      email: '',
-      height: '',
-      isAdmin: false,
-      isTrainer: false,
-      trainer: '', 
-      joined: ''
-    },
-    package: 
-    {
-      dateStarted: undefined,
-      packageId: 0,
-      completed: false,
-      sessionCount: 0,
-      sessionsLeft: 0,
-      maxSessions: 0
-    },
-    stats :
-    {
-      date: '',
-      weight: 0.0,
-      musclemass: 0.0,
-      fatlevel: 0.0,
-      bmi: 0.0,
-      vv: 0.0,
-      percentwater: 0.0
-    }
-  }
-  
+
 class App extends Component {
   constructor() {
     super();
@@ -218,15 +184,12 @@ class App extends Component {
 
   clearArrays = () => {
     //clear the arrays when signing out
-   // console.log(`clear arrays sizes before: ${statHistoryArr.length} ${trainingHistoryArr.length}`)
     if(statHistoryArr.length > 0) {
       statHistoryArr.length = 0;
     }
     if(trainingHistoryArr.length > 0) {
       trainingHistoryArr.length = 0;
     }
-    this.setState(resetForSignout);
-   // console.log(`clear arrays sizes after: ${statHistoryArr.length} ${trainingHistoryArr.length}`)
   }
 
   //Next two functions are for the training input form
@@ -244,9 +207,7 @@ class App extends Component {
         l--;
         this.setState({newTrainingDate: input});
         this.packageAdmin(input, this.state.user.email);
-        
         if(!completed) {
-   
           this.setState(Object.assign(trainingPackage, {sessionCount: c, sessionsLeft: l}));
         }
         if(c >= maxSessions){
@@ -259,7 +220,8 @@ class App extends Component {
 // Custom routing based on the 'route' variable in state
   onRouteChange = (route) => {
     if(route === 'signout') {
-      this.setState({isSignedIn: false })
+      this.setState(initialState);
+      this.clearArrays();
     } else if (route === 'home' || route === 'stats') {
               this.setState({isSignedIn: true})
               }
@@ -342,8 +304,6 @@ class App extends Component {
           
             )
         }
-
-       
       </div>
     );
   }
