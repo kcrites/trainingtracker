@@ -31,7 +31,11 @@ class Signin extends React.Component {
 		.then(user => {
 			if(user.id){
 				this.props.loadUser(user);
-				this.props.onRouteChange('home');
+				if(user.istrainer === true) {
+				this.props.onRouteChange('admin');
+				} else {
+					this.props.onRouteChange('home');
+				}
 			}
 		})
 		

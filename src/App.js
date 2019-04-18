@@ -222,7 +222,7 @@ class App extends Component {
     if(route === 'signout') {
       this.setState(initialState);
       this.clearArrays();
-    } else if (route === 'home' || route === 'stats') {
+    } else if (route === 'home' || route === 'stats' || route === 'admin') {
               this.setState({isSignedIn: true})
               }
     this.setState({route: route});

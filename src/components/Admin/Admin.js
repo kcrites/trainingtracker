@@ -30,6 +30,10 @@ class Admin extends React.Component {
 componentDidMount() {
   this.getClients();
 }
+componentWillUnmount() {
+  clientListArr = [];
+  console.log("admin: willUnmount");
+}
 
 getClients = () => {
   //this.setState(Object.assign({loading: true}));
@@ -54,7 +58,9 @@ getClients = () => {
         console.log(this.state.loading);
           })
       .catch(err => {console.log(err)});
-    } else { this.setState({loading: true});}
+    } else {  //The array is already loaded 
+      this.setState({loading: true});
+    }
   } 
 
   render() {
