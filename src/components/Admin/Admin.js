@@ -1,11 +1,8 @@
 import React from 'react';
 
-
-
 // needs a for loop to only display rows when there is enough data. Should only show sessions for this package.
 
 const renderRow= (array) =>{
-  
   return array.map((item, index)  => 
             <tr key={index} className="stripe-dark">
             	<td className="pa3">{index+1}</td>
@@ -14,12 +11,12 @@ const renderRow= (array) =>{
 	            <td className="pa3">{item.sessioncount}</td>
 	            <td className="pa3">{item.maxsessions-item.sessioncount}</td>
 	            <td className="pa3">{item.email}</td>
+              <td className="pa3"><button>Select</button></td>
             </tr>
-
     );
 }
-let clientListArr = [];
 
+let clientListArr = [];
 
 class Admin extends React.Component {
 
@@ -30,12 +27,11 @@ class Admin extends React.Component {
       }
     }
      
-componentWillMount() {
+componentDidMount() {
   this.getClients();
 }
 
 getClients = () => {
-  
   //this.setState(Object.assign({loading: true}));
   console.log(this.state.loading);
     if(clientListArr.length === 0) {
@@ -57,8 +53,8 @@ getClients = () => {
         this.setState({loading: true});
         console.log(this.state.loading);
           })
-          .catch(err => {console.log(err)});
-    }
+      .catch(err => {console.log(err)});
+    } else { this.setState({loading: true});}
   } 
 
   render() {
@@ -81,6 +77,7 @@ getClients = () => {
                       <th className="fw6 tl pa3 bg-white">Sessions Used</th>
                       <th className="fw6 tl pa3 bg-white">Sessions Left</th>
                       <th className="fw6 tl pa3 bg-white">Email</th>
+                      <th className="fw6 tl pa3 bg-white">Select</th>
                     </tr>
                   </thead>
                   <tbody className="lh-copy">
