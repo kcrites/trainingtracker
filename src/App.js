@@ -296,10 +296,10 @@ class App extends Component {
 
   render() {
     const {isSignedIn, route} = this.state;
-    const { isAdmin } = this.state.user;
+    const { isTrainer } = this.state.user;
     return (
       <div className="App">
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} isAdmin={isAdmin} />
+        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} isTrainer={isTrainer} />
         {(route !== 'signin' ? this.renderOption(route)
         : 
             route === 'signin'
