@@ -2,7 +2,7 @@ import React from 'react';
 
 // needs a for loop to only display rows when there is enough data. Should only show sessions for this package.
 
-const renderRow= (array) =>{
+const renderRow= (array, action) =>{
   return array.map((item, index)  => 
             <tr key={index} className="stripe-dark">
             	<td className="pa3">{index+1}</td>
@@ -11,14 +11,14 @@ const renderRow= (array) =>{
 	            <td className="pa3">{item.sessioncount}</td>
 	            <td className="pa3">{item.maxsessions-item.sessioncount}</td>
 	            <td className="pa3">{item.email}</td>
-              <td className="pa3"><button>Select</button></td>
+              <td className="pa3"><button type='button' value={item.email} onClick={action}>Select</button></td>
             </tr>
     );
 }
 
 let clientListArr = [];
 
-class Admin extends React.Component {
+class Trainer extends React.Component {
 
     constructor(props){
       super(props);
@@ -87,7 +87,7 @@ getClients = () => {
                     </tr>
                   </thead>
                   <tbody className="lh-copy">
-                  {renderRow(clientListArr)}
+                  {renderRow(clientListArr, this.props.onTrainerSubmit)}
                   </tbody>
               </table> )}
               </div>  
@@ -98,4 +98,4 @@ getClients = () => {
     }
   }
 
-  export default Admin;
+  export default Trainer;

@@ -7,7 +7,7 @@ import Stats from './components/Stats/Stats';
 import StatsInputForm from './components/StatsInputForm/StatsInputForm';
 import TrainingInputForm from './components/TrainingInputForm/TrainingInputForm';
 import TrainingHistory from './components/TrainingHistory/TrainingHistory';
-import Admin from './components/Admin/Admin';
+import Trainer from './components/Trainer/Trainer';
 import Footer from './components/Footer/Footer';
 import PackageInputForm from './components/PackageInputForm/PackageInputForm';
 import './App.css';
@@ -192,6 +192,10 @@ class App extends Component {
     }
   }
 
+  onTrainerSubmit = (e) => {
+    console.log('admin submit'+ e.target.value );
+  }
+
   //Next two functions are for the training input form
   onInputChange = (event) => {
      this.setState({input: event.target.value});
@@ -222,7 +226,7 @@ class App extends Component {
     if(route === 'signout') {
       this.setState(initialState);
       this.clearArrays();
-    } else if (route === 'home' || route === 'stats' || route === 'admin') {
+    } else if (route === 'home' || route === 'stats' || route === 'trainer') {
               this.setState({isSignedIn: true})
               }
     this.setState({route: route});
@@ -282,8 +286,8 @@ class App extends Component {
                                   height={height} onRouteChange={this.onRouteChange}
                                   statAdmin={this.statAdmin}/></div>
     }   
-    else if (route === 'admin'){
-      return <div><Admin history={allUserHistoryArr}/></div>
+    else if (route === 'trainer'){
+      return <div><Trainer history={allUserHistoryArr} onTrainerSubmit={this.onTrainerSubmit}/></div>
     }
     else if (route === 'packageInputForm'){
       return <div><PackageInputForm onStatsInputChange={this.onStatsInputChange}  onStatsButtonSubmit={this.onStatsButtonSubmit}/></div>
