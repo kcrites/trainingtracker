@@ -30,14 +30,15 @@ class Signin extends React.Component {
 		.then(response => response.json())
 		.then(user => {
 			if(user.id){
-				this.props.loadUser(user);
 				if(user.istrainer === true) {
-				this.props.onRouteChange('trainer');
+					this.props.loadTrainer(user); // LOAD TO A SUPER USER LEVEL??
+					this.props.onRouteChange('trainer');
 				} else {
-					this.props.onRouteChange('home');
+						this.props.loadUser(user);
+						this.props.onRouteChange('home');
 				}
 			}
-		})
+		}).catch(err => {console.log(err)});
 		
 	}
 

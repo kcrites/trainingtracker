@@ -57,6 +57,11 @@ const initialState = {
       bmi: 0.0,
       vv: 0.0,
       percentwater: 0.0
+    },
+    trainer :
+    {
+      name: null,
+      email: null
     }
   }
 
@@ -112,11 +117,20 @@ class App extends Component {
         sessionCount: data.sessioncount
     }})
   }
+
+  loadTrainer = (data) => {
+    this.setState( {
+      trainer: {
+        name: data.name,
+        email: data.email,
+      }
+    })
+  }
   
 //Stats (Measurements) Information ***MOVE THE ARGS INTO STATE IN THE COMPONENT
   statAdmin = (statsdate, weight, musclemass, fatlevel, bmi, vv, percentwater) => {
     this.getStatsHistory();
-    this.loadLastStat({statsdate, weight, musclemass, fatlevel, bmi, vv, percentwater}); //Loads last stat into State
+    this.loadLastStat({statsdate, weight, musclemass, fatlevel, bmi, vv, percentwater});
     statHistoryArr.push({
       statsdate: statsdate,
       weight: weight,
@@ -182,8 +196,8 @@ class App extends Component {
     this.setState({loaded: value})
   }
 
+  //clear the temp arrays when signing out
   clearArrays = () => {
-    //clear the arrays when signing out
     if(statHistoryArr.length > 0) {
       statHistoryArr.length = 0;
     }
@@ -194,6 +208,30 @@ class App extends Component {
 
   onTrainerSubmit = (e) => {
     console.log('admin submit'+ e.target.value );
+    fetch('http://localhost:3001/trainergetclient', {
+			method: 'post',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({
+				email: e.target.value,
+			})
+		})
+		.then(response => response.json())
+		.then(user => {
+			if(user.id){
+				this.loadUser(user);
+				if(user.istrainer === true) {
+			//	this.props.onRouteChange('trainer');
+				} else {
+					this.onRouteChange('home');
+				}
+			}
+		}).catch(err => {console.log(err)});
+    //Load User information 
+      //create new call to db that doesn't require password
+      //push user info into state
+      //load stats and package info using existing calls
+
+    //Load modified "home" screen with user information
   }
 
   //Next two functions are for the training input form
@@ -216,7 +254,6 @@ class App extends Component {
         }
         if(c >= maxSessions){
           this.setState(Object.assign(trainingPackage, {completed: true}));
-
         }
     }
   }
@@ -234,11 +271,12 @@ class App extends Component {
 
   renderOption = (route) => {
     const {date, weight, musclemass, fatlevel, bmi, vv, percentwater} = this.state.stats;
-    const {name, email, height, isAdmin} = this.state.user;
+    const {name, email, height, isAdmin, isTrainer} = this.state.user;
     const { completed, sessionCount, sessionsLeft, dateStarted, packageId} = this.state.package;
     if(route === 'home'){
       return    <div className="wrapper">
-                  <div className="box header headertitle">{name}</div>
+                  {(isTrainer) ? <div className="box header headertitle">Trainer Input for {name}</div> 
+                  : <div className="box header headertitle">{name}</div> }
                     <Sidebar date={date} weight={weight} 
                         musclemass={musclemass} fatlevel={fatlevel}
                         bmi={bmi} vv={vv} percentwater={percentwater} />
@@ -273,7 +311,7 @@ class App extends Component {
     }
     else if (route === 'signout'){
       return <div><Signin loadUser={ this.loadUser } onRouteChange={this.onRouteChange} 
-                           clearArrays={this.clearArrays} /></div>
+                           clearArrays={this.clearArrays} loadTrainer={this.loadTrainer}  /></div>
     }
     else if (route === 'register'){
       return <div><Register loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>
@@ -303,9 +341,8 @@ class App extends Component {
         {(route !== 'signin' ? this.renderOption(route)
         : 
             route === 'signin'
-            ? <Signin loadUser={this.loadUser}  onRouteChange={this.onRouteChange} clearArrays={this.clearArrays}  />
+            ? <Signin loadUser={this.loadUser}  onRouteChange={this.onRouteChange} clearArrays={this.clearArrays} loadTrainer={this.loadTrainer} />
             : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
-          
             )
         }
       </div>

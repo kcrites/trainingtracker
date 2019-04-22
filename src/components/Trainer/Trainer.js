@@ -48,14 +48,14 @@ getClients = () => {
       })
       .then(response => response.json())
       .then(list => {
-        console.log(`list: ${list.length}`)
+        console.log(`client list: ${list.length}`)
         if(list){
           list.forEach(e => {clientListArr.push(e)});
         }
       })
       .then(() => {
         this.setState({loading: true});
-        console.log(this.state.loading);
+        console.log(`loading state: ${this.state.loading}`);
           })
       .catch(err => {console.log(err)});
     } else {  //The array is already loaded 
