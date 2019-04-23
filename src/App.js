@@ -235,11 +235,11 @@ class App extends Component {
   }
 
   //Next two functions are for the training input form
-  onInputChange = (event) => {
+/*   onInputChange = (event) => {
      this.setState({input: event.target.value});
   }
-
-  onButtonSubmit = () => {
+ */
+/*   onButtonSubmit = () => {
     const { completed, maxSessions, sessionCount, sessionsLeft } = this.state.trainingPackage;
     const { input, trainingPackage } = this.state;
     let c = sessionCount;
@@ -256,7 +256,7 @@ class App extends Component {
           this.setState(Object.assign(trainingPackage, {completed: true}));
         }
     }
-  }
+  } */
 
 // Custom routing based on the 'route' variable in state
   onRouteChange = (route) => {
@@ -289,11 +289,9 @@ class App extends Component {
                         loadUserPack={this.loadUserPack}/>
 
                     {(!completed ? <TrainingInputForm email={email}
-                        packageId={packageId}
+                        pack={pack}
                         packagedate={dateStarted}
-                        completed={completed}
                         addSession={this.addSession}
-                        sessionCount={sessionCount}
                         onRouteChange={this.onRouteChange}/> : '')}
                     </div>
                     <div className="box footer">

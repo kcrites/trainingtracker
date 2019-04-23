@@ -1,8 +1,6 @@
 import React from 'react';
 import './TrainingInputForm.css';
 
-
-
 class TrainingInputForm extends React.Component {
 	constructor(props){
 		super(props);
@@ -17,7 +15,8 @@ class TrainingInputForm extends React.Component {
 
 	onSubmitDate = () => {
 		const { sessionDate } = this.state;
-		const { packageId, packagedate, email } = this.props;
+		const { packagedate, email } = this.props;
+		const { packageId} = this.props.pack;
 		fetch('http://localhost:3001/addtraining', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
@@ -50,7 +49,8 @@ class TrainingInputForm extends React.Component {
 	}
 
 	updatePackage() {
-		const { packageId, email } = this.props;
+		const {  email } = this.props;
+		const { packageId } = this.props.pack;
 			fetch('http://localhost:3001/updatepackage', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
