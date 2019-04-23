@@ -39,7 +39,7 @@ const initialState = {
       trainer: '', 
       joined: ''
     },
-    package: 
+    pack: 
     {
       dateStarted: undefined,
       packageId: 0,
@@ -108,7 +108,7 @@ class App extends Component {
     let sl = data.maxsessions - data.sessioncount;
     let fixed = fixDate(data.datestarted);
     this.setState( {
-      package: {
+      pack: {
         dateStarted: fixed,
         packageId: data.packageid,
         completed:data.completed,
@@ -152,9 +152,9 @@ class App extends Component {
         })
       })
       .then(response => response.json())
-      .then(pack => {
-        if(pack.length > 0){
-          pack.forEach(e => {statHistoryArr.push(e)});
+      .then(s => {
+        if(s.length > 0){
+          s.forEach(e => {statHistoryArr.push(e)});
           this.loadLastStat(statHistoryArr[statHistoryArr.length-1]);
           //set state and put last element of array into state for display
         } else {
@@ -174,7 +174,7 @@ class App extends Component {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         email: this.state.user.email,
-        packageid: this.state.package.packageId
+        packageid: this.state.pack.packageId
       })
     })
     .then(response => response.json())
@@ -270,23 +270,18 @@ class App extends Component {
   }
 
   renderOption = (route) => {
-    const {date, weight, musclemass, fatlevel, bmi, vv, percentwater} = this.state.stats;
+    const {stats, pack} = this.state;
     const {name, email, height, isAdmin, isTrainer} = this.state.user;
-    const { completed, sessionCount, sessionsLeft, dateStarted, packageId} = this.state.package;
+    const { completed, sessionCount, dateStarted, packageId} = this.state.pack;
     if(route === 'home'){
       return    <div className="wrapper">
                   {(isTrainer) ? <div className="box header headertitle">Trainer Input for {name}</div> 
                   : <div className="box header headertitle">{name}</div> }
-                    <Sidebar date={date} weight={weight} 
-                        musclemass={musclemass} fatlevel={fatlevel}
-                        bmi={bmi} vv={vv} percentwater={percentwater} />
+                    <Sidebar stats={stats}/>
                     <div className="box content">
                       <PackageInfo name={name}
-                        email={this.state.user.email}
-                        completed={completed}
-                        sessionCount={sessionCount}
-                        sessionsLeft={sessionsLeft}
-                        dateStarted={dateStarted}
+                        email={email}
+                        pack={pack}
                         loaded={this.state.loaded}
                         getTrainingHistory={this.getTrainingHistory}
                         getStatsHistory={this.getStatsHistory}

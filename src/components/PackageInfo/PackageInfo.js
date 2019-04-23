@@ -48,7 +48,7 @@ loadPackage = () => {
 
 render() {
 	
-	const {completed, sessionsLeft, sessionCount, dateStarted} = this.props;
+	const {completed, sessionsLeft, sessionCount, dateStarted} = this.props.pack;
 
 	return (
 		<div>

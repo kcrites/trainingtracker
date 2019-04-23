@@ -2,7 +2,7 @@ import React from 'react';
 import './Sidebar.css';
 
 const Sidebar = (props) => {
-	const { date, weight, musclemass, fatlevel, bmi, vv, percentwater} = props;
+	const { date, weight, musclemass, fatlevel, bmi, vv, percentwater} = props.stats;
     return(
                     <div className="box sidebar"><p className="sidetitle">Stats</p>
                     <table style={{width:'100%'}}> 
