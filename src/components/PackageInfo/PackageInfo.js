@@ -33,7 +33,7 @@ loadPackage = () => {
 					//need to load completed to true
 					this.getHistory();
       }
-    })
+    }).catch(err => {console.log(err)});
     
 	}
 	

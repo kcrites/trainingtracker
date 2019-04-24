@@ -272,7 +272,7 @@ class App extends Component {
   renderOption = (route) => {
     const {stats, pack} = this.state;
     const {name, email, height, isAdmin, isTrainer} = this.state.user;
-    const { completed, sessionCount, dateStarted, packageId} = this.state.pack;
+    const { completed, dateStarted, packageId} = this.state.pack;
     if(route === 'home'){
       return    <div className="wrapper">
                   {(isTrainer) ? <div className="box header headertitle">Trainer Input for {name}</div> 

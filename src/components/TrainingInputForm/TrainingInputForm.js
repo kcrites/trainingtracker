@@ -33,7 +33,7 @@ class TrainingInputForm extends React.Component {
 				//this.props.loadUser(userStats);
 				//this.props.onRouteChange('trainingHistory');
 			}
-		})
+		}).catch(err => {console.log(err)});
 		let newSession = {
 				id: this.props.sessionCount,
 				sessiondate: sessionDate,
@@ -65,7 +65,7 @@ class TrainingInputForm extends React.Component {
 				//this.props.loadUserPack(userStats);
 				//this.props.onRouteChange('trainingHistory');
 			}
-		})
+		}).catch(err => {console.log(err)});
 	}
 
 	render() {
