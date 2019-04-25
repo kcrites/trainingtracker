@@ -22,7 +22,7 @@ loadPackage = () => {
         this.props.loadUserPack(pack);
         this.getHistory();
       } else {
-					console.log('Empty pack');
+					console.log('Empty package information');
 					//need to load completed to true
 					this.getHistory();
       }
@@ -33,8 +33,9 @@ loadPackage = () => {
 		const { loaded } = this.props;
 		if(!loaded) {
 			let [result1, result2] = await Promise.all([this.props.getStatsHistory(), this.props.getTrainingHistory()]);
-			console.log('getHistory async' , result1, result2);
-			this.props.historyLoaded(true);
+			(result1 && result2) ?
+			this.props.historyLoaded(true) 
+			: console.log('getHistory async error' , result1, result2);
 		}
 	}
 

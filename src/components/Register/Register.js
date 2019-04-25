@@ -8,7 +8,8 @@ class Register extends React.Component {
 			password: '',
 			fName: '',
 			lName: '',
-			height:''
+			height:'',
+			error: false
 			}
 		}	
 
@@ -46,18 +47,22 @@ class Register extends React.Component {
 		})
 		.then(response => response.json())
 		.then(user => {
-			if(user){
+			if(user.email){
 				this.props.loadUser(user);
 				this.props.onRouteChange('home');
 			}
-		}).catch(err => {console.log(err)});
+			else {return <div>Error Registering</div>}
+		}).catch(err => {
+			console.log('Register Error: ' + err);
+			this.setState({error: true});
+		});
 		
 	}
 
 	render() {
 		
 	return (
-		
+		(this.state.error) ?  (<div>Error Registering: Click here to try again</div>) :
 			<article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
 				<main className="pa4 black-80">
 				  <div className="measure">

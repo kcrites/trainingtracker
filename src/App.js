@@ -164,8 +164,11 @@ class App extends Component {
         } else {
             //the stats history table is empty. What to do then?
             console.log(`stat history table is empty in getStatsHistory`);
+            return false;
         }
-      }).catch(err => {console.log(err)});
+      }).catch(err => {
+        console.log('Get Stats History Error: ' + err);
+    });
     }
     return true;
   }
@@ -185,9 +188,12 @@ class App extends Component {
       .then(train => {
         if(train){
           train.forEach(e => {trainingHistoryArr.push(e)});
-        }
-      }).catch(err => {console.log(err)});
-        return true;
+          return true;
+        } 
+      }).catch(err => {
+                  console.log('Get Training History Error: ' + err);
+              });
+       return true;
   } 
 
   //Tracks new sessions in an array (the session is also sent to the DB for persistant storage)
