@@ -1,18 +1,11 @@
 import React from 'react';
 import './PackageInfo.css';
 
-
-
 class PackageInfo extends React.Component { 
-
 		constructor(props){
 		super(props);
 		this.loadPackage();
 		}
-
-componentDidMount() {
-
-}
 
 loadPackage = () => {
     fetch('http://localhost:3001/getpackage', {
@@ -34,7 +27,6 @@ loadPackage = () => {
 					this.getHistory();
       }
     }).catch(err => {console.log(err)});
-    
 	}
 	
 	async getHistory(){
@@ -78,6 +70,5 @@ render() {
 		);
 		}
 	}
-
 
 export default PackageInfo;

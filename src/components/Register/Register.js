@@ -6,7 +6,8 @@ class Register extends React.Component {
 		this.state = {
 			email: '',
 			password: '',
-			name: '',
+			fName: '',
+			lName: '',
 			height:''
 			}
 		}	
@@ -15,8 +16,12 @@ class Register extends React.Component {
 		this.setState({email: event.target.value})
 	}
 	
-	onNameChange = (event) => {
-		this.setState({name: event.target.value})
+	onFNameChange = (event) => {
+		this.setState({fName: event.target.value})
+	}
+
+	onLNameChange = (event) => {
+		this.setState({lName: event.target.value})
 	}
 
 	onPasswordChange = (event) => {
@@ -32,7 +37,8 @@ class Register extends React.Component {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
-				name: this.state.name,
+				fname: this.state.fName,
+				lname: this.state.lName,
 				email: this.state.email,
 				password: this.state.password,
 				height: this.state.height
@@ -58,8 +64,12 @@ class Register extends React.Component {
 				    <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
 				      <legend className="f2 fw6 ph0 mh0">Register</legend>
 				        <div className="mt3">
-				        	<label className="db fw6 lh-copy f6" htmlFor="Name">Name</label>
-				       		<input onChange={this.onNameChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="name"  id="name"/>
+				        	<label className="db fw6 lh-copy f6" htmlFor="FName">First Name</label>
+				       		<input onChange={this.onFNameChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="name"  id="fname"/>
+				     	</div>
+						 <div className="mt3">
+				        	<label className="db fw6 lh-copy f6" htmlFor="lName">Last Name</label>
+				       		<input onChange={this.onLNameChange} className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="name"  id="lname"/>
 				     	</div>
 				      	<div className="mt3">
 				       		<label className="db fw6 lh-copy f6" htmlFor="height">Height</label>

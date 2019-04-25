@@ -12,6 +12,8 @@ import Footer from './components/Footer/Footer';
 import PackageInputForm from './components/PackageInputForm/PackageInputForm';
 import './App.css';
 import Sidebar from './components/Sidebar/Sidebar';
+import Help from './components/Help/Help';
+import TrainerInfo from './components/TrainerInfo/TrainerInfo';
 
 
 const trainingHistoryArr = [];
@@ -31,7 +33,8 @@ const initialState = {
     loaded: false,   
     user: {
       id: '',
-      name: '',
+      fName: '',
+      lName: '',
       email: '',
       height: '',
       isAdmin: false,
@@ -60,7 +63,7 @@ const initialState = {
     },
     trainer :
     {
-      name: null,
+      fName: null,
       email: null
     }
   }
@@ -79,7 +82,8 @@ class App extends Component {
     this.setState({
       user: {
         id: data.id,
-        name: data.name,
+        fName: data.fname,
+        lName: data.lname,
         email: data.email,
         height: data.height,
         isAdmin: data.isadmin,
@@ -103,7 +107,7 @@ class App extends Component {
     })
   }
 
-//Training Package Information
+//Training Package Information and calculate sessions left (sl)
   loadUserPack = (data) => {
     let sl = data.maxsessions - data.sessioncount;
     let fixed = fixDate(data.datestarted);
@@ -169,27 +173,27 @@ class App extends Component {
 //Training Session Information
 
   getTrainingHistory = () => {
-   fetch('http://localhost:3001/gettrainings', {
-      method: 'post',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        email: this.state.user.email,
-        packageid: this.state.pack.packageId
+    fetch('http://localhost:3001/gettrainings', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          email: this.state.user.email,
+          packageid: this.state.pack.packageId
+        })
       })
-    })
-    .then(response => response.json())
-    .then(train => {
-      if(train){
-        train.forEach(e => {trainingHistoryArr.push(e)});
-      }
-    }).catch(err => {console.log(err)});
-      return true;
+      .then(response => response.json())
+      .then(train => {
+        if(train){
+          train.forEach(e => {trainingHistoryArr.push(e)});
+        }
+      }).catch(err => {console.log(err)});
+        return true;
   } 
 
   //Tracks new sessions in an array (the session is also sent to the DB for persistant storage)
- addSession = (e) => {
-    trainingHistoryArr.push(e);
-  }
+  addSession = (e) => {
+      trainingHistoryArr.push(e);
+    }
 
  //indicates if the history for stats and training sessions has been loaded from the DB
   historyLoaded= (value)=> {
@@ -197,12 +201,9 @@ class App extends Component {
   }
 
   //clear the temp arrays when signing out
-  clearArrays = () => {
-    if(statHistoryArr.length > 0) {
-      statHistoryArr.length = 0;
-    }
-    if(trainingHistoryArr.length > 0) {
-      trainingHistoryArr.length = 0;
+  clearArrays = (arr) => {
+    if(arr.length > 0) {
+      arr.length = 0;
     }
   }
 
@@ -222,7 +223,7 @@ class App extends Component {
 				if(user.istrainer === true) {
 			//	this.props.onRouteChange('trainer');
 				} else {
-					this.onRouteChange('home');
+					  this.onRouteChange('home');
 				}
 			}
 		}).catch(err => {console.log(err)});
@@ -234,35 +235,13 @@ class App extends Component {
     //Load modified "home" screen with user information
   }
 
-  //Next two functions are for the training input form
-/*   onInputChange = (event) => {
-     this.setState({input: event.target.value});
-  }
- */
-/*   onButtonSubmit = () => {
-    const { completed, maxSessions, sessionCount, sessionsLeft } = this.state.trainingPackage;
-    const { input, trainingPackage } = this.state;
-    let c = sessionCount;
-    let l = sessionsLeft;
-    if(input !== '') {
-        c++;
-        l--;
-        this.setState({newTrainingDate: input});
-        this.packageAdmin(input, this.state.user.email);
-        if(!completed) {
-          this.setState(Object.assign(trainingPackage, {sessionCount: c, sessionsLeft: l}));
-        }
-        if(c >= maxSessions){
-          this.setState(Object.assign(trainingPackage, {completed: true}));
-        }
-    }
-  } */
 
 // Custom routing based on the 'route' variable in state
   onRouteChange = (route) => {
     if(route === 'signout') {
       this.setState(initialState);
-      this.clearArrays();
+      this.clearArrays(statHistoryArr);
+      this.clearArrays(trainingHistoryArr);
     } else if (route === 'home' || route === 'stats' || route === 'trainer') {
               this.setState({isSignedIn: true})
               }
@@ -270,19 +249,19 @@ class App extends Component {
   }
 
   renderOption = (route) => {
-    const {stats, pack} = this.state;
-    const {name, email, height, isAdmin, isTrainer} = this.state.user;
+    const {stats, pack, loaded} = this.state;
+    const {fName, email, height, isAdmin, isTrainer, trainer} = this.state.user;
     const { completed, dateStarted, packageId} = this.state.pack;
     if(route === 'home'){
       return    <div className="wrapper">
-                  {(isTrainer) ? <div className="box header headertitle">Trainer Input for {name}</div> 
-                  : <div className="box header headertitle">{name}</div> }
+                  {(isTrainer) ? <div className="box header headertitle">Trainer Input for {fName}</div> 
+                  : <div className="box header headertitle">{fName}</div> }
                     <Sidebar stats={stats}/>
                     <div className="box content">
-                      <PackageInfo name={name}
+                      <PackageInfo
                         email={email}
                         pack={pack}
-                        loaded={this.state.loaded}
+                        loaded={loaded}
                         getTrainingHistory={this.getTrainingHistory}
                         getStatsHistory={this.getStatsHistory}
                         historyLoaded={this.historyLoaded}
@@ -313,7 +292,7 @@ class App extends Component {
       return <div><TrainingHistory packageId={packageId} trainingHistoryArr={trainingHistoryArr} email={email}  getTrainingHistory={this.getTrainingHistory}/></div>
     }
     else if (route === 'statsInputForm'){
-      return <div><StatsInputForm name={name}  email={email}
+      return <div><StatsInputForm name={fName}  email={email}
                                   height={height} onRouteChange={this.onRouteChange}
                                   statAdmin={this.statAdmin}/></div>
     }   
@@ -323,6 +302,12 @@ class App extends Component {
     else if (route === 'packageInputForm'){
       return <div><PackageInputForm onStatsInputChange={this.onStatsInputChange}  onStatsButtonSubmit={this.onStatsButtonSubmit}/></div>
     }   
+    else if (route === 'help') {
+      return <div><Help /></div>
+    }
+    else if (route === 'trainerinfo') {
+      return <div><TrainerInfo trainer={trainer}/></div>
+    }
   }
 
   render() {
