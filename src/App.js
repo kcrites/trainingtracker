@@ -205,7 +205,7 @@ class App extends Component {
 
 //Loads component to add a new client package for the trainer
   addPackage = (e) => {
-    console.log(`addPackage: ${e}`)
+    console.log(`addPackage: ${e.target.value}`)
       this.onRouteChange('packageInputForm');
     }
 
@@ -285,7 +285,7 @@ class App extends Component {
                               loadUserPack={loadUserPack}
                               addSession={addSession}
                               onRouteChange={onRouteChange}
-                              isTrainer={isTrainer} /></div> 
+                              isTrainer={isTrainer} addPackage={this.addPackage}/></div> 
     }
     else if (route === 'stats'){
       return <div> <Stats statHistory={statHistoryArr} name={fName}/></div>
@@ -306,10 +306,10 @@ class App extends Component {
                                   statAdmin={statAdmin}/></div>
     }   
     else if (route === 'trainer'){
-      return <div><Trainer history={allUserHistoryArr} onTrainerSubmit={onTrainerSubmit} addPackage={this.addPackage}/></div>
+      return <div><Trainer history={allUserHistoryArr} onTrainerSubmit={onTrainerSubmit} /></div>
     }
     else if (route === 'packageInputForm'){
-      return <div><PackageInputForm email={'ken@gmail.com'} fName={'Ken'} completed={true}/></div>
+      return <div><PackageInputForm email={email} fName={fName} completed={this.state.pack.completed}/></div>
     }   
     else if (route === 'help') {
       return <div><Help /></div>

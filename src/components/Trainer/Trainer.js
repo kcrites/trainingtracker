@@ -2,7 +2,7 @@ import React from 'react';
 
 // needs a for loop to only display rows when there is enough data. Should only show sessions for this package.
 
-const renderRow= (array, action, action2) =>{
+const renderRow= (array, action) =>{
   return array.map((item, index)  => 
             <tr key={index} className="stripe-dark">
             	<td className="pa3">{index+1}</td>
@@ -12,7 +12,6 @@ const renderRow= (array, action, action2) =>{
 	            <td className="pa3">{item.maxsessions-item.sessioncount}</td>
 	            <td className="pa3">{item.email}</td>
               <td className="pa3"><button type='button' value={item.email} onClick={action}>Select</button></td>
-              <td className="pa3"><button type='button' value={item.email} onClick={action2}>Package</button></td>
             </tr>
     );
 }
@@ -66,7 +65,7 @@ getClients = () => {
 
   render() {
     const {loading} = this.state;
-    const {onTrainerSubmit, addPackage} = this.props;
+    const {onTrainerSubmit} = this.props;
     if(clientListArr.length === 0) {
       return("Your Client List is empty");
     } else{
@@ -91,7 +90,7 @@ getClients = () => {
                     </tr>
                   </thead>
                   <tbody className="lh-copy">
-                  {renderRow(clientListArr, onTrainerSubmit, addPackage)}
+                  {renderRow(clientListArr, onTrainerSubmit)}
                   </tbody>
               </table> )}
               </div>  

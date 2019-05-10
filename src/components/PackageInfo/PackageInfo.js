@@ -64,6 +64,7 @@ render() {
 		: <article className="pa1 pa5-ns" data-name="slab-stat">
 			<h3>You are out of sessions in your current package</h3>
 			<p>Contact your trainer to set up a new training package</p>
+			<button type='button' value={this.props.email} onClick={this.props.addPackage}>New Package</button>
 		  </article>
 		)}
 		</div>
