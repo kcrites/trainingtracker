@@ -37,7 +37,7 @@ componentWillUnmount() {
 
 getClients = () => {
   //this.setState(Object.assign({loading: true}));
-  console.log(this.state.loading);
+  console.log('trainer loading: ' + this.state.loading);
     if(clientListArr.length === 0) {
       fetch('http://localhost:3001/getclients', {
         method: 'post',
@@ -64,6 +64,8 @@ getClients = () => {
   } 
 
   render() {
+    const {loading} = this.state;
+    const {onTrainerSubmit} = this.props;
     if(clientListArr.length === 0) {
       return("Your Client List is empty");
     } else{
@@ -72,14 +74,14 @@ getClients = () => {
             <div className="pa4">
             <p>Administration: Client Information</p>
               <div className="overflow-auto center">
-              {this.state.loading === null && <p>Loading ...</p>}
-              { this.state.loading && (
+              {loading === null && <p>Loading ...</p>}
+              { loading && (
                 <table className="f6 w-75 mw8 " cellSpacing="0">
                   <thead>
                     <tr className="stripe-dark">
                       <th className="fw6 tl pa3 bg-white">Number</th>
                       <th className="fw6 tl pa3 bg-white">User</th>
-                      <th className="fw6 tl pa3 bg-white ">Package ID</th>
+                      <th className="fw6 tl pa3 bg-white">Package ID</th>
                       <th className="fw6 tl pa3 bg-white">Sessions Used</th>
                       <th className="fw6 tl pa3 bg-white">Sessions Left</th>
                       <th className="fw6 tl pa3 bg-white">Email</th>
@@ -87,7 +89,7 @@ getClients = () => {
                     </tr>
                   </thead>
                   <tbody className="lh-copy">
-                  {renderRow(clientListArr, this.props.onTrainerSubmit)}
+                  {renderRow(clientListArr, onTrainerSubmit)}
                   </tbody>
               </table> )}
               </div>  

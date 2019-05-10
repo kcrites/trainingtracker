@@ -29,6 +29,7 @@ loadPackage = () => {
     }).catch(err => {console.log(err)});
 	}
 	
+	//Get the stats and training history for the user from the DB
 	async getHistory(){
 		const { loaded } = this.props;
 		if(!loaded) {

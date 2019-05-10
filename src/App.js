@@ -14,6 +14,7 @@ import './App.css';
 import Sidebar from './components/Sidebar/Sidebar';
 import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
+//import Dashboard from './components/Dashboard/Dashboard';
 
 
 const trainingHistoryArr = [];
@@ -255,11 +256,11 @@ class App extends Component {
   }
 
   renderOption = (route) => {
-    const {stats, pack, loaded} = this.state;
+    const {stats, pack, loaded, user} = this.state;
     const {fName, email, height, isAdmin, isTrainer, trainer} = this.state.user;
     const { completed, dateStarted, packageId} = this.state.pack;
     if(route === 'home'){
-      return    <div className="wrapper">
+      return /* <div> <Dashboard user={user} pack={pack} stats={stats} loaded = {loaded}/></div>*/  <div className="wrapper">
                   {(isTrainer) ? <div className="box header headertitle">Trainer Input for {fName}</div> 
                   : <div className="box header headertitle">{fName}</div> }
                     <Sidebar stats={stats}/>
@@ -282,7 +283,7 @@ class App extends Component {
                     <div className="box footer">
                       <Footer onRouteChange={this.onRouteChange} isAdmin={isAdmin} />
                     </div>
-                  </div>
+                  </div> 
     }
     else if (route === 'stats'){
       return <div> <Stats statHistory={statHistoryArr}/></div>
