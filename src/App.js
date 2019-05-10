@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import Navigation from './components/Navigation/Navigation';
-import PackageInfo from './components/PackageInfo/PackageInfo';
+//import PackageInfo from './components/PackageInfo/PackageInfo';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 import Stats from './components/Stats/Stats';
 import StatsInputForm from './components/StatsInputForm/StatsInputForm';
-import TrainingInputForm from './components/TrainingInputForm/TrainingInputForm';
+//import TrainingInputForm from './components/TrainingInputForm/TrainingInputForm';
 import TrainingHistory from './components/TrainingHistory/TrainingHistory';
 import Trainer from './components/Trainer/Trainer';
-import Footer from './components/Footer/Footer';
+//import Footer from './components/Footer/Footer';
 import PackageInputForm from './components/PackageInputForm/PackageInputForm';
 import './App.css';
-import Sidebar from './components/Sidebar/Sidebar';
+//import Sidebar from './components/Sidebar/Sidebar';
 import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
-//import Dashboard from './components/Dashboard/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
 
 
 const trainingHistoryArr = [];
@@ -65,7 +65,8 @@ const initialState = {
     trainer :
     {
       fName: null,
-      email: null
+      email: null,
+      isTrainer: false
     }
   }
 
@@ -126,8 +127,9 @@ class App extends Component {
   loadTrainer = (data) => {
     this.setState( {
       trainer: {
-        name: data.name,
+        fName: data.fname,
         email: data.email,
+        isTrainer: true,
       }
     })
   }
@@ -148,12 +150,13 @@ class App extends Component {
   } 
 
   getStatsHistory = () => {
+    const { email } = this.state.user;
     if(!this.state.loaded) {
       fetch('http://localhost:3001/getstats', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-          email: this.state.user.email
+          email: email
         })
       })
       .then(response => response.json())
@@ -177,12 +180,14 @@ class App extends Component {
 //Training Session Information
 
   getTrainingHistory = () => {
+    const { email } = this.state.user;
+    const { packageId } = this.state.pack;
     fetch('http://localhost:3001/gettrainings', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-          email: this.state.user.email,
-          packageid: this.state.pack.packageId
+          email: email,
+          packageid: packageId
         })
       })
       .then(response => response.json())
@@ -249,58 +254,51 @@ class App extends Component {
       this.setState(initialState);
       this.clearArrays(statHistoryArr);
       this.clearArrays(trainingHistoryArr);
-    } else if (route === 'home' || route === 'stats' || route === 'trainer') {
+    } else if (route === 'home' || route === 'stats') {
               this.setState({isSignedIn: true})
+              } else if (route === 'trainer'){
+                //this.setState(initialState);
+                this.clearArrays(statHistoryArr);
+                this.clearArrays(trainingHistoryArr);
+                this.setState({isSignedIn: true});
+                this.setState({user: [], pack: [], stats: [], loaded: false});
               }
     this.setState({route: route});
   }
 
   renderOption = (route) => {
-    const {stats, pack, loaded, user} = this.state;
-    const {fName, email, height, isAdmin, isTrainer, trainer} = this.state.user;
-    const { completed, dateStarted, packageId} = this.state.pack;
+    const { stats, pack, loaded, user } = this.state;
+    const { fName, email, height, trainer } = this.state.user;
+    const { packageId } = this.state.pack;
+    const { isTrainer } = this.state.trainer;
+    const { addSession, onRouteChange, loadUserPack, historyLoaded, getStatsHistory, getTrainingHistory } = this;
+    
     if(route === 'home'){
-      return /* <div> <Dashboard user={user} pack={pack} stats={stats} loaded = {loaded}/></div>*/  <div className="wrapper">
-                  {(isTrainer) ? <div className="box header headertitle">Trainer Input for {fName}</div> 
-                  : <div className="box header headertitle">{fName}</div> }
-                    <Sidebar stats={stats}/>
-                    <div className="box content">
-                      <PackageInfo
-                        email={email}
-                        pack={pack}
-                        loaded={loaded}
-                        getTrainingHistory={this.getTrainingHistory}
-                        getStatsHistory={this.getStatsHistory}
-                        historyLoaded={this.historyLoaded}
-                        loadUserPack={this.loadUserPack}/>
-
-                    {(!completed ? <TrainingInputForm email={email}
-                        pack={pack}
-                        packagedate={dateStarted}
-                        addSession={this.addSession}
-                        onRouteChange={this.onRouteChange}/> : '')}
-                    </div>
-                    <div className="box footer">
-                      <Footer onRouteChange={this.onRouteChange} isAdmin={isAdmin} />
-                    </div>
-                  </div> 
+      return <div> <Dashboard user={user} pack={pack} stats={stats} loaded = {loaded}
+                              getTrainingHistory={getTrainingHistory}
+                              getStatsHistory={getStatsHistory}
+                              historyLoaded={historyLoaded}
+                              loadUserPack={loadUserPack}
+                              addSession={addSession}
+                              onRouteChange={onRouteChange}
+                              isTrainer={isTrainer} /></div> 
     }
     else if (route === 'stats'){
-      return <div> <Stats statHistory={statHistoryArr}/></div>
+      return <div> <Stats statHistory={statHistoryArr} name={fName}/></div>
     }
     else if (route === 'signout'){
-      return <div><Signin loadUser={ this.loadUser } onRouteChange={this.onRouteChange} 
+      return <div><Signin loadUser={ this.loadUser } onRouteChange={onRouteChange} 
                            clearArrays={this.clearArrays} loadTrainer={this.loadTrainer}  /></div>
     }
     else if (route === 'register'){
-      return <div><Register loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>
+      return <div><Register loadUser={ this.loadUser } onRouteChange={onRouteChange} /></div>
     }
     else if (route === 'trainingHistory'){
-      return <div><TrainingHistory packageId={packageId} trainingHistoryArr={trainingHistoryArr} email={email}  getTrainingHistory={this.getTrainingHistory}/></div>
+      return <div><TrainingHistory packageId={packageId} trainingHistoryArr={trainingHistoryArr} email={email} name={fName} getTrainingHistory={getTrainingHistory}/></div>
     }
     else if (route === 'statsInputForm'){
       return <div><StatsInputForm name={fName}  email={email}
-                                  height={height} onRouteChange={this.onRouteChange}
+                                  height={height} onRouteChange={onRouteChange}
                                   statAdmin={this.statAdmin}/></div>
     }   
     else if (route === 'trainer'){

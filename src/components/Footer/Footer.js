@@ -7,7 +7,7 @@ const Footer = ({onRouteChange, isAdmin}) => {
 	return(
 			<nav style={{display: 'flex', justifyContent: 'center'}}>
 				<p onClick={() => onRouteChange('trainerinfo')} className='f5 link dim black  pa3 pointer'>Trainer Information</p>
-				{(isAdmin ? <p onClick={() => onRouteChange('admin')} className='f5 link dim black pa3 pointer'>Administration</p>
+				{(isAdmin ? <p onClick={() => onRouteChange('trainer')} className='f5 link dim black pa3 pointer'>Client List</p>
 				: ''
 					)}
 				<p onClick={() => onRouteChange('help')} className='f5 link dim black  pa3 pointer'>Help</p>

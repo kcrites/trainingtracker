@@ -42,15 +42,15 @@ class TrainingHistory extends React.Component {
 componentWillMount(){
 }
   render(){
-
-    if(this.props.trainingHistoryArr.length === 0) {
+    const {trainingHistoryArr, name} = this.props;
+    if(trainingHistoryArr.length === 0) {
       return("Your history is empty");
     } else{
 
         return (
 
         <div className="pa4">
-        <p>Training History</p>
+        <p>Training History for {name}</p>
           <div className="overflow-auto center">
             <table className="f6 w-75 mw8 " cellSpacing="0">
               <thead>

@@ -32,6 +32,7 @@ componentDidMount() {
 }
 componentWillUnmount() {
   clientListArr = [];
+  
   console.log("admin: willUnmount");
 }
 

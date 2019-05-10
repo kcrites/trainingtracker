@@ -19,23 +19,25 @@ class Signin extends React.Component {
 	}
 
 	onSubmitSignIn = () => {
+		const { loadTrainer, loadUser, onRouteChange } = this.props;
+		const { signInEmail, signInPassword } = this.state;
 		fetch('http://localhost:3001/signin', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
-				email: this.state.signInEmail,
-				password: this.state.signInPassword
+				email: signInEmail,
+				password: signInPassword
 			})
 		})
 		.then(response => response.json())
 		.then(user => {
 			if(user.id){
 				if(user.istrainer === true) {
-					this.props.loadTrainer(user); // LOAD TO A SUPER USER LEVEL??
-					this.props.onRouteChange('trainer');
+					loadTrainer(user); // LOAD TO A SUPER USER LEVEL??
+					onRouteChange('trainer');
 				} else {
-						this.props.loadUser(user);
-						this.props.onRouteChange('home');
+						loadUser(user);
+						onRouteChange('home');
 				}
 			}
 		}).catch(err => {console.log(err)});
