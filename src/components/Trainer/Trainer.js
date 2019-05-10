@@ -6,7 +6,7 @@ const renderRow= (array, action) =>{
   return array.map((item, index)  => 
             <tr key={index} className="stripe-dark">
             	<td className="pa3">{index+1}</td>
-	            <td className="pa3">{item.name}</td>
+	            <td className="pa3">{item.fname}</td>
 	            <td className="pa3">{item.packageid}</td>
 	            <td className="pa3">{item.sessioncount}</td>
 	            <td className="pa3">{item.maxsessions-item.sessioncount}</td>
@@ -32,7 +32,7 @@ componentDidMount() {
 }
 componentWillUnmount() {
   clientListArr = [];
-  
+
   console.log("admin: willUnmount");
 }
 

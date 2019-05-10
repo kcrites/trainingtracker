@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import Navigation from './components/Navigation/Navigation';
-//import PackageInfo from './components/PackageInfo/PackageInfo';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 import Stats from './components/Stats/Stats';
 import StatsInputForm from './components/StatsInputForm/StatsInputForm';
-//import TrainingInputForm from './components/TrainingInputForm/TrainingInputForm';
 import TrainingHistory from './components/TrainingHistory/TrainingHistory';
 import Trainer from './components/Trainer/Trainer';
-//import Footer from './components/Footer/Footer';
 import PackageInputForm from './components/PackageInputForm/PackageInputForm';
 import './App.css';
-//import Sidebar from './components/Sidebar/Sidebar';
 import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
 import Dashboard from './components/Dashboard/Dashboard';
@@ -23,6 +19,7 @@ const allUserHistoryArr = []; //For Admin Panel
 const fixDate = (olddate) => {
       let d = new Date(olddate);
       let newdate = d.toLocaleDateString();
+      //console.log(`month: ${d.getMonth()}`);
       return newdate;
 }
 
@@ -178,7 +175,6 @@ class App extends Component {
   }
 
 //Training Session Information
-
   getTrainingHistory = () => {
     const { email } = this.state.user;
     const { packageId } = this.state.pack;
