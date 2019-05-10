@@ -1,4 +1,5 @@
 import React from 'react';
+//import DateFormat from '../DateFormat/DateFormat';
 import './PackageInfo.css';
 
 class PackageInfo extends React.Component { 
@@ -41,9 +42,7 @@ loadPackage = () => {
 	}
 
 render() {
-	
 	const {completed, sessionsLeft, sessionCount, dateStarted} = this.props.pack;
-
 	return (
 		<div>
 		{(!completed ?  <div >
@@ -57,12 +56,11 @@ render() {
 								<td >Sessions left: </td><td>{sessionsLeft}</td>
 							</tr>
 							<tr>
-								<td > Package Date: </td><td>{dateStarted}</td>
+								<td>Package Date: </td><td>{dateStarted}</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
-
 		: <article className="pa1 pa5-ns" data-name="slab-stat">
 			<h3>You are out of sessions in your current package</h3>
 			<p>Contact your trainer to set up a new training package</p>

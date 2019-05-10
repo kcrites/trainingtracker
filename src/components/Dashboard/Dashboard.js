@@ -7,10 +7,10 @@ import Footer from '../Footer/Footer';
 class Dashboard extends React.Component { 
 
     render() {
-        const {stats, pack, loaded} = this.props;
-        const {fName, email} = this.props.user;
-        const{ isTrainer } = this.props;
-        const { completed, dateStarted} = this.props.pack;
+        const { stats, pack, loaded } = this.props;
+        const { fName, email } = this.props.user;
+        const { isTrainer } = this.props;
+        const { completed, dateStarted } = this.props.pack;
         return (
             <div className="wrapper">
             {(isTrainer) ? <div className="box header headertitle">Trainer Input for {fName}</div> 

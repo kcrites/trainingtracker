@@ -203,6 +203,12 @@ class App extends Component {
       trainingHistoryArr.push(e);
     }
 
+//Loads component to add a new client package for the trainer
+  addPackage = (e) => {
+    console.log(`addPackage: ${e}`)
+      this.onRouteChange('packageInputForm');
+    }
+
  //indicates if the history for stats and training sessions has been loaded from the DB
   historyLoaded= (value)=> {
     this.setState({loaded: value})
@@ -267,7 +273,9 @@ class App extends Component {
     const { fName, email, height, trainer } = this.state.user;
     const { packageId } = this.state.pack;
     const { isTrainer } = this.state.trainer;
-    const { addSession, onRouteChange, loadUserPack, historyLoaded, getStatsHistory, getTrainingHistory } = this;
+    const { addSession, onRouteChange, loadUserPack, historyLoaded,
+            getStatsHistory, getTrainingHistory, loadUser, clearArrays, loadTrainer, statAdmin,
+            onTrainerSubmit } = this;
     
     if(route === 'home'){
       return <div> <Dashboard user={user} pack={pack} stats={stats} loaded = {loaded}
@@ -283,11 +291,11 @@ class App extends Component {
       return <div> <Stats statHistory={statHistoryArr} name={fName}/></div>
     }
     else if (route === 'signout'){
-      return <div><Signin loadUser={ this.loadUser } onRouteChange={onRouteChange} 
-                           clearArrays={this.clearArrays} loadTrainer={this.loadTrainer}  /></div>
+      return <div><Signin loadUser={ loadUser } onRouteChange={onRouteChange} 
+                           clearArrays={clearArrays} loadTrainer={loadTrainer}  /></div>
     }
     else if (route === 'register'){
-      return <div><Register loadUser={ this.loadUser } onRouteChange={onRouteChange} /></div>
+      return <div><Register loadUser={ loadUser } onRouteChange={onRouteChange} /></div>
     }
     else if (route === 'trainingHistory'){
       return <div><TrainingHistory packageId={packageId} trainingHistoryArr={trainingHistoryArr} email={email} name={fName} getTrainingHistory={getTrainingHistory}/></div>
@@ -295,13 +303,13 @@ class App extends Component {
     else if (route === 'statsInputForm'){
       return <div><StatsInputForm name={fName}  email={email}
                                   height={height} onRouteChange={onRouteChange}
-                                  statAdmin={this.statAdmin}/></div>
+                                  statAdmin={statAdmin}/></div>
     }   
     else if (route === 'trainer'){
-      return <div><Trainer history={allUserHistoryArr} onTrainerSubmit={this.onTrainerSubmit}/></div>
+      return <div><Trainer history={allUserHistoryArr} onTrainerSubmit={onTrainerSubmit} addPackage={this.addPackage}/></div>
     }
     else if (route === 'packageInputForm'){
-      return <div><PackageInputForm onStatsInputChange={this.onStatsInputChange}  onStatsButtonSubmit={this.onStatsButtonSubmit}/></div>
+      return <div><PackageInputForm email={'ken@gmail.com'} fName={'Ken'} completed={true}/></div>
     }   
     else if (route === 'help') {
       return <div><Help /></div>
@@ -314,14 +322,15 @@ class App extends Component {
   render() {
     const {isSignedIn, route} = this.state;
     const { isTrainer } = this.state.user;
+    const { loadUser, loadTrainer, onRouteChange, clearArrays, renderOption } = this;
     return (
       <div className="App">
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} isTrainer={isTrainer} />
-        {(route !== 'signin' ? this.renderOption(route)
+        <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} isTrainer={isTrainer} />
+        {(route !== 'signin' ? renderOption(route)
         : 
             route === 'signin'
-            ? <Signin loadUser={this.loadUser}  onRouteChange={this.onRouteChange} clearArrays={this.clearArrays} loadTrainer={this.loadTrainer} />
-            : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+            ? <Signin loadUser={loadUser}  onRouteChange={onRouteChange} clearArrays={clearArrays} loadTrainer={loadTrainer} />
+            : <Register loadUser={loadUser} onRouteChange={onRouteChange} />
             )
         }
       </div>

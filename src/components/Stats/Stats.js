@@ -11,9 +11,7 @@ const fixDate = (array) => {
 }
 
 const renderRow= (array) =>{
-
     fixDate(array);
-  
   return array.map((item, index)  => 
             <tr key={index} className="stripe-dark">
             <td className="pa3">{index+1}</td>
@@ -25,7 +23,6 @@ const renderRow= (array) =>{
               <td className="pa3">{item.vv}</td>
               <td className="pa3">{item.percentwater}</td>
             </tr>
-
     );
 }
 
@@ -37,7 +34,6 @@ class Stats extends React.Component {
     this.state = {
       history: []
     };
-   
   }
 
 componentWillMount(){

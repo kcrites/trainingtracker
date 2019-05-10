@@ -2,7 +2,7 @@ import React from 'react';
 
 // needs a for loop to only display rows when there is enough data. Should only show sessions for this package.
 
-const renderRow= (array, action) =>{
+const renderRow= (array, action, action2) =>{
   return array.map((item, index)  => 
             <tr key={index} className="stripe-dark">
             	<td className="pa3">{index+1}</td>
@@ -12,6 +12,7 @@ const renderRow= (array, action) =>{
 	            <td className="pa3">{item.maxsessions-item.sessioncount}</td>
 	            <td className="pa3">{item.email}</td>
               <td className="pa3"><button type='button' value={item.email} onClick={action}>Select</button></td>
+              <td className="pa3"><button type='button' value={item.email} onClick={action2}>Package</button></td>
             </tr>
     );
 }
@@ -37,7 +38,6 @@ componentWillUnmount() {
 }
 
 getClients = () => {
-  //this.setState(Object.assign({loading: true}));
   console.log('trainer loading: ' + this.state.loading);
     if(clientListArr.length === 0) {
       fetch('http://localhost:3001/getclients', {
@@ -66,14 +66,14 @@ getClients = () => {
 
   render() {
     const {loading} = this.state;
-    const {onTrainerSubmit} = this.props;
+    const {onTrainerSubmit, addPackage} = this.props;
     if(clientListArr.length === 0) {
       return("Your Client List is empty");
     } else{
         return (
           <div>
             <div className="pa4">
-            <p>Administration: Client Information</p>
+            <p>Trainer Dashboard: Client List</p>
               <div className="overflow-auto center">
               {loading === null && <p>Loading ...</p>}
               { loading && (
@@ -87,10 +87,11 @@ getClients = () => {
                       <th className="fw6 tl pa3 bg-white">Sessions Left</th>
                       <th className="fw6 tl pa3 bg-white">Email</th>
                       <th className="fw6 tl pa3 bg-white">Select</th>
+                      <th className="fw6 tl pa3 bg-white">Package</th>
                     </tr>
                   </thead>
                   <tbody className="lh-copy">
-                  {renderRow(clientListArr, onTrainerSubmit)}
+                  {renderRow(clientListArr, onTrainerSubmit, addPackage)}
                   </tbody>
               </table> )}
               </div>  
