@@ -9,9 +9,6 @@ const onTrainerSubmit = (e) => {
 				email: e.target.value,
 				date: e.target.date,
 				maxsessions: e.target.maxsessions,
-				completed: false,
-				active: true,
-				sessioncount: 0,
 				packageid: e.target.packageid,
 			})
 		})
@@ -26,18 +23,15 @@ const onTrainerSubmit = (e) => {
 
 
 class PackageInputForm extends React.Component {
-//check to see if package.completed is state is true or false
-//Don't let trainer submit if it is still active
-constructor(props){
-    super(props);
-    this.state = {
-	  dateInput: '',
-	  packageIDInput: '',
-	  maxSessionsInput: null,
-	  allowed: false,
-
-    };
-  }
+	constructor(props){
+		super(props);
+		this.state = {
+			dateInput: '',
+			packageIDInput: '',
+			maxSessionsInput: null,
+			allowed: false,
+		};
+	}
 
 componentWillMount(){
 	if(this.props.completed === true){

@@ -18,15 +18,15 @@ class Dashboard extends React.Component {
             <Sidebar stats={stats}/>
             <div className="box content">
                 <PackageInfo
-                email={email}
-                pack={pack}
-                loaded={loaded}
-                isTrainer={isTrainer}
-                getTrainingHistory={this.props.getTrainingHistory}
-                getStatsHistory={this.props.getStatsHistory}
-                historyLoaded={this.props.historyLoaded}
-                loadUserPack={this.props.loadUserPack}
-                addPackage={this.props.addPackage}/>
+                    email={email}
+                    pack={pack}
+                    loaded={loaded}
+                    isTrainer={isTrainer}
+                    getTrainingHistory={this.props.getTrainingHistory}
+                    getStatsHistory={this.props.getStatsHistory}
+                    historyLoaded={this.props.historyLoaded}
+                    loadUserPack={this.props.loadUserPack}
+                    addPackage={this.props.addPackage}/>
 
             {(!completed ? <TrainingInputForm email={email}
                 pack={pack}

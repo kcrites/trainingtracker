@@ -7,10 +7,10 @@ import StatsInputForm from './components/StatsInputForm/StatsInputForm';
 import TrainingHistory from './components/TrainingHistory/TrainingHistory';
 import Trainer from './components/Trainer/Trainer';
 import PackageInputForm from './components/PackageInputForm/PackageInputForm';
-import './App.css';
 import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
 import Dashboard from './components/Dashboard/Dashboard';
+import './App.css';
 
 
 const trainingHistoryArr = [];

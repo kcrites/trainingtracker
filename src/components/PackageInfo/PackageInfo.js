@@ -1,6 +1,6 @@
 import React from 'react';
-//import DateFormat from '../DateFormat/DateFormat';
 import './PackageInfo.css';
+import DateFormat from '../DateFormat/DateFormat';
 
 class PackageInfo extends React.Component { 
 		constructor(props){
@@ -44,11 +44,14 @@ loadPackage = () => {
 render() {
 	const { completed, sessionsLeft, sessionCount, dateStarted} = this.props.pack;
 	const { isTrainer } = this.props;
+	console.log('datestarted' + dateStarted);
+	let formattedDate;
+	if(dateStarted !== undefined) {formattedDate = DateFormat(dateStarted);}
 	return (
 		<div>
 		{(!completed ?  <div >
 			<p className="sidetitle">Package Information</p>
-					 <table width="50%">
+					 <table width="60%">
 						<tbody className='packtable'>
 							<tr>
 								<td className='tl'>Sessions Used: </td><td>{sessionCount}</td>
@@ -57,7 +60,7 @@ render() {
 								<td className='tl'>Sessions left: </td><td>{sessionsLeft}</td>
 							</tr>
 							<tr>
-								<td className='tl'>Package Date: </td><td>{dateStarted}</td>
+								<td className='tl'>Package Date: </td><td>{formattedDate}</td>
 							</tr>
 						</tbody>
 					</table>

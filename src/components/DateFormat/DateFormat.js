@@ -12,14 +12,14 @@ const formatMonth = (month) => {
 };
 
 const DateFormat = (oldDate) => {      
-    var newDate, month, day, year, monthLabel;
-
-    month = oldDate.getMonth();
+    let newDate, month, day, year, monthLabel;
+    let tempDate = new Date(oldDate);
+    month = tempDate.getMonth();
     monthLabel = formatMonth(month);
-    day = oldDate.getDate();
-    year = oldDate.getFullYear();
+    day = tempDate.getDate();
+    year = tempDate.getFullYear();
       
-     newDate = `${monthLabel} ${day},${year}`;
+     newDate = `${monthLabel} ${day}, ${year}`;
      return newDate;
 };
 
