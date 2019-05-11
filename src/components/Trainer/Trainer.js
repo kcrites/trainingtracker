@@ -86,7 +86,6 @@ getClients = () => {
                       <th className="fw6 tl pa3 bg-white">Sessions Left</th>
                       <th className="fw6 tl pa3 bg-white">Email</th>
                       <th className="fw6 tl pa3 bg-white">Select</th>
-                      <th className="fw6 tl pa3 bg-white">Package</th>
                     </tr>
                   </thead>
                   <tbody className="lh-copy">

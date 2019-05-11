@@ -42,7 +42,8 @@ loadPackage = () => {
 	}
 
 render() {
-	const {completed, sessionsLeft, sessionCount, dateStarted} = this.props.pack;
+	const { completed, sessionsLeft, sessionCount, dateStarted} = this.props.pack;
+	const { isTrainer } = this.props;
 	return (
 		<div>
 		{(!completed ?  <div >
@@ -50,21 +51,22 @@ render() {
 					 <table width="50%">
 						<tbody className='packtable'>
 							<tr>
-								<td >Sessions Used: </td><td>{sessionCount}</td>
+								<td className='tl'>Sessions Used: </td><td>{sessionCount}</td>
 							</tr>
 							<tr>
-								<td >Sessions left: </td><td>{sessionsLeft}</td>
+								<td className='tl'>Sessions left: </td><td>{sessionsLeft}</td>
 							</tr>
 							<tr>
-								<td>Package Date: </td><td>{dateStarted}</td>
+								<td className='tl'>Package Date: </td><td>{dateStarted}</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 		: <article className="pa1 pa5-ns" data-name="slab-stat">
 			<h3>You are out of sessions in your current package</h3>
-			<p>Contact your trainer to set up a new training package</p>
-			<button type='button' value={this.props.email} onClick={this.props.addPackage}>New Package</button>
+			{!isTrainer ? 
+				<p>Contact your trainer to set up a new training package</p> : 
+				<button type='button' value={this.props.email} onClick={this.props.addPackage}>New Package</button>}
 		  </article>
 		)}
 		</div>

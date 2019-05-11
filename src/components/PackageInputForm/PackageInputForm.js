@@ -20,7 +20,8 @@ const onTrainerSubmit = (e) => {
 			if(newpack.id){
 				//reload page showing status of insert to DB
 			}
-		}).catch(err => {console.log(err)});*/
+		}).catch(err => {console.log(err)});
+		*/
 	};
 
 
@@ -55,8 +56,9 @@ onPackIDChange = (event) => {
 }
 render() {
 const { fName } = this.props;
+const { allowed } = this.state;
 	return (
-		!this.state.allowed ? <div>Current Package is not yet completed</div>
+		!allowed ? <div>Current Package is not yet completed</div>
 		: <div>
 			<p className='f3'>
 				{`Please input the new training package for ${fName}`}

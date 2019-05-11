@@ -21,6 +21,7 @@ class Dashboard extends React.Component {
                 email={email}
                 pack={pack}
                 loaded={loaded}
+                isTrainer={isTrainer}
                 getTrainingHistory={this.props.getTrainingHistory}
                 getStatsHistory={this.props.getStatsHistory}
                 historyLoaded={this.props.historyLoaded}
