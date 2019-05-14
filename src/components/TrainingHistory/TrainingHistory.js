@@ -19,8 +19,9 @@ const renderRow= (array) =>{
               <tr key={index} className="stripe-dark">
               <td className="pa3">{index+1}</td>
                 <td className="pa3">{item.sessiondate}</td>
-                <td className="pa3">{item.packagedate}</td>
+                {item.packageid !== 0 ?  <td className="pa3">{item.packagedate}</td> : <td>None</td>}
               </tr>
+            
       );
 }
 
@@ -29,12 +30,32 @@ class TrainingHistory extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      history: []
+      history: [],
+      viewSelectorInput: -1
     };
   }
 
 componentWillMount(){
+  this.setState({history: this.props.trainingHistoryArr});
 }
+
+handleSelectorChange = (event) => {
+  const { trainingHistoryArr } = this.props;
+  let valueInt = parseInt(event.target.value);
+  this.setState({viewSelectorInput: event.target.value});
+  if(event.target.value === '-1' || (valueInt > trainingHistoryArr.length-1)){
+    this.setState({history: trainingHistoryArr});
+    return 
+  } else {
+    let i = 0, tempArray = [];
+    while(i <= valueInt-1){
+      tempArray.push(trainingHistoryArr[i]);
+      i++;
+    }
+    this.setState({history: tempArray});
+  } 
+}
+
   render(){
     const {trainingHistoryArr, name} = this.props;
     if(trainingHistoryArr.length === 0) {
@@ -53,10 +74,17 @@ componentWillMount(){
                   </tr>
                 </thead>
                 <tbody className="lh-copy">
-                {renderRow(this.props.trainingHistoryArr)}
+                {renderRow(this.state.history)}
                 </tbody>
               </table>
             </div>
+            <br></br>
+            Show: <select onChange={this.handleSelectorChange}>
+                      <option value="-1">All</option>
+                      <option value="5">5</option>
+                      <option value="15">15</option>
+                      <option value="20">20</option>
+                  </select>
           </div>
           );
     }

@@ -271,7 +271,7 @@ class App extends Component {
   renderOption = (route) => {
     const { stats, pack, loaded, user } = this.state;
     const { fName, email, height, trainer } = this.state.user;
-    const { packageId } = this.state.pack;
+    const { packageId, completed } = this.state.pack;
     const { isTrainer } = this.state.trainer;
     const { addSession, onRouteChange, loadUserPack, historyLoaded,
             getStatsHistory, getTrainingHistory, loadUser, clearArrays, loadTrainer, statAdmin,
@@ -309,7 +309,7 @@ class App extends Component {
       return <div><Trainer history={allUserHistoryArr} onTrainerSubmit={onTrainerSubmit} /></div>
     }
     else if (route === 'packageInputForm'){
-      return <div><PackageInputForm email={email} fName={fName} completed={this.state.pack.completed}/></div>
+      return <div><PackageInputForm email={email} fName={fName} completed={completed} packageId={packageId}/></div>
     }   
     else if (route === 'help') {
       return <div><Help /></div>

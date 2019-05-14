@@ -5,6 +5,9 @@ import DateFormat from '../DateFormat/DateFormat';
 class PackageInfo extends React.Component { 
 		constructor(props){
 		super(props);
+		this.state = {
+			noPackage: false
+		}
 		this.loadPackage();
 		}
 
@@ -25,6 +28,7 @@ loadPackage = () => {
       } else {
 					console.log('Empty package information');
 					//need to load completed to true
+					this.setState({noPackage: true});
 					this.getHistory();
       }
     }).catch(err => {console.log(err)});
@@ -44,37 +48,43 @@ loadPackage = () => {
 render() {
 	const { completed, sessionsLeft, sessionCount, dateStarted} = this.props.pack;
 	const { isTrainer } = this.props;
+	const { noPackage } = this.state;
 	console.log('datestarted' + dateStarted);
 	let formattedDate;
-	if(dateStarted !== undefined) {formattedDate = DateFormat(dateStarted);}
-	return (
-		<div>
-		{(!completed ?  <div >
-			<p className="sidetitle">Package Information</p>
-					 <table width="60%">
-						<tbody className='packtable'>
-							<tr>
-								<td className='tl'>Sessions Used: </td><td>{sessionCount}</td>
-							</tr>
-							<tr>
-								<td className='tl'>Sessions left: </td><td>{sessionsLeft}</td>
-							</tr>
-							<tr>
-								<td className='tl'>Package Date: </td><td>{formattedDate}</td>
-							</tr>
-						</tbody>
-					</table>
+	if(!noPackage) {
+		formattedDate = DateFormat(dateStarted);
+			return (
+				<div>
+				{(!completed ?  <div >
+					<p className="sidetitle">Package Information</p>
+							<table width="60%">
+								<tbody className='packtable'>
+									<tr>
+										<td className='tl'>Sessions Used: </td><td>{sessionCount}</td>
+									</tr>
+									<tr>
+										<td className='tl'>Sessions left: </td><td>{sessionsLeft}</td>
+									</tr>
+									<tr>
+										<td className='tl'>Package Date: </td><td>{formattedDate}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+				: <article className="pa1 pa5-ns" data-name="slab-stat">
+					<h3>You are out of sessions in your current package</h3>
+					{!isTrainer ? 
+						<p>Contact your trainer to set up a new training package</p> : 
+						<button type='button' value={this.props.email} onClick={this.props.addPackage}>New Package</button>}
+					</article>
+				)}
 				</div>
-		: <article className="pa1 pa5-ns" data-name="slab-stat">
-			<h3>You are out of sessions in your current package</h3>
-			{!isTrainer ? 
-				<p>Contact your trainer to set up a new training package</p> : 
-				<button type='button' value={this.props.email} onClick={this.props.addPackage}>New Package</button>}
-		  </article>
-		)}
-		</div>
-		);
+				);
+			} else {
+				return <div>No Packages</div>
+			}
 		}
+	
 	}
 
 export default PackageInfo;

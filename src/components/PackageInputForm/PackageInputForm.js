@@ -49,8 +49,9 @@ onPackIDChange = (event) => {
 	this.setState({packageIDInput: event.target.value})
 }
 render() {
-const { fName } = this.props;
+const { fName, packageId } = this.props;
 const { allowed } = this.state;
+let nextID = parseInt(packageId) + 1;
 	return (
 		!allowed ? <div>Current Package is not yet completed</div>
 		: <div>
@@ -62,19 +63,19 @@ const { allowed } = this.state;
 					<table>
 						<tbody>
 							<tr>
-								<td><label>Date</label></td>
+								<td className='tl'><label>Date</label></td>
 								<td><input className='f4 pa2 w-80 center' name='date' type='date'onChange={this.onDateChange}/></td>
 							</tr>
 							<tr>
-								<td><label>Package ID</label></td>
-								<td><input className='f4 pa2 w-50 center' name='packageid' type='text'  onChange={this.onPackIDChange} /></td>
+								<td className='tl'><label>Package ID</label></td>
+								<td><input className='f4 pa2 w-50 center' name='packageid' value={nextID} type='text'  onChange={this.onPackIDChange} /></td>
 							</tr>
 							<tr>
-								<td><label>Number of Sessions</label></td>
+								<td className='tl'><label>Number of Sessions</label></td>
 								<td><input className='f4 pa2 w-50 center' name='maxsessions' type='number'  onChange={this.onMSessionsChange} /></td>
 							</tr>
 							<tr>
-								<td><button className='w-100 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={onTrainerSubmit}>Submit</button></td>
+								<td colSpan='2'><button className='w-50 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={onTrainerSubmit}>Submit</button></td>
 							</tr>
 						</tbody>
 				</table>
