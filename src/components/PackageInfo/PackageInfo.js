@@ -12,23 +12,24 @@ class PackageInfo extends React.Component {
 		}
 
 loadPackage = () => {
+		const { loadUserPack, emptyPackage, email} = this.props;
     fetch('http://localhost:3001/getpackage', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        email: this.props.email
+        email: email
       })
     })
     .then(response => response.json())
     .then(pack => {
       if(pack.id){
-        console.log('packid: ', pack.packageid)
-        this.props.loadUserPack(pack);
+        loadUserPack(pack);
         this.getHistory();
       } else {
 					console.log('Empty package information');
 					//need to load completed to true
 					this.setState({noPackage: true});
+					emptyPackage(true);
 					this.getHistory();
       }
     }).catch(err => {console.log(err)});
@@ -36,11 +37,11 @@ loadPackage = () => {
 	
 	//Get the stats and training history for the user from the DB
 	async getHistory(){
-		const { loaded } = this.props;
+		const { loaded, getStatsHistory, getTrainingHistory, historyLoaded } = this.props;
 		if(!loaded) {
-			let [result1, result2] = await Promise.all([this.props.getStatsHistory(), this.props.getTrainingHistory()]);
+			let [result1, result2] = await Promise.all([getStatsHistory(), getTrainingHistory()]);
 			(result1 && result2) ?
-			this.props.historyLoaded(true) 
+			 historyLoaded(true) 
 			: console.log('getHistory async error' , result1, result2);
 		}
 	}
@@ -49,7 +50,6 @@ render() {
 	const { completed, sessionsLeft, sessionCount, dateStarted} = this.props.pack;
 	const { isTrainer } = this.props;
 	const { noPackage } = this.state;
-	console.log('datestarted' + dateStarted);
 	let formattedDate;
 	if(!noPackage) {
 		formattedDate = DateFormat(dateStarted);

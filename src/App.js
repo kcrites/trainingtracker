@@ -19,7 +19,6 @@ const allUserHistoryArr = []; //For Admin Panel
 const fixDate = (olddate) => {
       let d = new Date(olddate);
       let newdate = d.toLocaleDateString();
-      //console.log(`month: ${d.getMonth()}`);
       return newdate;
 }
 
@@ -47,7 +46,8 @@ const initialState = {
       completed: false,
       sessionCount: 0,
       sessionsLeft: 0,
-      maxSessions: 0
+      maxSessions: 0,
+      newUser: false
     },
     stats :
     {
@@ -130,6 +130,10 @@ class App extends Component {
       }
     })
   }
+
+  emptyPackage = (data) => {
+    this.setState({pack: {newUser: data}})
+  }
   
 //Stats (Measurements) Information ***MOVE THE ARGS INTO STATE IN THE COMPONENT
   statAdmin = (statsdate, weight, musclemass, fatlevel, bmi, vv, percentwater) => {
@@ -177,13 +181,11 @@ class App extends Component {
 //Training Session Information
   getTrainingHistory = () => {
     const { email } = this.state.user;
-    const { packageId } = this.state.pack;
     fetch('http://localhost:3001/gettrainings', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-          email: email,
-          packageid: packageId
+          email: email
         })
       })
       .then(response => response.json())
@@ -205,7 +207,7 @@ class App extends Component {
 
 //Loads component to add a new client package for the trainer
   addPackage = (e) => {
-    console.log(`addPackage: ${e.target.value}`)
+    //console.log(`addPackage: ${e.target.value}`)
       this.onRouteChange('packageInputForm');
     }
 
@@ -222,7 +224,7 @@ class App extends Component {
   }
 
   onTrainerSubmit = (e) => {
-    console.log('admin submit'+ e.target.value );
+    //console.log('admin submit'+ e.target.value );
     fetch('http://localhost:3001/trainergetclient', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
@@ -241,12 +243,6 @@ class App extends Component {
 				}
 			}
 		}).catch(err => {console.log(err)});
-    //Load User information 
-      //create new call to db that doesn't require password
-      //push user info into state
-      //load stats and package info using existing calls
-
-    //Load modified "home" screen with user information
   }
 
 
@@ -259,7 +255,6 @@ class App extends Component {
     } else if (route === 'home' || route === 'stats') {
               this.setState({isSignedIn: true})
               } else if (route === 'trainer'){
-                //this.setState(initialState);
                 this.clearArrays(statHistoryArr);
                 this.clearArrays(trainingHistoryArr);
                 this.setState({isSignedIn: true});
@@ -271,7 +266,7 @@ class App extends Component {
   renderOption = (route) => {
     const { stats, pack, loaded, user } = this.state;
     const { fName, email, height, trainer } = this.state.user;
-    const { packageId, completed } = this.state.pack;
+    const { packageId, completed, newUser } = this.state.pack;
     const { isTrainer } = this.state.trainer;
     const { addSession, onRouteChange, loadUserPack, historyLoaded,
             getStatsHistory, getTrainingHistory, loadUser, clearArrays, loadTrainer, statAdmin,
@@ -309,7 +304,7 @@ class App extends Component {
       return <div><Trainer history={allUserHistoryArr} onTrainerSubmit={onTrainerSubmit} /></div>
     }
     else if (route === 'packageInputForm'){
-      return <div><PackageInputForm email={email} fName={fName} completed={completed} packageId={packageId}/></div>
+      return <div><PackageInputForm email={email} fName={fName} completed={completed} packageId={packageId} newUser={newUser}/></div>
     }   
     else if (route === 'help') {
       return <div><Help /></div>
