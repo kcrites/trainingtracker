@@ -6,7 +6,7 @@ const renderRow= (array, action) =>{
   return array.map((item, index)  => 
             <tr key={index} className="stripe-dark">
             	<td className="pa3">{index+1}</td>
-	            <td className="pa3">{item.name}</td>
+	            <td className="pa3">{item.fname}</td>
 	            <td className="pa3">{item.packageid}</td>
 	            <td className="pa3">{item.sessioncount}</td>
 	            <td className="pa3">{item.maxsessions-item.sessioncount}</td>
@@ -32,11 +32,11 @@ componentDidMount() {
 }
 componentWillUnmount() {
   clientListArr = [];
+
   console.log("admin: willUnmount");
 }
 
 getClients = () => {
-  //this.setState(Object.assign({loading: true}));
   console.log('trainer loading: ' + this.state.loading);
     if(clientListArr.length === 0) {
       fetch('http://localhost:3001/getclients', {
@@ -72,7 +72,7 @@ getClients = () => {
         return (
           <div>
             <div className="pa4">
-            <p>Administration: Client Information</p>
+            <p>Trainer Dashboard: Client List</p>
               <div className="overflow-auto center">
               {loading === null && <p>Loading ...</p>}
               { loading && (

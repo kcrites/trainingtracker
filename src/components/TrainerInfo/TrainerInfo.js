@@ -16,7 +16,7 @@ const TrainerInfo = ({trainer}) => {
 							        <label className="db fw6 lh-copy f6" htmlFor="trainer-name">Mobile: 06 4676 7399</label>
 							      </div>
 							      <div className="mv3">
-							        <label className="db fw6 lh-copy f6" htmlFor="link">Website: <a href="m.me/PersonaltrainerDM">here</a></label>
+							        <label className="db fw6 lh-copy f6" htmlFor="link">Website: <a href="http://dmpersonaltraining.com/">here</a></label>
 							      </div>
                                   <div className="mv3">
 							        <label className="db fw6 lh-copy f6" htmlFor="link">Email: desire@gmail.com</label>

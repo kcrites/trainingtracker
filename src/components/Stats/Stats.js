@@ -11,9 +11,7 @@ const fixDate = (array) => {
 }
 
 const renderRow= (array) =>{
-
     fixDate(array);
-  
   return array.map((item, index)  => 
             <tr key={index} className="stripe-dark">
             <td className="pa3">{index+1}</td>
@@ -25,7 +23,6 @@ const renderRow= (array) =>{
               <td className="pa3">{item.vv}</td>
               <td className="pa3">{item.percentwater}</td>
             </tr>
-
     );
 }
 
@@ -37,21 +34,20 @@ class Stats extends React.Component {
     this.state = {
       history: []
     };
-   
   }
 
 componentWillMount(){
 }
 
 render() {
-  const {statHistory} = this.props;
+  const {statHistory, name} = this.props;
   if(statHistory.length === 0) {
     return("Your history is empty");
   } else{
 
 	return (
 
-      <div className="pa4"><p>Stats History</p>
+      <div className="pa4"><p>Stats History for {name}</p>
         <div className="overflow-auto center">      
           <table className="f6 w-100 mw8 " cellSpacing="0">
             <thead>

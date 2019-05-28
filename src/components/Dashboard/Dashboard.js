@@ -1,15 +1,16 @@
 import React from 'react';
-import Sidebar from '../components/Sidebar/Sidebar';
-import PackageInfo from '../components/PackageInfo/PackageInfo';
-import TrainingInputForm from '../components/TrainingInputForm/TrainingInputForm';
-import Footer from '../componentns/Footer/Footer';
+import Sidebar from '../Sidebar/Sidebar';
+import PackageInfo from '../PackageInfo/PackageInfo';
+import TrainingInputForm from '../TrainingInputForm/TrainingInputForm';
+import Footer from '../Footer/Footer';
 
 class Dashboard extends React.Component { 
 
     render() {
-        const {stats, pack, loaded} = this.props;
-        const {fName, email, isAdmin, isTrainer} = this.props.user;
-        const { completed, dateStarted} = this.props.pack;
+        const { stats, pack, loaded } = this.props;
+        const { fName, email } = this.props.user;
+        const { isTrainer } = this.props;
+        const { completed, dateStarted } = this.props.pack;
         return (
             <div className="wrapper">
             {(isTrainer) ? <div className="box header headertitle">Trainer Input for {fName}</div> 
@@ -17,22 +18,24 @@ class Dashboard extends React.Component {
             <Sidebar stats={stats}/>
             <div className="box content">
                 <PackageInfo
-                email={email}
-                pack={pack}
-                loaded={loaded}
-                getTrainingHistory={this.getTrainingHistory}
-                getStatsHistory={this.getStatsHistory}
-                historyLoaded={this.historyLoaded}
-                loadUserPack={this.loadUserPack}/>
+                    email={email}
+                    pack={pack}
+                    loaded={loaded}
+                    isTrainer={isTrainer}
+                    getTrainingHistory={this.props.getTrainingHistory}
+                    getStatsHistory={this.props.getStatsHistory}
+                    historyLoaded={this.props.historyLoaded}
+                    loadUserPack={this.props.loadUserPack}
+                    addPackage={this.props.addPackage}/>
 
             {(!completed ? <TrainingInputForm email={email}
                 pack={pack}
                 packagedate={dateStarted}  //FIX THIS
-                addSession={this.addSession}
-                onRouteChange={this.onRouteChange}/> : '')}
+                addSession={this.props.addSession}
+                onRouteChange={this.props.onRouteChange}/> : '')}
             </div>
             <div className="box footer">
-                <Footer onRouteChange={this.onRouteChange} isAdmin={isAdmin} />
+                <Footer onRouteChange={this.props.onRouteChange} isAdmin={isTrainer} />
             </div>
             </div>
         )

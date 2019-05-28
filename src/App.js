@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 import Navigation from './components/Navigation/Navigation';
-import PackageInfo from './components/PackageInfo/PackageInfo';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 import Stats from './components/Stats/Stats';
 import StatsInputForm from './components/StatsInputForm/StatsInputForm';
-import TrainingInputForm from './components/TrainingInputForm/TrainingInputForm';
 import TrainingHistory from './components/TrainingHistory/TrainingHistory';
 import Trainer from './components/Trainer/Trainer';
-import Footer from './components/Footer/Footer';
 import PackageInputForm from './components/PackageInputForm/PackageInputForm';
-import './App.css';
-import Sidebar from './components/Sidebar/Sidebar';
 import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
-//import Dashboard from './components/Dashboard/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
+import './App.css';
 
 
 const trainingHistoryArr = [];
@@ -50,7 +46,8 @@ const initialState = {
       completed: false,
       sessionCount: 0,
       sessionsLeft: 0,
-      maxSessions: 0
+      maxSessions: 0,
+      newUser: false
     },
     stats :
     {
@@ -65,7 +62,8 @@ const initialState = {
     trainer :
     {
       fName: null,
-      email: null
+      email: null,
+      isTrainer: false
     }
   }
 
@@ -126,10 +124,15 @@ class App extends Component {
   loadTrainer = (data) => {
     this.setState( {
       trainer: {
-        name: data.name,
+        fName: data.fname,
         email: data.email,
+        isTrainer: true,
       }
     })
+  }
+
+  emptyPackage = (data) => {
+    this.setState({pack: {newUser: data}})
   }
   
 //Stats (Measurements) Information ***MOVE THE ARGS INTO STATE IN THE COMPONENT
@@ -148,12 +151,13 @@ class App extends Component {
   } 
 
   getStatsHistory = () => {
+    const { email } = this.state.user;
     if(!this.state.loaded) {
       fetch('http://localhost:3001/getstats', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-          email: this.state.user.email
+          email: email
         })
       })
       .then(response => response.json())
@@ -175,14 +179,13 @@ class App extends Component {
   }
 
 //Training Session Information
-
   getTrainingHistory = () => {
+    const { email } = this.state.user;
     fetch('http://localhost:3001/gettrainings', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-          email: this.state.user.email,
-          packageid: this.state.pack.packageId
+          email: email
         })
       })
       .then(response => response.json())
@@ -202,6 +205,12 @@ class App extends Component {
       trainingHistoryArr.push(e);
     }
 
+//Loads component to add a new client package for the trainer
+  addPackage = (e) => {
+    //console.log(`addPackage: ${e.target.value}`)
+      this.onRouteChange('packageInputForm');
+    }
+
  //indicates if the history for stats and training sessions has been loaded from the DB
   historyLoaded= (value)=> {
     this.setState({loaded: value})
@@ -215,7 +224,7 @@ class App extends Component {
   }
 
   onTrainerSubmit = (e) => {
-    console.log('admin submit'+ e.target.value );
+    //console.log('admin submit'+ e.target.value );
     fetch('http://localhost:3001/trainergetclient', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
@@ -234,12 +243,6 @@ class App extends Component {
 				}
 			}
 		}).catch(err => {console.log(err)});
-    //Load User information 
-      //create new call to db that doesn't require password
-      //push user info into state
-      //load stats and package info using existing calls
-
-    //Load modified "home" screen with user information
   }
 
 
@@ -249,65 +252,59 @@ class App extends Component {
       this.setState(initialState);
       this.clearArrays(statHistoryArr);
       this.clearArrays(trainingHistoryArr);
-    } else if (route === 'home' || route === 'stats' || route === 'trainer') {
+    } else if (route === 'home' || route === 'stats') {
               this.setState({isSignedIn: true})
+              } else if (route === 'trainer'){
+                this.clearArrays(statHistoryArr);
+                this.clearArrays(trainingHistoryArr);
+                this.setState({isSignedIn: true});
+                this.setState({user: [], pack: [], stats: [], loaded: false});
               }
     this.setState({route: route});
   }
 
   renderOption = (route) => {
-    const {stats, pack, loaded, user} = this.state;
-    const {fName, email, height, isAdmin, isTrainer, trainer} = this.state.user;
-    const { completed, dateStarted, packageId} = this.state.pack;
+    const { stats, pack, loaded, user } = this.state;
+    const { fName, email, height, trainer } = this.state.user;
+    const { packageId, completed, newUser } = this.state.pack;
+    const { isTrainer } = this.state.trainer;
+    const { addSession, onRouteChange, loadUserPack, historyLoaded,
+            getStatsHistory, getTrainingHistory, loadUser, clearArrays, loadTrainer, statAdmin,
+            onTrainerSubmit } = this;
+    
     if(route === 'home'){
-      return /* <div> <Dashboard user={user} pack={pack} stats={stats} loaded = {loaded}/></div>*/  <div className="wrapper">
-                  {(isTrainer) ? <div className="box header headertitle">Trainer Input for {fName}</div> 
-                  : <div className="box header headertitle">{fName}</div> }
-                    <Sidebar stats={stats}/>
-                    <div className="box content">
-                      <PackageInfo
-                        email={email}
-                        pack={pack}
-                        loaded={loaded}
-                        getTrainingHistory={this.getTrainingHistory}
-                        getStatsHistory={this.getStatsHistory}
-                        historyLoaded={this.historyLoaded}
-                        loadUserPack={this.loadUserPack}/>
-
-                    {(!completed ? <TrainingInputForm email={email}
-                        pack={pack}
-                        packagedate={dateStarted}
-                        addSession={this.addSession}
-                        onRouteChange={this.onRouteChange}/> : '')}
-                    </div>
-                    <div className="box footer">
-                      <Footer onRouteChange={this.onRouteChange} isAdmin={isAdmin} />
-                    </div>
-                  </div> 
+      return <div> <Dashboard user={user} pack={pack} stats={stats} loaded = {loaded}
+                              getTrainingHistory={getTrainingHistory}
+                              getStatsHistory={getStatsHistory}
+                              historyLoaded={historyLoaded}
+                              loadUserPack={loadUserPack}
+                              addSession={addSession}
+                              onRouteChange={onRouteChange}
+                              isTrainer={isTrainer} addPackage={this.addPackage}/></div> 
     }
     else if (route === 'stats'){
-      return <div> <Stats statHistory={statHistoryArr}/></div>
+      return <div> <Stats statHistory={statHistoryArr} name={fName}/></div>
     }
     else if (route === 'signout'){
-      return <div><Signin loadUser={ this.loadUser } onRouteChange={this.onRouteChange} 
-                           clearArrays={this.clearArrays} loadTrainer={this.loadTrainer}  /></div>
+      return <div><Signin loadUser={ loadUser } onRouteChange={onRouteChange} 
+                           clearArrays={clearArrays} loadTrainer={loadTrainer}  /></div>
     }
     else if (route === 'register'){
-      return <div><Register loadUser={ this.loadUser } onRouteChange={this.onRouteChange} /></div>
+      return <div><Register loadUser={ loadUser } onRouteChange={onRouteChange} /></div>
     }
     else if (route === 'trainingHistory'){
-      return <div><TrainingHistory packageId={packageId} trainingHistoryArr={trainingHistoryArr} email={email}  getTrainingHistory={this.getTrainingHistory}/></div>
+      return <div><TrainingHistory packageId={packageId} trainingHistoryArr={trainingHistoryArr} email={email} name={fName} getTrainingHistory={getTrainingHistory}/></div>
     }
     else if (route === 'statsInputForm'){
       return <div><StatsInputForm name={fName}  email={email}
-                                  height={height} onRouteChange={this.onRouteChange}
-                                  statAdmin={this.statAdmin}/></div>
+                                  height={height} onRouteChange={onRouteChange}
+                                  statAdmin={statAdmin}/></div>
     }   
     else if (route === 'trainer'){
-      return <div><Trainer history={allUserHistoryArr} onTrainerSubmit={this.onTrainerSubmit}/></div>
+      return <div><Trainer history={allUserHistoryArr} onTrainerSubmit={onTrainerSubmit} /></div>
     }
     else if (route === 'packageInputForm'){
-      return <div><PackageInputForm onStatsInputChange={this.onStatsInputChange}  onStatsButtonSubmit={this.onStatsButtonSubmit}/></div>
+      return <div><PackageInputForm email={email} fName={fName} completed={completed} packageId={packageId} newUser={newUser}/></div>
     }   
     else if (route === 'help') {
       return <div><Help /></div>
@@ -320,14 +317,15 @@ class App extends Component {
   render() {
     const {isSignedIn, route} = this.state;
     const { isTrainer } = this.state.user;
+    const { loadUser, loadTrainer, onRouteChange, clearArrays, renderOption } = this;
     return (
       <div className="App">
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} isTrainer={isTrainer} />
-        {(route !== 'signin' ? this.renderOption(route)
+        <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} isTrainer={isTrainer} />
+        {(route !== 'signin' ? renderOption(route)
         : 
             route === 'signin'
-            ? <Signin loadUser={this.loadUser}  onRouteChange={this.onRouteChange} clearArrays={this.clearArrays} loadTrainer={this.loadTrainer} />
-            : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+            ? <Signin loadUser={loadUser}  onRouteChange={onRouteChange} clearArrays={clearArrays} loadTrainer={loadTrainer} />
+            : <Register loadUser={loadUser} onRouteChange={onRouteChange} />
             )
         }
       </div>
