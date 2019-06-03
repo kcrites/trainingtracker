@@ -37,7 +37,8 @@ componentWillUnmount() {
 }
 
 getClients = () => {
-  console.log('trainer loading: ' + this.state.loading);
+  const { loading } = this.state;
+  console.log('trainer loading: ' + loading);
     if(clientListArr.length === 0) {
       fetch('http://localhost:3001/getclients', {
         method: 'post',
@@ -55,7 +56,7 @@ getClients = () => {
       })
       .then(() => {
         this.setState({loading: true});
-        console.log(`loading state: ${this.state.loading}`);
+        console.log(`loading state: ${loading}`);
           })
       .catch(err => {console.log(err)});
     } else {  //The array is already loaded 
@@ -65,7 +66,7 @@ getClients = () => {
 
   render() {
     const {loading} = this.state;
-    const {onTrainerSubmit} = this.props;
+    const {handleTrainerSubmit} = this.props;
     if(clientListArr.length === 0) {
       return("Your Client List is empty");
     } else{
@@ -89,7 +90,7 @@ getClients = () => {
                     </tr>
                   </thead>
                   <tbody className="lh-copy">
-                  {renderRow(clientListArr, onTrainerSubmit)}
+                  {renderRow(clientListArr, handleTrainerSubmit)}
                   </tbody>
               </table> )}
               </div>  

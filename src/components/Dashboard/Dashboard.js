@@ -7,9 +7,9 @@ import Footer from '../Footer/Footer';
 class Dashboard extends React.Component { 
 
     render() {
-        const { stats, pack, loaded } = this.props;
+        const { stats, pack, loaded, addSession, onRouteChange } = this.props;
         const { fName, email } = this.props.user;
-        const { isTrainer } = this.props;
+        const { isTrainer, emptyPackage, addPackage, loadUserPack, historyLoaded, getStatsHistory, getTrainingHistory } = this.props;
         const { completed, dateStarted } = this.props.pack;
         return (
             <div className="wrapper">
@@ -22,20 +22,21 @@ class Dashboard extends React.Component {
                     pack={pack}
                     loaded={loaded}
                     isTrainer={isTrainer}
-                    getTrainingHistory={this.props.getTrainingHistory}
-                    getStatsHistory={this.props.getStatsHistory}
-                    historyLoaded={this.props.historyLoaded}
-                    loadUserPack={this.props.loadUserPack}
-                    addPackage={this.props.addPackage}/>
+                    getTrainingHistory={getTrainingHistory}
+                    getStatsHistory={getStatsHistory}
+                    historyLoaded={historyLoaded}
+                    loadUserPack={loadUserPack}
+                    addPackage={addPackage}
+                    emptyPackage={emptyPackage}/>
 
             {(!completed ? <TrainingInputForm email={email}
                 pack={pack}
                 packagedate={dateStarted}  //FIX THIS
-                addSession={this.props.addSession}
-                onRouteChange={this.props.onRouteChange}/> : '')}
+                addSession={addSession}
+                onRouteChange={onRouteChange}/> : '')}
             </div>
             <div className="box footer">
-                <Footer onRouteChange={this.props.onRouteChange} isAdmin={isTrainer} />
+                <Footer onRouteChange={onRouteChange} isAdmin={isTrainer} />
             </div>
             </div>
         )

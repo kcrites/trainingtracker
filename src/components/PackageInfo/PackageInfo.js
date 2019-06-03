@@ -27,7 +27,6 @@ loadPackage = () => {
         this.getHistory();
       } else {
 					console.log('Empty package information');
-					//need to load completed to true
 					this.setState({noPackage: true});
 					emptyPackage(true);
 					this.getHistory();
@@ -48,7 +47,7 @@ loadPackage = () => {
 
 render() {
 	const { completed, sessionsLeft, sessionCount, dateStarted} = this.props.pack;
-	const { isTrainer } = this.props;
+	const { isTrainer, email, addPackage } = this.props;
 	const { noPackage } = this.state;
 	let formattedDate;
 	if(!noPackage) {
@@ -75,7 +74,7 @@ render() {
 					<h3>You are out of sessions in your current package</h3>
 					{!isTrainer ? 
 						<p>Contact your trainer to set up a new training package</p> : 
-						<button type='button' value={this.props.email} onClick={this.props.addPackage}>New Package</button>}
+						<button type='button' value={email} onClick={addPackage}>New Package</button>}
 					</article>
 				)}
 				</div>

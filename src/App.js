@@ -207,7 +207,6 @@ class App extends Component {
 
 //Loads component to add a new client package for the trainer
   addPackage = (e) => {
-    //console.log(`addPackage: ${e.target.value}`)
       this.onRouteChange('packageInputForm');
     }
 
@@ -223,7 +222,7 @@ class App extends Component {
     }
   }
 
-  onTrainerSubmit = (e) => {
+  handleTrainerSubmit = (e) => {
     //console.log('admin submit'+ e.target.value );
     fetch('http://localhost:3001/trainergetclient', {
 			method: 'post',
@@ -270,7 +269,7 @@ class App extends Component {
     const { isTrainer } = this.state.trainer;
     const { addSession, onRouteChange, loadUserPack, historyLoaded,
             getStatsHistory, getTrainingHistory, loadUser, clearArrays, loadTrainer, statAdmin,
-            onTrainerSubmit } = this;
+            handleTrainerSubmit } = this;
     
     if(route === 'home'){
       return <div> <Dashboard user={user} pack={pack} stats={stats} loaded = {loaded}
@@ -279,7 +278,7 @@ class App extends Component {
                               historyLoaded={historyLoaded}
                               loadUserPack={loadUserPack}
                               addSession={addSession}
-                              onRouteChange={onRouteChange}
+                              onRouteChange={onRouteChange} emptyPackage={this.emptyPackage}
                               isTrainer={isTrainer} addPackage={this.addPackage}/></div> 
     }
     else if (route === 'stats'){
@@ -293,7 +292,8 @@ class App extends Component {
       return <div><Register loadUser={ loadUser } onRouteChange={onRouteChange} /></div>
     }
     else if (route === 'trainingHistory'){
-      return <div><TrainingHistory packageId={packageId} trainingHistoryArr={trainingHistoryArr} email={email} name={fName} getTrainingHistory={getTrainingHistory}/></div>
+      return <div><TrainingHistory packageId={packageId} trainingHistoryArr={trainingHistoryArr}
+                                  email={email} name={fName} getTrainingHistory={getTrainingHistory}/></div>
     }
     else if (route === 'statsInputForm'){
       return <div><StatsInputForm name={fName}  email={email}
@@ -301,10 +301,11 @@ class App extends Component {
                                   statAdmin={statAdmin}/></div>
     }   
     else if (route === 'trainer'){
-      return <div><Trainer history={allUserHistoryArr} onTrainerSubmit={onTrainerSubmit} /></div>
+      return <div><Trainer history={allUserHistoryArr} handleTrainerSubmit={handleTrainerSubmit} /></div>
     }
     else if (route === 'packageInputForm'){
-      return <div><PackageInputForm email={email} fName={fName} completed={completed} packageId={packageId} newUser={newUser}/></div>
+      return <div><PackageInputForm email={email} fName={fName} completed={completed} packageId={packageId}
+                                    newUser={newUser}/></div>
     }   
     else if (route === 'help') {
       return <div><Help /></div>
@@ -324,7 +325,7 @@ class App extends Component {
         {(route !== 'signin' ? renderOption(route)
         : 
             route === 'signin'
-            ? <Signin loadUser={loadUser}  onRouteChange={onRouteChange} clearArrays={clearArrays} loadTrainer={loadTrainer} />
+            ? <Signin loadUser={loadUser}  onRouteChange={onRouteChange} clearArrays={clearArrays} loadTrainer={loadTrainer}/>
             : <Register loadUser={loadUser} onRouteChange={onRouteChange} />
             )
         }
