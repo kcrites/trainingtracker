@@ -26,7 +26,7 @@ loadPackage = () => {
         loadUserPack(pack);
         this.getHistory();
       } else {
-					console.log('Empty package information');
+					console.log('No Packages in the database');
 					this.setState({noPackage: true});
 					emptyPackage(true);
 					this.getHistory();

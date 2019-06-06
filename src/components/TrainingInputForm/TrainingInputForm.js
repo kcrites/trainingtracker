@@ -13,9 +13,9 @@ class TrainingInputForm extends React.Component {
 		this.setState({sessionDate: event.target.value})
 	}
 
-	onSubmitDate = () => {
+	handleSubmitDate = () => {
 		const { sessionDate } = this.state;
-		const { packagedate, email } = this.props;
+		const { packagedate, email, sessionCount } = this.props;
 		const { packageId} = this.props.pack;
 		fetch('http://localhost:3001/addtraining', {
 			method: 'post',
@@ -35,7 +35,7 @@ class TrainingInputForm extends React.Component {
 			}
 		}).catch(err => {console.log(err)});
 		let newSession = {
-				id: this.props.sessionCount,
+				id: sessionCount,
 				sessiondate: sessionDate,
 				email: email,
 				packageid: packageId,
@@ -78,7 +78,7 @@ class TrainingInputForm extends React.Component {
 			<div className='center'>
 				<div className='pa4 br2 shadow-5 form center'>
 					<input className='f4 pa2 w-70 center' type='date'onChange={this.onDateChange}/>
-					<button className='w-30 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.onSubmitDate}>Submit</button>
+					<button className='w-30 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
 				</div>
 			</div>
 		</div>
