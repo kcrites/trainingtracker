@@ -9,12 +9,13 @@
     bottom: 0;
     margin: auto;
     background-color: rgba(0,0,0, 0.5);
+    z-index: 1;
   }
   .popup_inner {
     position: absolute;
     left: 25%;
     right: 25%;
-    top: 25%;
+    top: 10%;
     bottom: 10%;
     margin: auto;
     padding: 10px 20px;
