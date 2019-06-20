@@ -1,6 +1,7 @@
 import React from 'react';
+import './Popout.css';
 
-class Privacy extends React.Component {
+class Popout extends React.Component {
     render() {
       return (
         <div className='popup'>
@@ -13,4 +14,4 @@ class Privacy extends React.Component {
     }
   }
 
-export default Privacy;
+export default Popout;

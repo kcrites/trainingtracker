@@ -1,6 +1,6 @@
 import React from 'react';
-import Privacy from './Privacy';
-import './Register.css';
+import Popout from '../Popout/Popout';
+
 
 let errorCode = '';
 
@@ -134,7 +134,7 @@ class Register extends React.Component {
 				      	</div>
 						  <div>
 						  {this.state.showPopup ? 
-								<Privacy
+								<Popout
 									text={privacyPolicy}
 									closePopup={this.togglePopup.bind(this)}
 								/>

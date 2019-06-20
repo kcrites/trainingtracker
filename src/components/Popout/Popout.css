@@ -13,11 +13,12 @@
   }
   .popup_inner {
     position: absolute;
-    left: 25%;
-    right: 25%;
+    left: 5%;
+    right:5%;
     top: 10%;
     bottom: 10%;
     margin: auto;
+    overflow: scroll;
     padding: 10px 20px;
     background: white;
   }

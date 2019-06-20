@@ -12,7 +12,7 @@ class PackageInfo extends React.Component {
 		}
 
 loadPackage = () => {
-		const { loadUserPack, emptyPackage, email} = this.props;
+	const { loadUserPack, emptyPackage, email} = this.props;
     fetch('http://localhost:3001/getpackage', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -31,7 +31,7 @@ loadPackage = () => {
 					emptyPackage(true);
 					this.getHistory();
       }
-    }).catch(err => {console.log(err)});
+    }).catch(err => {console.log(`loadPackage Error: ${err}`)});
 	}
 	
 	//Get the stats and training history for the user from the DB
