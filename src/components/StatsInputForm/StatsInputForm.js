@@ -42,7 +42,7 @@ class StatsInputForm extends React.Component {
 		this.setState({statsPercentWater: event.target.value})
 	}
 
-	onSubmitStats = () => {
+	handleSubmitStats = () => {
 		const { name, email, height }  = this.props;
 		const { statsWeight, statsMuscleMass, statsFatLevel, statsBMI, statsVV, statsPercentWater, statsDate} = this.state;
 		fetch('http://localhost:3001/addstats', {
@@ -76,6 +76,12 @@ class StatsInputForm extends React.Component {
 		
 	}
 
+	handleKeyPress = ({ key }) => {
+		if (key === "Enter") {
+		  this.handleSubmitStats();
+		}
+	  }
+
 	render(){
 
 		return (
@@ -103,9 +109,9 @@ class StatsInputForm extends React.Component {
 					<tr><td>   <label>VV</label></td>
 					<td><input className='f4 pa2 w-50 center' name='vv' type='number' step='.1' onChange={this.onVVChange}/></td></tr>
 					<tr><td>   <label>Percent Water</label></td>
-					<td><input className='f4 pa2 w-50 center' name='percentWater'  type='number' step='.1' onChange={this.onPercentWaterChange}/></td></tr>
+					<td><input className='f4 pa2 w-50 center' name='percentWater'  type='number' step='.1' onChange={this.onPercentWaterChange} onKeyDown={this.handleKeyPress}/></td></tr>
 					<tr>
-					<td colSpan="2"><button className='w-100 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.onSubmitStats}>Submit</button></td>
+					<td colSpan="2"><button className='w-100 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitStats} >Submit</button></td>
 					</tr></tbody>
 					</table>
 					</div>

@@ -17,7 +17,13 @@ class Signin extends React.Component {
 		this.setState({signInPassword: event.target.value})
 	}
 
-	onSubmitSignIn = () => {
+	handleKeyPress = ({ key }) => {
+		if (key === "Enter") {
+		  this.handleSubmitSignIn();
+		}
+	  }
+
+	handleSubmitSignIn = () => {
 		const { loadTrainer, loadUser, onRouteChange } = this.props;
 		const { signInEmail, signInPassword } = this.state;
 		fetch('http://localhost:3001/signin', {
@@ -57,12 +63,12 @@ class Signin extends React.Component {
 							      </div>
 							      <div className="mv3">
 							        <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
-							        <input onChange={this.onPasswordChange} className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="password"  id="password"/>
+							        <input onChange={this.onPasswordChange} onKeyDown={this.handleKeyPress} className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="password" name="password"  id="password"/>
 							      </div>
 							     
 							    </fieldset>
 							    <div className="">
-							      <input onClick={this.onSubmitSignIn} className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Sign in"/>
+							      <input onClick={this.handleSubmitSignIn} className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Sign in"/>
 							    </div>
 							    <div className="lh-copy mt3">
 							      <p onClick={() => onRouteChange('register')} className="f6 link dim black db pointer">Register</p>
