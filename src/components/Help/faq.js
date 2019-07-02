@@ -1,21 +1,33 @@
 import React from 'react';
 
 const faq = <div><h2>FAQ</h2>
-<h3>1. Terms</h3>
-<p>By accessing the website at <a href="http://bobsmyuncle.nl">http://bobsmyuncle.nl</a>, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law.</p><h3>2. Use License</h3>
-<ol type="a">
-   <li>Permission is granted to temporarily download one copy of the materials (information or software) on Karve Software's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
-   <ol type="i">
-       <li>modify or copy the materials;</li>
-       <li>use the materials for any commercial purpose, or for any public display (commercial or non-commercial);</li>
-       <li>attempt to decompile or reverse engineer any software contained on Karve Software's website;</li>
-       <li>remove any copyright or other proprietary notations from the materials; or</li>
-       <li>transfer the materials to another person or "mirror" the materials on any other server.</li>
-   </ol>
-    </li>
-   <li>This license shall automatically terminate if you violate any of these restrictions and may be terminated by Karve Software at any time. Upon terminating your viewing of these materials or upon the termination of this license, you must destroy any downloaded materials in your possession whether in electronic or printed format.</li>
-</ol>
-
-</div>
+                <h3>Stats/Measurements</h3>
+                    <ul className="list">
+                        <li className="question">What are stats?
+                            <ul>
+                            <li className="answer">Stats/Measurements are the weekly measurements that you track including weight, muscle mass, viseral fat, fat %, BMI, and water weight.</li>
+                            </ul>
+                        </li>
+                        <li className="question">How do I add stats after a new measurement?
+                            <ul>
+                            <li className="answer">Click on the menu item "Enter Stats." This will take you to a screen allowing you to enter in the new measurements. Click Submit and they will be saved. You can then view your history.</li>
+                            </ul>
+                        </li>
+                        <li className="question">How do I view my stats?
+                            <ul>
+                            <li className="answer">The menu item "User Stats" allows you to see your history. Your most recent measurements are also displayed on the left panel in the home page.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h3>Training Sessions</h3>
+                    <ul className="list">
+                    <li lassName="question">How do I add a new training session?
+                        <ul>
+                            <li>Click on the menu date box on your home page. This will bring up the date selector. Select the date and click "sumbit".</li>
+                           
+                            </ul>
+                        </li>
+                    </ul>
+            </div>
 
 export default faq;
