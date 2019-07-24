@@ -108,6 +108,7 @@ class App extends Component {
 
 //Training Package Information and calculate sessions left (sl)
   loadUserPack = (data) => {
+    console.log("loaduserpack: " + data);
     let sl = data.maxsessions - data.sessioncount;
     let fixed = fixDate(data.datestarted);
     this.setState( {
@@ -132,7 +133,12 @@ class App extends Component {
   }
 
   emptyPackage = (data) => {
-    this.setState({pack: {newUser: data}})
+    this.setState({
+      pack: {
+        newUser: data,
+        packageId: 0,
+        dateStarted: null,
+      }});
   }
   
 //Stats (Measurements) Information ***MOVE THE ARGS INTO STATE IN THE COMPONENT
