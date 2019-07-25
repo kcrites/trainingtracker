@@ -12,8 +12,8 @@ class PackageInfo extends React.Component {
 		}
 
 loadPackage = () => {
-	const { loadUserPack, emptyPackage, email} = this.props;
-    fetch('http://localhost:3001/getpackage', {
+	const { loadUserPack, emptyPackage, email, serverURL} = this.props;
+    fetch(serverURL + 'getpackage', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({

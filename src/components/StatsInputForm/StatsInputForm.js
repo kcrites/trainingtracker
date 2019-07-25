@@ -43,9 +43,9 @@ class StatsInputForm extends React.Component {
 	}
 
 	handleSubmitStats = () => {
-		const { name, email, height }  = this.props;
+		const { name, email, height, serverURL }  = this.props;
 		const { statsWeight, statsMuscleMass, statsFatLevel, statsBMI, statsVV, statsPercentWater, statsDate} = this.state;
-		fetch('http://localhost:3001/addstats', {
+		fetch(serverURL + 'addstats', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({

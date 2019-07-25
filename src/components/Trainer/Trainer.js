@@ -1,7 +1,5 @@
 import React from 'react';
 
-// needs a for loop to only display rows when there is enough data. Should only show sessions for this package.
-
 const renderRow= (array, action) =>{
   return array.map((item, index)  => 
             <tr key={index} className="stripe-dark">
@@ -38,9 +36,10 @@ componentWillUnmount() {
 
 getClients = () => {
   const { loading } = this.state;
-  console.log('trainer loading: ' + loading);
+  const { serverURL } = this.props;
+  //console.log('trainer loading: ' + loading);
     if(clientListArr.length === 0) {
-      fetch('http://localhost:3001/getclients', {
+      fetch(serverURL + 'getclients', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -57,6 +56,7 @@ getClients = () => {
       .then(() => {
         this.setState({loading: true});
         console.log(`loading state: ${loading}`);
+        console.log(clientListArr);
           })
       .catch(err => {console.log(err)});
     } else {  //The array is already loaded 

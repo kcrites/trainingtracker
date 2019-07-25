@@ -24,9 +24,9 @@ class Signin extends React.Component {
 	  }
 
 	handleSubmitSignIn = () => {
-		const { loadTrainer, loadUser, onRouteChange } = this.props;
+		const { loadTrainer, loadUser, onRouteChange, serverURL } = this.props;
 		const { signInEmail, signInPassword } = this.state;
-		fetch('http://localhost:3001/signin', {
+		fetch(serverURL + 'signin', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({

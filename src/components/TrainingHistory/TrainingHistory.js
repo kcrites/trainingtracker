@@ -1,8 +1,6 @@
 
 import React from 'react';
 
-// needs a for loop to only display rows when there is enough data. Should only show sessions for this package.
-
 const fixDate = (array) => {
       array.map((item) => {
       let d1 = new Date(item.sessiondate);

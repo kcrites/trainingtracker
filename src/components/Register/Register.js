@@ -67,8 +67,9 @@ class Register extends React.Component {
 
 	handleSubmitSignIn = () => {
 		const { fName, lName, email, password, height, privacy } = this.state;
+		const { serverURL } = this.props;
 		if(privacy) {
-			fetch('http://localhost:3001/register', {
+			fetch(serverURL + 'register', {
 				method: 'post',
 				headers: {'Content-Type': 'application/json'},
 				body: JSON.stringify({

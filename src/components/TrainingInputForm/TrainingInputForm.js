@@ -15,9 +15,9 @@ class TrainingInputForm extends React.Component {
 
 	handleSubmitDate = () => {
 		const { sessionDate } = this.state;
-		const { packagedate, email, sessionCount } = this.props;
+		const { packagedate, email, sessionCount, serverURL } = this.props;
 		const { packageId} = this.props.pack;
-		fetch('http://localhost:3001/addtraining', {
+		fetch(serverURL + 'addtraining', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
@@ -49,9 +49,9 @@ class TrainingInputForm extends React.Component {
 	}
 
 	updatePackage() {
-		const {  email } = this.props;
+		const {  email, serverURL } = this.props;
 		const { packageId } = this.props.pack;
-			fetch('http://localhost:3001/updatepackage', {
+			fetch(serverURL + 'updatepackage', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({

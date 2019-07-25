@@ -7,7 +7,7 @@ import Footer from '../Footer/Footer';
 class Dashboard extends React.Component { 
 
     render() {
-        const { stats, pack, loaded, addSession, onRouteChange } = this.props;
+        const { stats, pack, loaded, addSession, onRouteChange, serverURL } = this.props;
         const { fName, email } = this.props.user;
         const { isTrainer, emptyPackage, addPackage, loadUserPack, historyLoaded, getStatsHistory, getTrainingHistory } = this.props;
         const { completed, dateStarted } = this.props.pack;
@@ -21,6 +21,7 @@ class Dashboard extends React.Component {
                     email={email}
                     pack={pack}
                     loaded={loaded}
+                    serverURL={serverURL}
                     isTrainer={isTrainer}
                     getTrainingHistory={getTrainingHistory}
                     getStatsHistory={getStatsHistory}
@@ -33,6 +34,7 @@ class Dashboard extends React.Component {
                 pack={pack}
                 packagedate={dateStarted}  //FIX THIS
                 addSession={addSession}
+                serverURL={serverURL}
                 onRouteChange={onRouteChange}/> : '')}
             </div>
             <div className="box footer">

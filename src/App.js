@@ -12,7 +12,7 @@ import TrainerInfo from './components/TrainerInfo/TrainerInfo';
 import Dashboard from './components/Dashboard/Dashboard';
 import './App.css';
 
-
+const serverURL = 'http://localhost:3001/';
 const trainingHistoryArr = [];
 const statHistoryArr = [];
 const allUserHistoryArr = []; //For Admin Panel
@@ -159,7 +159,7 @@ class App extends Component {
   getStatsHistory = () => {
     const { email } = this.state.user;
     if(!this.state.loaded) {
-      fetch('http://localhost:3001/getstats', {
+      fetch(serverURL + 'getstats', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -187,7 +187,7 @@ class App extends Component {
 //Training Session Information
   getTrainingHistory = () => {
     const { email } = this.state.user;
-    fetch('http://localhost:3001/gettrainings', {
+    fetch(serverURL + 'gettrainings', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -230,7 +230,7 @@ class App extends Component {
 
   handleTrainerSubmit = (e) => {
     //console.log('admin submit'+ e.target.value );
-    fetch('http://localhost:3001/trainergetclient', {
+    fetch(serverURL + 'trainergetclient', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
@@ -284,6 +284,7 @@ class App extends Component {
                               historyLoaded={historyLoaded}
                               loadUserPack={loadUserPack}
                               addSession={addSession}
+                              serverURL={serverURL}
                               onRouteChange={onRouteChange} emptyPackage={this.emptyPackage}
                               isTrainer={isTrainer} addPackage={this.addPackage}/></div> 
     }
@@ -292,26 +293,27 @@ class App extends Component {
     }
     else if (route === 'signout'){
       return <div><Signin loadUser={ loadUser } onRouteChange={onRouteChange} 
-                           clearArrays={clearArrays} loadTrainer={loadTrainer}  /></div>
+                           clearArrays={clearArrays} serverURL={serverURL} loadTrainer={loadTrainer}  /></div>
     }
     else if (route === 'register'){
-      return <div><Register loadUser={ loadUser } onRouteChange={onRouteChange} /></div>
+      return <div><Register loadUser={ loadUser } serverURL={serverURL} onRouteChange={onRouteChange} /></div>
     }
     else if (route === 'trainingHistory'){
       return <div><TrainingHistory packageId={packageId} trainingHistoryArr={trainingHistoryArr}
                                   email={email} name={fName} getTrainingHistory={getTrainingHistory}/></div>
     }
     else if (route === 'statsInputForm'){
-      return <div><StatsInputForm name={fName}  email={email}
+      return <div><StatsInputForm name={fName}  email={email} serverURL={serverURL}
                                   height={height} onRouteChange={onRouteChange}
                                   statAdmin={statAdmin}/></div>
     }   
     else if (route === 'trainer'){
-      return <div><Trainer history={allUserHistoryArr} handleTrainerSubmit={handleTrainerSubmit} /></div>
+      return <div><Trainer history={allUserHistoryArr} handleTrainerSubmit={handleTrainerSubmit}
+                                  serverURL={serverURL} /></div>
     }
     else if (route === 'packageInputForm'){
       return <div><PackageInputForm email={email} fName={fName} completed={completed} packageId={packageId}
-                                    newUser={newUser}/></div>
+                                    serverURL={serverURL} newUser={newUser}/></div>
     }   
     else if (route === 'help') {
       return <div><Help /></div>
@@ -331,8 +333,8 @@ class App extends Component {
         {(route !== 'signin' ? renderOption(route)
         : 
             route === 'signin'
-            ? <Signin loadUser={loadUser}  onRouteChange={onRouteChange} clearArrays={clearArrays} loadTrainer={loadTrainer}/>
-            : <Register loadUser={loadUser} onRouteChange={onRouteChange} />
+            ? <Signin loadUser={loadUser}  onRouteChange={onRouteChange} clearArrays={clearArrays} serverURL={serverURL} loadTrainer={loadTrainer}/>
+            : <Register loadUser={loadUser} serverURL={serverURL} onRouteChange={onRouteChange} />
             )
         }
       </div>
