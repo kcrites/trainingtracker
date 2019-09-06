@@ -1,6 +1,8 @@
 
 import React from 'react';
-import UpImage from './UpImage';
+//import UpImage from './UpImage';
+//import DownImage from './DownImage';
+//import EqualImage from './EqualImage';
 
 
 
@@ -19,12 +21,12 @@ const renderRow= (array, indicator) =>{
             <tr key={index} className="stripe-dark">
             <td className="pa3">{index+1}</td>
               <td className="pa3">{item.statsdate}</td>
-              <td className="pa3">{item.weight}{(index === i )? <UpImage/>: ''}</td>
-              <td className="pa3">{item.musclemass}{(index === i )? indicator.musclemass : ''}</td>
-              <td className="pa3">{item.fatlevel}{(index === i )? indicator.fatlevel : ''}</td>
-              <td className="pa3">{item.bmi}{(index === i )? indicator.bmi : ''}</td>
-              <td className="pa3">{item.vv}{(index === i )? indicator.vv : ''}</td>
-              <td className="pa3">{item.percentwater}{(index === i )? indicator.percentwater : ''}</td>
+              <td className="pa3">{item.weight}{(index === i )? indicator.weight[1] : ''}</td>
+              <td className="pa3">{item.musclemass}{(index === i )? indicator.musclemass[1] : ''}</td>
+              <td className="pa3">{item.fatlevel}{(index === i )? indicator.fatlevel[1] : ''}</td>
+              <td className="pa3">{item.bmi}{(index === i )? indicator.bmi[1] : ''}</td>
+              <td className="pa3">{item.vv}{(index === i )? indicator.vv[1]: ''}</td>
+              <td className="pa3">{item.percentwater}{(index === i )? indicator.percentwater[1] : ''}</td>
             </tr>
     );
 }

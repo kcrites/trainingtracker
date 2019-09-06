@@ -11,6 +11,9 @@ import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
 import Dashboard from './components/Dashboard/Dashboard';
 import './App.css';
+import UpImage from './components/Stats/UpImage';
+import DownImage from './components/Stats/DownImage';
+import EqualImage from './components/Stats/EqualImage';
 
 const serverURL = 'http://localhost:3001/';
 const trainingHistoryArr = [];
@@ -244,15 +247,27 @@ class App extends Component {
     results[4] = this.checkStats(array[x-1].vv, array[x-2].vv, 'vv');
     results[5] = this.checkStats(array[x-1].percentwater, array[x-2].percentwater, 'percentwater');
    
+
+
     this.setState({indicator:{
-      weight : results[0],
-      musclemass : results[1],
-      fatlevel : results[2],
-      bmi : results[3],
-      vv : results[4],
-      percentwater : results[5]
+      weight : [results[0], this.imagePicker(results[0]) ],
+      musclemass : [results[1],this.imagePicker(results[1])],
+      fatlevel : [results[2], this.imagePicker(results[2])],
+      bmi : [results[3], this.imagePicker(results[3])],
+      vv : [results[4], this.imagePicker(results[4])],
+      percentwater : [results[5], this.imagePicker(results[5])],
      }});
     
+ }
+
+ imagePicker(item) {
+   if(item === 'up') {
+     return <UpImage/>
+   } else if (item === 'equal') {
+     return <EqualImage/>
+   } else if(item === 'down'){
+     return <DownImage/>
+   } else return " "
  }
  
   checkStats = (newStat, lastStat, stat) => {
