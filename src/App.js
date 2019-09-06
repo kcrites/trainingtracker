@@ -11,8 +11,10 @@ import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
 import Dashboard from './components/Dashboard/Dashboard';
 import './App.css';
-import UpImage from './components/Stats/UpImage';
-import DownImage from './components/Stats/DownImage';
+import UpGreenImage from './components/Stats/UpGreenImage';
+import UpRedImage from './components/Stats/UpRedImage';
+import DownGreenImage from './components/Stats/DownGreenImage';
+import DownRedImage from './components/Stats/DownRedImage';
 import EqualImage from './components/Stats/EqualImage';
 
 const serverURL = 'http://localhost:3001/';
@@ -247,26 +249,24 @@ class App extends Component {
     results[4] = this.checkStats(array[x-1].vv, array[x-2].vv, 'vv');
     results[5] = this.checkStats(array[x-1].percentwater, array[x-2].percentwater, 'percentwater');
    
-
-
     this.setState({indicator:{
-      weight : [results[0], this.imagePicker(results[0]) ],
-      musclemass : [results[1],this.imagePicker(results[1])],
-      fatlevel : [results[2], this.imagePicker(results[2])],
-      bmi : [results[3], this.imagePicker(results[3])],
-      vv : [results[4], this.imagePicker(results[4])],
-      percentwater : [results[5], this.imagePicker(results[5])],
+      weight : [results[0], this.imagePicker(results[0], false) ],
+      musclemass : [results[1],this.imagePicker(results[1],true)],
+      fatlevel : [results[2], this.imagePicker(results[2], false)],
+      bmi : [results[3], this.imagePicker(results[3], false)],
+      vv : [results[4], this.imagePicker(results[4], false)],
+      percentwater : [results[5], this.imagePicker(results[5], true)],
      }});
     
  }
 
- imagePicker(item) {
+ imagePicker(item, arrowType) {
    if(item === 'up') {
-     return <UpImage/>
+     return arrowType ? <UpGreenImage/> : <UpRedImage/>
    } else if (item === 'equal') {
      return <EqualImage/>
    } else if(item === 'down'){
-     return <DownImage/>
+     return arrowType ? <DownRedImage/> : <DownGreenImage/>
    } else return " "
  }
  

@@ -1,11 +1,11 @@
 import React from 'react';
 
-var DownImage = (props) => {
-  const localPath = require("../Logo/down.png");
+var UpRedImage = (props) => {
+  const localPath = require("../Logo/upred.png");
   
     return (
       <img src={localPath} alt="Up" width="12px"/>
     );
   }
 
-export default DownImage;
+export default UpRedImage;
