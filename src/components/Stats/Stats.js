@@ -1,5 +1,7 @@
 
 import React from 'react';
+import UpImage from './UpImage';
+
 
 
 const fixDate = (array) => {
@@ -10,18 +12,19 @@ const fixDate = (array) => {
   })
 }
 
-const renderRow= (array) =>{
+const renderRow= (array, indicator) =>{
     fixDate(array);
+    let i = array.length-1;
   return array.map((item, index)  => 
             <tr key={index} className="stripe-dark">
             <td className="pa3">{index+1}</td>
               <td className="pa3">{item.statsdate}</td>
-              <td className="pa3">{item.weight}</td>
-              <td className="pa3">{item.musclemass}</td>
-              <td className="pa3">{item.fatlevel}</td>
-              <td className="pa3">{item.bmi}</td>
-              <td className="pa3">{item.vv}</td>
-              <td className="pa3">{item.percentwater}</td>
+              <td className="pa3">{item.weight}{(index === i )? <UpImage/>: ''}</td>
+              <td className="pa3">{item.musclemass}{(index === i )? indicator.musclemass : ''}</td>
+              <td className="pa3">{item.fatlevel}{(index === i )? indicator.fatlevel : ''}</td>
+              <td className="pa3">{item.bmi}{(index === i )? indicator.bmi : ''}</td>
+              <td className="pa3">{item.vv}{(index === i )? indicator.vv : ''}</td>
+              <td className="pa3">{item.percentwater}{(index === i )? indicator.percentwater : ''}</td>
             </tr>
     );
 }
@@ -37,10 +40,11 @@ class Stats extends React.Component {
   }
 
 componentWillMount(){
+  
 }
 
 render() {
-  const {statHistory, name} = this.props;
+  const {statHistory, name, indicator} = this.props;
   if(statHistory.length === 0) {
     return("Your history is empty");
   } else{
@@ -63,7 +67,7 @@ render() {
               </tr>
             </thead>
             <tbody className="lh-copy">
-              {renderRow(statHistory)}
+              {renderRow(statHistory, indicator)}
 
             </tbody>
           </table>
@@ -75,3 +79,4 @@ render() {
 }
 
 export default Stats;
+

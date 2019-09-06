@@ -68,8 +68,8 @@ class StatsInputForm extends React.Component {
 			let tempD = d.toLocaleDateString();
 				this.props.statAdmin(tempD, statsWeight, statsMuscleMass, statsFatLevel, 
 					statsBMI, statsVV, statsPercentWater);
-					console.log(tempD, this.state.statsWeight, this.state.statsMuscleMass, this.state.statsFatLevel, 
-						this.state.statsBMI, this.state.statsVV, this.state.statsPercentWater);
+					//console.log(tempD, this.state.statsWeight, this.state.statsMuscleMass, this.state.statsFatLevel, 
+					//	this.state.statsBMI, this.state.statsVV, this.state.statsPercentWater);
 				this.props.onRouteChange('stats');
 			}
 		})

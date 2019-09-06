@@ -15,7 +15,7 @@ import './App.css';
 const serverURL = 'http://localhost:3001/';
 const trainingHistoryArr = [];
 const statHistoryArr = [];
-const allUserHistoryArr = []; //For Admin Panel
+const allUserHistoryArr = []; //For Trainer Panel
 const fixDate = (olddate) => {
       let d = new Date(olddate);
       let newdate = d.toLocaleDateString();
@@ -64,6 +64,16 @@ const initialState = {
       fName: null,
       email: null,
       isTrainer: false
+    },
+    indicator :
+    {
+      weight: null,
+      musclemass: null,
+      bmi: null,
+      fatlevel : null,
+      percentwater : null,
+      vv : null
+
     }
   }
 
@@ -154,6 +164,7 @@ class App extends Component {
       vv: vv,
       percentwater: percentwater,
       id: statHistoryArr.length-1});
+       
   } 
 
   getStatsHistory = () => {
@@ -171,6 +182,8 @@ class App extends Component {
         if(s.length > 0){
           s.forEach(e => {statHistoryArr.push(e)});
           this.loadLastStat(statHistoryArr[statHistoryArr.length-1]);
+          this.statIndicator(statHistoryArr);
+          console.log(`stats array: ${statHistoryArr[statHistoryArr.length-1]}`);
           //set state and put last element of array into state for display
         } else {
             //the stats history table is empty. What to do then?
@@ -217,8 +230,44 @@ class App extends Component {
     }
 
  //indicates if the history for stats and training sessions has been loaded from the DB
-  historyLoaded= (value)=> {
+  historyLoaded = (value) => {
     this.setState({loaded: value})
+  }
+
+ statIndicator = (array) => {
+    let x = array.length; 
+    let results = [];
+    results[0] = this.checkStats(array[x-1].weight, array[x-2].weight, "weight");
+    results[1] = this.checkStats(array[x-1].musclemass, array[x-2].musclemass, 'musclemass');
+    results[2] = this.checkStats(array[x-1].fatlevel, array[x-2].fatlevel, 'fatlevel');
+    results[3] = this.checkStats(array[x-1].bmi, array[x-2].bmi, 'bmi');
+    results[4] = this.checkStats(array[x-1].vv, array[x-2].vv, 'vv');
+    results[5] = this.checkStats(array[x-1].percentwater, array[x-2].percentwater, 'percentwater');
+   
+    this.setState({indicator:{
+      weight : results[0],
+      musclemass : results[1],
+      fatlevel : results[2],
+      bmi : results[3],
+      vv : results[4],
+      percentwater : results[5]
+     }});
+    
+ }
+ 
+  checkStats = (newStat, lastStat, stat) => {
+    let i = null;
+    newStat = parseFloat(newStat);
+    lastStat = parseFloat(lastStat);
+  
+    if(newStat > lastStat) {
+      i = "up";
+    } else if(newStat === lastStat){
+      i = 'equal';
+    } else if(newStat < lastStat){
+      i = "down";
+    }
+   return i;
   }
 
   //clear the temp arrays when signing out
@@ -269,7 +318,7 @@ class App extends Component {
   }
 
   renderOption = (route) => {
-    const { stats, pack, loaded, user } = this.state;
+    const { stats, pack, loaded, user, indicator } = this.state;
     const { fName, email, height, trainer } = this.state.user;
     const { packageId, completed, newUser } = this.state.pack;
     const { isTrainer } = this.state.trainer;
@@ -289,7 +338,7 @@ class App extends Component {
                               isTrainer={isTrainer} addPackage={this.addPackage}/></div> 
     }
     else if (route === 'stats'){
-      return <div> <Stats statHistory={statHistoryArr} name={fName}/></div>
+      return <div> <Stats statHistory={statHistoryArr} name={fName} indicator={indicator}/></div>
     }
     else if (route === 'signout'){
       return <div><Signin loadUser={ loadUser } onRouteChange={onRouteChange} 
