@@ -11,11 +11,7 @@ import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
 import Dashboard from './components/Dashboard/Dashboard';
 import './App.css';
-import UpGreenImage from './components/Stats/UpGreenImage';
-import UpRedImage from './components/Stats/UpRedImage';
-import DownGreenImage from './components/Stats/DownGreenImage';
-import DownRedImage from './components/Stats/DownRedImage';
-import EqualImage from './components/Stats/EqualImage';
+import ArrowImage from './components/Stats/ArrowImage';
 
 const serverURL = 'http://localhost:3001/';
 const trainingHistoryArr = [];
@@ -156,7 +152,8 @@ class App extends Component {
       }});
   }
   
-//Stats (Measurements) Information ***MOVE THE ARGS INTO STATE IN THE COMPONENT
+// Stats (Measurements) Information ***MOVE THE ARGS INTO STATE IN THE COMPONENT
+// Called when a new set of measurements/statistics are entered
   statAdmin = (statsdate, weight, musclemass, fatlevel, bmi, vv, percentwater) => {
     this.getStatsHistory();
     this.loadLastStat({statsdate, weight, musclemass, fatlevel, bmi, vv, percentwater});
@@ -239,7 +236,9 @@ class App extends Component {
     this.setState({loaded: value})
   }
 
- statIndicator = (array) => {
+  // Provides images to indicate if the current stats are more, less, or equal to the previous 
+  // measurements. This is called when the user is logging in so that the indicators are stored in state.
+  statIndicator = (array) => {
     let x = array.length; 
     let results = [];
     results[0] = this.checkStats(array[x-1].weight, array[x-2].weight, "weight");
@@ -260,17 +259,19 @@ class App extends Component {
     
  }
 
+ // Logic to determine which image to place in state for the indicators
  imagePicker(item, arrowType) {
    if(item === 'up') {
-     return arrowType ? <UpGreenImage/> : <UpRedImage/>
+     return arrowType ? <ArrowImage arrow="upgreen"/> : <ArrowImage arrow="upred"/>
    } else if (item === 'equal') {
-     return <EqualImage/>
+     return <ArrowImage arrow="equal"/> 
    } else if(item === 'down'){
-     return arrowType ? <DownRedImage/> : <DownGreenImage/>
+     return arrowType ? <ArrowImage arrow="downred"/>  : <ArrowImage arrow="downgreen"/> 
    } else return " "
  }
  
-  checkStats = (newStat, lastStat, stat) => {
+ // Logic to determine if current stat is more, less or equal to the previous stat
+ checkStats = (newStat, lastStat, stat) => {
     let i = null;
     newStat = parseFloat(newStat);
     lastStat = parseFloat(lastStat);

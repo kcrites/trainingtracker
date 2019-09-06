@@ -1,10 +1,4 @@
-
 import React from 'react';
-//import UpImage from './UpImage';
-//import DownImage from './DownImage';
-//import EqualImage from './EqualImage';
-
-
 
 const fixDate = (array) => {
       array.map((item) => {
