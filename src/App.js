@@ -241,49 +241,40 @@ class App extends Component {
   statIndicator = (array) => {
     let x = array.length; 
     let results = [];
-    results[0] = this.checkStats(array[x-1].weight, array[x-2].weight, "weight");
-    results[1] = this.checkStats(array[x-1].musclemass, array[x-2].musclemass, 'musclemass');
-    results[2] = this.checkStats(array[x-1].fatlevel, array[x-2].fatlevel, 'fatlevel');
-    results[3] = this.checkStats(array[x-1].bmi, array[x-2].bmi, 'bmi');
-    results[4] = this.checkStats(array[x-1].vv, array[x-2].vv, 'vv');
-    results[5] = this.checkStats(array[x-1].percentwater, array[x-2].percentwater, 'percentwater');
+    results[0] = this.checkStats(array[x-1].weight, array[x-2].weight, false);
+    results[1] = this.checkStats(array[x-1].musclemass, array[x-2].musclemass, true);
+    results[2] = this.checkStats(array[x-1].fatlevel, array[x-2].fatlevel, false);
+    results[3] = this.checkStats(array[x-1].bmi, array[x-2].bmi, false);
+    results[4] = this.checkStats(array[x-1].vv, array[x-2].vv, false);
+    results[5] = this.checkStats(array[x-1].percentwater, array[x-2].percentwater, true);
    
     this.setState({indicator:{
-      weight : [results[0], this.imagePicker(results[0], false) ],
-      musclemass : [results[1],this.imagePicker(results[1],true)],
-      fatlevel : [results[2], this.imagePicker(results[2], false)],
-      bmi : [results[3], this.imagePicker(results[3], false)],
-      vv : [results[4], this.imagePicker(results[4], false)],
-      percentwater : [results[5], this.imagePicker(results[5], true)],
+      weight : results[0],
+      musclemass : results[1],
+      fatlevel : results[2],
+      bmi : results[3],
+      vv : results[4],
+      percentwater : results[5],
      }});
     
  }
-
- // Logic to determine which image to place in state for the indicators
- imagePicker(item, arrowType) {
-   if(item === 'up') {
-     return arrowType ? <ArrowImage arrow="upgreen"/> : <ArrowImage arrow="upred"/>
-   } else if (item === 'equal') {
-     return <ArrowImage arrow="equal"/> 
-   } else if(item === 'down'){
-     return arrowType ? <ArrowImage arrow="downred"/>  : <ArrowImage arrow="downgreen"/> 
-   } else return " "
- }
  
  // Logic to determine if current stat is more, less or equal to the previous stat
- checkStats = (newStat, lastStat, stat) => {
-    let i = null;
+ checkStats = (newStat, lastStat, arrowMeaning) => {
     newStat = parseFloat(newStat);
     lastStat = parseFloat(lastStat);
   
     if(newStat > lastStat) {
-      i = "up";
+      //"up";
+      return arrowMeaning ? <ArrowImage arrow="upgreen"/> : <ArrowImage arrow="upred"/>
     } else if(newStat === lastStat){
-      i = 'equal';
+      //'equal';
+      return <ArrowImage arrow="equal"/> 
     } else if(newStat < lastStat){
-      i = "down";
-    }
-   return i;
+      // "down";
+      return arrowMeaning ? <ArrowImage arrow="downred"/>  : <ArrowImage arrow="downgreen"/> 
+    } else return " ";
+   
   }
 
   //clear the temp arrays when signing out
