@@ -27,45 +27,21 @@ class Workout extends React.Component {
 		this.setState({trainingDate: event.target.value})
 	}
 
-	handleEx1Change = (event) => {
-        let temp = this.state.exercise1;
+	handleExChange = (event) => {
+        let name = event.target.name;
+        let temp = this.state[name];
         temp[0] = event.target.value;
-		this.setState({exercise1: temp});
+		this.setState({[name]: temp})
     }
     
-    handleEx1Group = (event) => {
-        let temp = this.state.exercise1;
+    handleExGroup = (event) => {
+        let name = event.target.name;
+        name = name.substring(1);
+        let temp = this.state[name];
         temp[1] = event.target.value;
-        this.setState({exercise1: temp});
+        this.setState({[name]: temp});
     }
 
-	handleEx2Change = (event) => {
-        let temp = this.state.exercise2;
-        temp[0] = event.target.value;
-		this.setState({exercise2: temp});
-    }
-    
-    handleEx2Group = (event) => {
-        let temp = this.state.exercise2;
-        temp[1] = event.target.value;
-        this.setState({exercise2: temp});
-    }
-
-	onEx3Change = (event) => {
-		this.setState({exercise3: event.target.value})
-	}
-
-	onEx4Change = (event) => {
-		this.setState({exercise4: event.target.value})
-	}
-
-	onEx5Change = (event) => {
-		this.setState({exercise4: event.target.value})
-	}
-
-	onEx6Change = (event) => {
-		this.setState({exercise6: event.target.value})
-	}
 
 	handleSubmitWorkout = () => {
 		const { email }  = this.props;
@@ -122,24 +98,24 @@ class Workout extends React.Component {
 					 <td>Groups</td>
                      </tr>
 					 <tr><td>   <label>Exercise 1</label></td>
-					    <td><input className='f4 pa2 w-250 center' name='exercise1' type='text' onChange={this.handleEx1Change} /></td><td><Groups number={'1'} handleFunction={this.handleEx1Group}/></td>
+					    <td><input className='f4 pa2 w-250 center' name='exercise1' type='text' onChange={this.handleExChange} /></td><td><Groups number={'1'} handleFunction={this.handleEx1roup}/></td>
 					</tr>
 					<tr><td>   <label>Exercise 2</label></td>
-					    <td><input className='f4 pa2 w-250 center' name='exercise2' type='text' onChange={this.handleEx2Change} /></td><td><Groups number={'2'} handleFunction={this.handleEx2Group}/></td></tr>
+					    <td><input className='f4 pa2 w-250 center' name='exercise2' type='text' onChange={this.handleExChange} /></td><td><Groups number={'2'} handleFunction={this.handleExGroup}/></td></tr>
 					<tr><td>   <label>Exercise 3</label></td>
-					    <td><input className='f4 pa2 w-250 center' name='exercise3' type='text' onChange={this.onEx3Change} /></td><td><Groups number={'3'}/></td></tr>
+					    <td><input className='f4 pa2 w-250 center' name='exercise3' type='text' onChange={this.handleExChange} /></td><td><Groups number={'3'} handleFunction={this.handleExGroup}/></td></tr>
 					<tr><td>   <label>Exercise 4</label></td>
-					    <td><input className='f4 pa2 w-250 center' name='exercise4' type='text' onChange={this.onEx4Change} /></td><td><Groups number={'4'}/></td></tr>
+					    <td><input className='f4 pa2 w-250 center' name='exercise4' type='text' onChange={this.handleExChange} /></td><td><Groups number={'4'} handleFunction={this.handleExGroup}/></td></tr>
 					<tr><td>   <label>Exercise 5</label></td>
-					    <td><input className='f4 pa2 w-250 center' name='exercise5' type='text' onChange={this.onEx5Change} /></td><td><Groups number={'5'}/></td></tr>
+					    <td><input className='f4 pa2 w-250 center' name='exercise5' type='text' onChange={this.handleExChange} /></td><td><Groups number={'5'} handleFunction={this.handleExGroup}/></td></tr>
 					<tr><td>   <label>Exercise 6</label></td>
-					    <td><input className='f4 pa2 w-250 center' name='exercise6' type='text' onChange={this.onEx6Change} /></td><td><Groups number={'6'}/></td></tr>
+					    <td><input className='f4 pa2 w-250 center' name='exercise6' type='text' onChange={this.handleExChange} /></td><td><Groups number={'6'} handleFunction={this.handleExGroup}/></td></tr>
                     <tr><td><label>Exercise 7</label></td>
-                     <td><input className='f4 pa2 w-250 center' name='exercise7' type='text' onChange={this.onEx7Change} /></td><td><Groups number={'7'}/></td></tr>
+                     <td><input className='f4 pa2 w-250 center' name='exercise7' type='text' onChange={this.hndleExChange} /></td><td><Groups number={'7'} handleFunction={this.handleExGroup}/></td></tr>
                     <tr><td>   <label>Exercise 8</label></td>
-                      <td><input className='f4 pa2 w-250 center' name='exercise8' type='text' onChange={this.onEx8Change} /></td><td><Groups number={'8'}/></td></tr>
+                      <td><input className='f4 pa2 w-250 center' name='exercise8' type='text' onChange={this.handleExChange} /></td><td><Groups number={'8'} handleFunction={this.handleExGroup}/></td></tr>
                     <tr><td>   <label>Exercise 9</label></td>
-                     <td><input className='f4 pa2 w-250 center' name='exercise9' type='text' onChange={this.onEx9Change} onKeyDown={this.handleKeyPress}/></td><td><Groups number={'9'}/></td></tr>
+                     <td><input className='f4 pa2 w-250 center' name='exercise9' type='text' onChange={this.handleExChange} onKeyDown={this.handleKeyPress}/></td><td><Groups number={'9'} handleFunction={this.handleExGroup}/></td></tr>
 
                     <tr>
 					<td colSpan="2"><button className='w-100 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitWorkout} >Submit</button></td>

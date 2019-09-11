@@ -15,8 +15,8 @@ class TrainingInputForm extends React.Component {
 
 	handleSubmitDate = () => {
 		const { sessionDate } = this.state;
-		const { packagedate, email, sessionCount, serverURL } = this.props;
-		const { packageId} = this.props.pack;
+		//const { packagedate, email, sessionCount, serverURL } = this.props;
+		//const { packageId} = this.props.pack;
 	/*	fetch(serverURL + 'addtraining', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},

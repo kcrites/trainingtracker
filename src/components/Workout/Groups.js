@@ -2,7 +2,7 @@ import React from 'react';
 
 const Groups = (props) => {
 
-    let groupID = 'group' + props.number;
+    let groupID = 'gexercise' + props.number;
 
 return (
     <select name={groupID} onChange={props.handleFunction}>
