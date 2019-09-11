@@ -10,6 +10,7 @@ import PackageInputForm from './components/PackageInputForm/PackageInputForm';
 import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
 import Dashboard from './components/Dashboard/Dashboard';
+import Workout from './components/Workout/Workout';
 import './App.css';
 import ArrowImage from './components/Stats/ArrowImage';
 
@@ -28,7 +29,8 @@ const initialState = {
     input: '',     
     route: 'signin',
     isSignedIn: false,
-    loaded: false,   
+    loaded: false,  
+    trainingDateSelected: '', 
     user: {
       id: '',
       fName: '',
@@ -231,6 +233,10 @@ class App extends Component {
       this.onRouteChange('packageInputForm');
     }
 
+  workoutDate = (d) => {
+    this.setState({trainingDateSelected: d});
+  }
+
  //indicates if the history for stats and training sessions has been loaded from the DB
   historyLoaded = (value) => {
     this.setState({loaded: value})
@@ -339,6 +345,8 @@ class App extends Component {
                               getStatsHistory={getStatsHistory}
                               historyLoaded={historyLoaded}
                               loadUserPack={loadUserPack}
+                              workoutDate={this.workoutDate}
+                              trainingDateSelected={this.state.trainingDateSelected}
                               addSession={addSession}
                               serverURL={serverURL}
                               onRouteChange={onRouteChange} emptyPackage={this.emptyPackage}
@@ -376,6 +384,10 @@ class App extends Component {
     }
     else if (route === 'trainerinfo') {
       return <div><TrainerInfo trainer={trainer}/></div>
+    }
+    else if(route === 'workout'){
+      return <div><Workout trainingDateSelected={this.state.trainingDateSelected} email={email} 
+                            fName={fName} /></div>
     }
   }
 

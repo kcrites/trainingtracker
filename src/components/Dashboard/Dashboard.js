@@ -35,6 +35,8 @@ class Dashboard extends React.Component {
                 packagedate={dateStarted}  //FIX THIS
                 addSession={addSession}
                 serverURL={serverURL}
+                workoutDate={this.props.workoutDate}
+                trainingDateSelected={this.props.trainingDateSelected}
                 onRouteChange={onRouteChange}/> : '')}
             </div>
             <div className="box footer">

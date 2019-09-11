@@ -1,6 +1,6 @@
 import React from 'react';
 
-var ArrowImage = (props) => {
+const ArrowImage = (props) => {
   const localPath = require("../Logo/" + props.arrow + ".png");
   
     return (
