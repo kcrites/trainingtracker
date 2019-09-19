@@ -1,6 +1,8 @@
 import React from 'react';
 import Groups from './Groups';
 
+//var sortedUniq = require('./lodash.sorteduniq');
+
 class Workout extends React.Component {
 	constructor(props){
 		super(props);
@@ -14,7 +16,9 @@ class Workout extends React.Component {
             exercise7: [],
             exercise8: [],
             exercise9: [],
-			trainingDate: ''
+            counter: 9,
+            trainingDate: '',
+            distinctGroups: [],
             }
             this.dateToState(this.props.trainingDateSelected);
         }
@@ -23,7 +27,7 @@ class Workout extends React.Component {
         this.setState({trainingDate: originalDate})
     }
 
-	onDateChange = (event) => {
+	handleDateChange = (event) => {
 		this.setState({trainingDate: event.target.value})
 	}
 
@@ -42,23 +46,23 @@ class Workout extends React.Component {
         this.setState({[name]: temp});
     }
 
+    manageGroups = (tempArray) => {
+        //sortedUniq(tempArray);
+        this.setState({distinctGroups: tempArray});
+        
+        console.log(`tempArray of Groups: ${tempArray}`);
+    }
 
 	handleSubmitWorkout = () => {
 		const { email }  = this.props;
-		const { exercise1, exercise2, exercise3, exercise4, exercise5, exercise6, trainingDate} = this.state;
-		/*fetch(serverURL + 'addstats', {
+		const { exercise1, exercise2, exercise3, exercise4, exercise5, exercise6, trainingDate, distinctGroup} = this.state;
+		/*fetch(serverURL + 'addworkout', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
-				email: email,
-				height: height,
-				weight: statsWeight,
-				musclemass: statsMuscleMass,
-				fatlevel: statsFatLevel,
-				bmi: statsBMI,
-				vv: statsVV,
-				percentwater: statsPercentWater,
-				statsdate: statsDate
+                email: email,
+                trainingdate: trainingDate
+
 			})
 		})
 		.then(response => response.json())
@@ -71,9 +75,13 @@ class Workout extends React.Component {
 
 				this.props.onRouteChange('stats');
 			}
-		}) */
+        }) */
+       // this.manageGroups(this.state.distinctGroups);
+       // this.props.storeWorkout(this.state);
+        this.props.onRouteChange('showWorkout');
 		console.log(`${trainingDate}, ${email}, ${exercise1}, ${exercise2}, ${exercise3}, ${exercise4}, ${exercise5}, ${exercise6}`)
-	}
+        
+    }
 
 	handleKeyPress = ({ key }) => {
 		if (key === "Enter") {
@@ -86,7 +94,7 @@ class Workout extends React.Component {
 		return (
 			<div>
 				<p className='f3'>
-					{this.props.fName + ': Workout Planner for ' + this.props.trainingDateSelected}
+					{'Workout Planner for '+ this.props.fName + ' on ' + this.props.trainingDateSelected}
 				</p>
 				<div className='center'>
 					<div className='pa4 br2 shadow-5 center'>
@@ -94,7 +102,7 @@ class Workout extends React.Component {
 					<tbody>
 					<tr>
 					<td><label>Date</label></td>
-					 <td><input className='f4 pa2 w-240 center' name='date' value={this.props.trainingDateSelected} type='date'onChange={this.onDateChange}/></td>
+					 <td><input className='f4 pa2 w-240 center' name='date' value={this.props.trainingDateSelected} type='date'onChange={this.handleDateChange}/></td>
 					 <td>Groups</td>
                      </tr>
 					 <tr><td>   <label>Exercise 1</label></td>
