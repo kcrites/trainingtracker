@@ -1,8 +1,9 @@
 import React from 'react';
 
+// format of input data is [[group, concat strings of exercises], ]
+// array[][]
+
 const renderGroups = (array) =>{
-   // fixDate(array);
-    let i = array.length-1;
   return array.map((item, index)  => 
             <div>
                 <tr key={index} className="stripe-dark center">
@@ -13,34 +14,44 @@ const renderGroups = (array) =>{
     );
 }
 
+const fixDate = (datetofix) => {
+    
+    let d = new Date(datetofix);
+    return d.toLocaleDateString(('en-GB'));
+}
 
+let fixedDate;
 
 class ShowWorkout extends React.Component {
     
       constructor(props){
         super(props);
         this.state = {
-          history: []
+          history: [],
+          
         };
       }
     
     componentWillMount(){
       //const distinctGroups = this.props.distinctGroups;
+      fixedDate = fixDate(this.props.dateSelected);
+      console.log("array: " + this.props.workout[0][1]);
     }
     
     render() {
-      const {workout} = this.props;
+      const { workout, fName } = this.props;
+      
       if(workout.length === 0) {
         return("Your Workout Plan is empty");
       } else{
     
         return (
     
-          <div className="pa4"><p>Workout Plan for name</p>
+          <div className="pa4"><p>Workout Plan for {fName}</p>
             <div className="overflow-auto center">      
               <table className="f6 w-100 mw8 " cellSpacing="0">
                 <thead>
-                <tr><td className="b h2">Date of Plan</td></tr>
+                <tr><td className="b h2">{fixedDate}</td></tr>
                   <tr className="stripe-dark">
                   </tr>
                 </thead>

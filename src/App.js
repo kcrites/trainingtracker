@@ -11,7 +11,6 @@ import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
 import Dashboard from './components/Dashboard/Dashboard';
 import Workout from './components/Workout/Workout';
-import ShowWorkout from './components/Workout/ShowWorkout'
 import './App.css';
 import ArrowImage from './components/Stats/ArrowImage';
 
@@ -24,12 +23,6 @@ const fixDate = (olddate) => {
       let newdate = d.toLocaleDateString();
       return newdate;
 }
-
-let tempWorkout = [
-  [1, "exercise 1.1, exercise 1.2, exercise 1.3"],
-  [2, "exercise 2.1, exercise 2.2, exercise 2.3"],
-  [3, "exercise 3.1, exercise 3.2, exercise 3.3"],
-];
 
 const initialState = {
   
@@ -395,9 +388,6 @@ class App extends Component {
     else if(route === 'workout'){
       return <div><Workout trainingDateSelected={this.state.trainingDateSelected} email={email} 
                             fName={fName} onRouteChange={onRouteChange}/></div>
-    }
-    else if(route === 'showWorkout') {
-      return <div><ShowWorkout workout={tempWorkout} /></div>
     }
   }
 

@@ -1,7 +1,13 @@
 import React from 'react';
 import Groups from './Groups';
+import ShowWorkout from './ShowWorkout';
 
 //var sortedUniq = require('./lodash.sorteduniq');
+let tempWorkout = [
+    [1, "exercise 1.1, exercise 1.2, exercise 1.3"],
+    [2, "exercise 2.1, exercise 2.2, exercise 2.3"],
+    [3, "exercise 3.1, exercise 3.2, exercise 3.3"],
+  ];
 
 class Workout extends React.Component {
 	constructor(props){
@@ -19,6 +25,7 @@ class Workout extends React.Component {
             counter: 9,
             trainingDate: '',
             distinctGroups: [],
+            submitted: false,
             }
             this.dateToState(this.props.trainingDateSelected);
         }
@@ -47,7 +54,7 @@ class Workout extends React.Component {
     }
 
     manageGroups = (tempArray) => {
-        //sortedUniq(tempArray);
+        //group workout and concat exercises
         this.setState({distinctGroups: tempArray});
         
         console.log(`tempArray of Groups: ${tempArray}`);
@@ -55,7 +62,7 @@ class Workout extends React.Component {
 
 	handleSubmitWorkout = () => {
 		const { email }  = this.props;
-		const { exercise1, exercise2, exercise3, exercise4, exercise5, exercise6, trainingDate, distinctGroup} = this.state;
+		const { exercise1, exercise2, exercise3, exercise4, exercise5, exercise6, trainingDate } = this.state;
 		/*fetch(serverURL + 'addworkout', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
@@ -78,7 +85,8 @@ class Workout extends React.Component {
         }) */
        // this.manageGroups(this.state.distinctGroups);
        // this.props.storeWorkout(this.state);
-        this.props.onRouteChange('showWorkout');
+       this.setState({submitted: true});
+       // this.props.onRouteChange('showWorkout');
 		console.log(`${trainingDate}, ${email}, ${exercise1}, ${exercise2}, ${exercise3}, ${exercise4}, ${exercise5}, ${exercise6}`)
         
     }
@@ -90,11 +98,14 @@ class Workout extends React.Component {
 	  }
 
 	render(){
-
+        const { fName, trainingDateSelected } = this.props;
 		return (
+
+            this.state.submitted ? <ShowWorkout workout={tempWorkout} fName={fName} dateSelected={trainingDateSelected} />
+            :
 			<div>
 				<p className='f3'>
-					{'Workout Planner for '+ this.props.fName + ' on ' + this.props.trainingDateSelected}
+					{'Workout Planner for '+ fName + ' on ' + trainingDateSelected}
 				</p>
 				<div className='center'>
 					<div className='pa4 br2 shadow-5 center'>
@@ -102,7 +113,7 @@ class Workout extends React.Component {
 					<tbody>
 					<tr>
 					<td><label>Date</label></td>
-					 <td><input className='f4 pa2 w-240 center' name='date' value={this.props.trainingDateSelected} type='date'onChange={this.handleDateChange}/></td>
+					 <td><input className='f4 pa2 w-240 center' name='date' value={trainingDateSelected} type='date'onChange={this.handleDateChange}/></td>
 					 <td>Groups</td>
                      </tr>
 					 <tr><td>   <label>Exercise 1</label></td>
