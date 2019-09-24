@@ -66,15 +66,21 @@ class Workout extends React.Component {
 
     manageGroups = (tempArray) => {
         //group workout and concat exercises
-        let x;
+        let x, i = 0;
+        let collectionArray = [];
+        
         for(x in this.state){
-            let tempA = {x};
-            console.log('tempA: '+ tempA[0]);
-            if(tempA[1] === 1){
-                console.log("hit a 1");
-            }
+            
+            if(x >= '1' && x <= '9' && this.state[x] != null){
+                let w = this.state[x];
+                
+                collectionArray[i] = [
+                    x,w
+                ];
+            };
+            i++;
         }
-      //  console.log(`tempArray of Groups: ${tempArray}`);
+       console.log(`tempArray of Groups: ${collectionArray}`);
     }
 
 	handleSubmitWorkout = () => {
