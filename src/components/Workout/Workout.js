@@ -13,23 +13,30 @@ class Workout extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			exercise1: [],
-			exercise2: [],
-			exercise3: [],
-			exercise4: [],
-			exercise5: [],
-            exercise6: [],
-            exercise7: [],
-            exercise8: [],
-            exercise9: [],
+                exercise1: [],
+                exercise2: [],
+                exercise3: [],
+                exercise4: [],
+                exercise5: [],
+                exercise6: [],
+                exercise7: [],
+                exercise8: [],
+                exercise9: [],
+                1: null,
+                2: null,
+                3: null,
+                4: null,
+                5: null,
             counter: 9,
             trainingDate: '',
-            distinctGroups: [],
             submitted: false,
             }
             this.dateToState(this.props.trainingDateSelected);
         }
-        
+       
+    componentWillMount() {
+       // console.log("WORKOUT");
+    }
     dateToState = (originalDate) => {
         this.setState({trainingDate: originalDate})
     }
@@ -40,24 +47,34 @@ class Workout extends React.Component {
 
 	handleExChange = (event) => {
         let name = event.target.name;
-        let temp = this.state[name];
-        temp[0] = event.target.value;
-		this.setState({[name]: temp})
+        let temp = event.target.value;
+		this.setState({...this.state, [name]: temp});
     }
+
     
     handleExGroup = (event) => {
         let name = event.target.name;
         name = name.substring(1);
-        let temp = this.state[name];
-        temp[1] = event.target.value;
-        this.setState({[name]: temp});
+        let combo = '';
+        let temp = event.target.value;
+       // console.log( name, this.state[name], temp);
+        if(this.state[temp] != null){
+            combo = this.state[temp] + ', ' + name;
+            this.setState({[temp]: combo});
+        } else { this.setState({[temp]: name});}
     }
 
     manageGroups = (tempArray) => {
         //group workout and concat exercises
-        this.setState({distinctGroups: tempArray});
-        
-        console.log(`tempArray of Groups: ${tempArray}`);
+        let x;
+        for(x in this.state){
+            let tempA = {x};
+            console.log('tempA: '+ tempA[0]);
+            if(tempA[1] === 1){
+                console.log("hit a 1");
+            }
+        }
+      //  console.log(`tempArray of Groups: ${tempArray}`);
     }
 
 	handleSubmitWorkout = () => {
@@ -86,8 +103,9 @@ class Workout extends React.Component {
        // this.manageGroups(this.state.distinctGroups);
        // this.props.storeWorkout(this.state);
        this.setState({submitted: true});
+       this.manageGroups(exercise3);
        // this.props.onRouteChange('showWorkout');
-		console.log(`${trainingDate}, ${email}, ${exercise1}, ${exercise2}, ${exercise3}, ${exercise4}, ${exercise5}, ${exercise6}`)
+		//console.log(`${trainingDate}, ${email}, ${exercise1}, ${exercise2}, ${exercise3}, ${exercise4}, ${exercise5}, ${exercise6}`)
         
     }
 
@@ -117,7 +135,7 @@ class Workout extends React.Component {
 					 <td>Groups</td>
                      </tr>
 					 <tr><td>   <label>Exercise 1</label></td>
-					    <td><input className='f4 pa2 w-250 center' name='exercise1' type='text' onChange={this.handleExChange} /></td><td><Groups number={'1'} handleFunction={this.handleEx1roup}/></td>
+					    <td><input className='f4 pa2 w-250 center' name='exercise1' type='text' onChange={this.handleExChange} /></td><td><Groups number={'1'} handleFunction={this.handleExGroup}/></td>
 					</tr>
 					<tr><td>   <label>Exercise 2</label></td>
 					    <td><input className='f4 pa2 w-250 center' name='exercise2' type='text' onChange={this.handleExChange} /></td><td><Groups number={'2'} handleFunction={this.handleExGroup}/></td></tr>
@@ -138,7 +156,10 @@ class Workout extends React.Component {
 
                     <tr>
 					<td colSpan="2"><button className='w-100 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitWorkout} >Submit</button></td>
-					</tr></tbody>
+					</tr>
+                    <tr>
+                        <td className='center'>Example: 3 x 15 Pushups</td>
+                        </tr></tbody>
 					</table>
 					</div>
 				</div>

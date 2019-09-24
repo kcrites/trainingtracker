@@ -233,6 +233,7 @@ class App extends Component {
       this.onRouteChange('packageInputForm');
     }
 
+ //Puts the workout date selected into State. Called from TrainingInputForm.
   workoutDate = (d) => {
     this.setState({trainingDateSelected: d});
   }

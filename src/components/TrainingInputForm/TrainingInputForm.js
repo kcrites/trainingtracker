@@ -45,7 +45,7 @@ class TrainingInputForm extends React.Component {
 		this.props.addSession(newSession);
 		this.props.onRouteChange('trainingHistory');
 */
-		
+	console.log("leavingTrainingInput");	
 this.props.workoutDate(sessionDate);
 this.props.onRouteChange('workout');
 	}

@@ -5,12 +5,12 @@ import React from 'react';
 
 const renderGroups = (array) =>{
   return array.map((item, index)  => 
-            <div>
+            
                 <tr key={index} className="stripe-dark center">
                     <td className="pa4 b">Group {item[0]} </td>
                     <td className="pa4">{item[1]}</td>  
                 </tr>
-            </div>
+            
     );
 }
 
@@ -56,8 +56,7 @@ class ShowWorkout extends React.Component {
                   </tr>
                 </thead>
                 <tbody className="lh-copy">
-                  {renderGroups(workout)}
-    
+                  {renderGroups(workout)}  
                 </tbody>
               </table>
             </div>
