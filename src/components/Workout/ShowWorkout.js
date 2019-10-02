@@ -6,7 +6,7 @@ import React from 'react';
 const renderGroups = (array) =>{
   return array.map((item, index)  => 
             
-                <tr key={index} className="stripe-dark center">
+                <tr key={index} className="stripe-dark center w-250">
                     <td className="pa4 b">Group {item[0]} </td>
                     <td className="pa4">{item[1]}</td>  
                 </tr>

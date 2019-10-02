@@ -1,5 +1,6 @@
 import React from 'react';
 import Groups from './Groups';
+import ExerciseElement from './ExerciseElement';
 import ShowWorkout from './ShowWorkout';
 
 //var sortedUniq = require('./lodash.sorteduniq');
@@ -9,12 +10,14 @@ let tempWorkout = [
     [3, "exercise 3.1, exercise 3.2, exercise 3.3"],
   ];
 
+  let finalArray;
+
 class Workout extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-                exercise1: [],
-                exercise2: [],
+                exercise1: null,
+                exercise2: null,
                 exercise3: [],
                 exercise4: [],
                 exercise5: [],
@@ -35,10 +38,35 @@ class Workout extends React.Component {
         }
        
     componentWillMount() {
-       // console.log("WORKOUT");
+       
     }
     dateToState = (originalDate) => {
         this.setState({trainingDate: originalDate})
+    }
+
+    checkForDuplicate = (ex, gp) => {
+        let x, i = 0;
+        for(x in this.state){
+            console.log(`x is: ${ex}`);
+            if(x >= '0' && x <= '9' && this.state[x] != null && x !== gp){
+                //It is a group object in state, not empty, and not the last (final) group id
+                console.log(`hit check for duplicates + ${x} + ${ex} + ${gp}`);
+                //check for ex in gp array
+                //if found remove it   
+                let temp = this.state[x];    
+                //console.log('temp before: ' + temp);
+               let found = temp.findIndex(function(repeat){
+                   return repeat === ex;
+               });
+                temp.splice(found, 1);
+               // console.log('temp after: ' + temp);
+            };
+            i++;
+        }
+    }
+
+    removeExisting(item){
+        console.log(`Removing: ${item}`);
     }
 
 	handleDateChange = (event) => {
@@ -55,16 +83,26 @@ class Workout extends React.Component {
     handleExGroup = (event) => {
         let name = event.target.name;
         name = name.substring(1);
-        let combo = '';
+       // let combo = '';
         let temp = event.target.value;
-       // console.log( name, this.state[name], temp);
+        let comboArray = [];
+        
         if(this.state[temp] != null){
-            combo = this.state[temp] + ', ' + name;
-            this.setState({[temp]: combo});
-        } else { this.setState({[temp]: name});}
+           // combo = this.state[temp] + ', ' + name;
+           comboArray = this.state[temp];
+            comboArray.push(name);
+            console.log("comboarray "+ comboArray);
+            this.setState({[temp]: comboArray});
+        } else {
+            comboArray = [name];
+            console.log("comboarray "+ comboArray);
+            this.setState({[temp]: comboArray});
+        }
+        this.checkForDuplicate(name, temp);
+        
     }
 
-    manageGroups = (tempArray) => {
+    manageGroups = () => {
         //group workout and concat exercises
         let x, i = 0;
         let collectionArray = [];
@@ -80,12 +118,13 @@ class Workout extends React.Component {
             };
             i++;
         }
-       console.log(`tempArray of Groups: ${collectionArray}`);
+       console.table(collectionArray);
+       return collectionArray;
     }
 
 	handleSubmitWorkout = () => {
-		const { email }  = this.props;
-		const { exercise1, exercise2, exercise3, exercise4, exercise5, exercise6, trainingDate } = this.state;
+	//	const { email }  = this.props;
+	//	const { exercise1, exercise2, exercise3, exercise4, exercise5, exercise6, trainingDate } = this.state;
 		/*fetch(serverURL + 'addworkout', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
@@ -109,8 +148,8 @@ class Workout extends React.Component {
        // this.manageGroups(this.state.distinctGroups);
        // this.props.storeWorkout(this.state);
        this.setState({submitted: true});
-       this.manageGroups(exercise3);
-       // this.props.onRouteChange('showWorkout');
+        finalArray = this.manageGroups();
+       
 		//console.log(`${trainingDate}, ${email}, ${exercise1}, ${exercise2}, ${exercise3}, ${exercise4}, ${exercise5}, ${exercise6}`)
         
     }
@@ -123,9 +162,17 @@ class Workout extends React.Component {
 
 	render(){
         const { fName, trainingDateSelected } = this.props;
+        let j = this.state.counter;
+
+var Object_rows=[];
+for (var i=0; i < j; i++) {
+    Object_rows.push(<ExerciseElement number={i+1} handleGFunction={this.handleExGroup} handleEFunction={this.handleExChange}/>
+        )
+} ;
+
 		return (
 
-            this.state.submitted ? <ShowWorkout workout={tempWorkout} fName={fName} dateSelected={trainingDateSelected} />
+            this.state.submitted ? <ShowWorkout workout={finalArray} fName={fName} dateSelected={trainingDateSelected} />
             :
 			<div>
 				<p className='f3'>
@@ -140,31 +187,13 @@ class Workout extends React.Component {
 					 <td><input className='f4 pa2 w-240 center' name='date' value={trainingDateSelected} type='date'onChange={this.handleDateChange}/></td>
 					 <td>Groups</td>
                      </tr>
-					 <tr><td>   <label>Exercise 1</label></td>
-					    <td><input className='f4 pa2 w-250 center' name='exercise1' type='text' onChange={this.handleExChange} /></td><td><Groups number={'1'} handleFunction={this.handleExGroup}/></td>
-					</tr>
-					<tr><td>   <label>Exercise 2</label></td>
-					    <td><input className='f4 pa2 w-250 center' name='exercise2' type='text' onChange={this.handleExChange} /></td><td><Groups number={'2'} handleFunction={this.handleExGroup}/></td></tr>
-					<tr><td>   <label>Exercise 3</label></td>
-					    <td><input className='f4 pa2 w-250 center' name='exercise3' type='text' onChange={this.handleExChange} /></td><td><Groups number={'3'} handleFunction={this.handleExGroup}/></td></tr>
-					<tr><td>   <label>Exercise 4</label></td>
-					    <td><input className='f4 pa2 w-250 center' name='exercise4' type='text' onChange={this.handleExChange} /></td><td><Groups number={'4'} handleFunction={this.handleExGroup}/></td></tr>
-					<tr><td>   <label>Exercise 5</label></td>
-					    <td><input className='f4 pa2 w-250 center' name='exercise5' type='text' onChange={this.handleExChange} /></td><td><Groups number={'5'} handleFunction={this.handleExGroup}/></td></tr>
-					<tr><td>   <label>Exercise 6</label></td>
-					    <td><input className='f4 pa2 w-250 center' name='exercise6' type='text' onChange={this.handleExChange} /></td><td><Groups number={'6'} handleFunction={this.handleExGroup}/></td></tr>
-                    <tr><td><label>Exercise 7</label></td>
-                     <td><input className='f4 pa2 w-250 center' name='exercise7' type='text' onChange={this.hndleExChange} /></td><td><Groups number={'7'} handleFunction={this.handleExGroup}/></td></tr>
-                    <tr><td>   <label>Exercise 8</label></td>
-                      <td><input className='f4 pa2 w-250 center' name='exercise8' type='text' onChange={this.handleExChange} /></td><td><Groups number={'8'} handleFunction={this.handleExGroup}/></td></tr>
-                    <tr><td>   <label>Exercise 9</label></td>
-                     <td><input className='f4 pa2 w-250 center' name='exercise9' type='text' onChange={this.handleExChange} onKeyDown={this.handleKeyPress}/></td><td><Groups number={'9'} handleFunction={this.handleExGroup}/></td></tr>
+                  
+                     {Object_rows}
 
+					<td colSpan="3"><button className='w-75 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitWorkout} >Submit</button></td>
+					
                     <tr>
-					<td colSpan="2"><button className='w-100 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitWorkout} >Submit</button></td>
-					</tr>
-                    <tr>
-                        <td className='center'>Example: 3 x 15 Pushups</td>
+                        <td>Example: </td><td colSpan="1" className='center w-100'>3 x 15 Pushups</td><td></td>
                         </tr></tbody>
 					</table>
 					</div>
