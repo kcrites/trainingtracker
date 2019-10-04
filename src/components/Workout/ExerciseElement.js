@@ -8,7 +8,7 @@ const ExerciseElement = (props) => {
     let exerciseNumber = 'exercise' + number;
 
 return (
-    <tr>
+    <tr key={number}>
         <td><label>Exercise {number}</label></td>
                         <td><input className='f4 pa2 w-250 center' name={exerciseNumber} type='text' onChange={props.handleEFunction} /></td>
                         <td><Groups number={number} handleFunction={props.handleGFunction}/></td>

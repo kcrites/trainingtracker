@@ -1,14 +1,7 @@
 import React from 'react';
-import Groups from './Groups';
+//import Groups from './Groups';
 import ExerciseElement from './ExerciseElement';
 import ShowWorkout from './ShowWorkout';
-
-//var sortedUniq = require('./lodash.sorteduniq');
-let tempWorkout = [
-    [1, "exercise 1.1, exercise 1.2, exercise 1.3"],
-    [2, "exercise 2.1, exercise 2.2, exercise 2.3"],
-    [3, "exercise 3.1, exercise 3.2, exercise 3.3"],
-  ];
 
   let finalArray;
 
@@ -18,8 +11,8 @@ class Workout extends React.Component {
 		this.state = {
                 exercise1: null,
                 exercise2: null,
-                exercise3: [],
-                exercise4: [],
+                exercise3: null,
+                exercise4: null,
                 exercise5: [],
                 exercise6: [],
                 exercise7: [],
@@ -45,7 +38,7 @@ class Workout extends React.Component {
     }
 
     checkForDuplicate = (ex, gp) => {
-        let x, i = 0;
+        let x;
         for(x in this.state){
             console.log(`x is: ${ex}`);
             if(x >= '0' && x <= '9' && this.state[x] != null && x !== gp){
@@ -56,12 +49,16 @@ class Workout extends React.Component {
                 let temp = this.state[x];    
                 //console.log('temp before: ' + temp);
                let found = temp.findIndex(function(repeat){
+                   console.log(`repeat: ${repeat}`);
                    return repeat === ex;
                });
+               if(found >= 0){
                 temp.splice(found, 1);
-               // console.log('temp after: ' + temp);
+               }else {
+                   console.log('Not found');
+               }
             };
-            i++;
+            
         }
     }
 
@@ -148,10 +145,7 @@ class Workout extends React.Component {
        // this.manageGroups(this.state.distinctGroups);
        // this.props.storeWorkout(this.state);
        this.setState({submitted: true});
-        finalArray = this.manageGroups();
-       
-		//console.log(`${trainingDate}, ${email}, ${exercise1}, ${exercise2}, ${exercise3}, ${exercise4}, ${exercise5}, ${exercise6}`)
-        
+        finalArray = this.manageGroups();        
     }
 
 	handleKeyPress = ({ key }) => {
@@ -189,9 +183,9 @@ for (var i=0; i < j; i++) {
                      </tr>
                   
                      {Object_rows}
-
+                    <tr>
 					<td colSpan="3"><button className='w-75 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitWorkout} >Submit</button></td>
-					
+					</tr>
                     <tr>
                         <td>Example: </td><td colSpan="1" className='center w-100'>3 x 15 Pushups</td><td></td>
                         </tr></tbody>
