@@ -13,8 +13,14 @@ class TrainingInputForm extends React.Component {
 		this.setState({sessionDate: event.target.value})
 	}
 
-	handleSubmitDate = () => {
+	handleSubmitDate = (event) => {
 		const { sessionDate } = this.state;
+		const { workoutDate, onRouteChange } = this.props;
+		if(event.target.name === 'plan'){
+			console.log("plan");
+		} else {
+			console.log('session');
+		}
 		//const { packagedate, email, sessionCount, serverURL } = this.props;
 		//const { packageId} = this.props.pack;
 	/*	fetch(serverURL + 'addtraining', {
@@ -45,9 +51,9 @@ class TrainingInputForm extends React.Component {
 		this.props.addSession(newSession);
 		this.props.onRouteChange('trainingHistory');
 */
-	console.log("leavingTrainingInput");	
-this.props.workoutDate(sessionDate);
-this.props.onRouteChange('workout');
+		
+workoutDate(sessionDate);
+onRouteChange('workout');
 	}
 
 	updatePackage() {
@@ -74,15 +80,27 @@ this.props.onRouteChange('workout');
 	
 	return (
 		<div>
+			<div>
 			<p className='f3'>
 				{'Please input your training session'}
 			</p>
 			<div className='center'>
-				<div className='pa4 br2 shadow-5 form center'>
-					<input className='f4 pa2 w-70 center' type='date'onChange={this.onDateChange}/>
-					<button className='w-30 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
+				<div className='pa1 br2 shadow-5 form center'>
+					<input className='f5 pa1 w-70 center' type='date'onChange={this.onDateChange}/>
+					<button name='session' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
+				</div>
+				</div>
+				</div>
+			<div>
+			<p className='f3'>
+				{'Please input the training plan'}
+			</p>
+				<div className='pa1 br2 shadow-5 form center'> 
+					<input className='f5 pa1 w-70 center' type='date'onChange={this.onDateChange}/>
+					<button name='plan' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
 				</div>
 			</div>
+			
 		</div>
 		);
 	}
