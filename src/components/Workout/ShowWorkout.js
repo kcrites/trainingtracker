@@ -1,14 +1,23 @@
 import React from 'react';
 
-// format of input data is [[group, concat strings of exercises], ]
-// array[][]
+const formatExercises = (array) => {
+    let tempArray = [];
+    for(let i = 0; i < array.length; i++){
+        //insert ', ' for viewing
+        tempArray.push(array[i]);
+        if(i < array.length-1) {
+            tempArray.push(', ');
+        }
+    }
+    return tempArray;
+}
 
 const renderGroups = (array) =>{
   return array.map((item, index)  => 
             
                 <tr key={index} className="stripe-dark center w-250">
                     <td className="pa4 b">Group {item[0]} </td>
-                    <td className="pa4">{item[1]}</td>  
+                    <td width='350px' className="pa4">{formatExercises(item[1])}</td> 
                 </tr>
             
     );
@@ -33,7 +42,6 @@ class ShowWorkout extends React.Component {
       }
     
     componentWillMount(){
-      //const distinctGroups = this.props.distinctGroups;
       fixedDate = fixDate(this.props.dateSelected);
       console.log("array: " + this.props.workout[0][1]);
     }

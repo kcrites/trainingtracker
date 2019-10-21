@@ -121,7 +121,6 @@ class App extends Component {
 
 //Training Package Information and calculate sessions left (sl)
   loadUserPack = (data) => {
-    console.log("loaduserpack: " + data);
     let sl = data.maxsessions - data.sessioncount;
     let fixed = fixDate(data.datestarted);
     this.setState( {
@@ -187,7 +186,6 @@ class App extends Component {
           s.forEach(e => {statHistoryArr.push(e)});
           this.loadLastStat(statHistoryArr[statHistoryArr.length-1]);
           this.statIndicator(statHistoryArr);
-          console.log(`stats array: ${statHistoryArr[statHistoryArr.length-1]}`);
           //set state and put last element of array into state for display
         } else {
             //the stats history table is empty. What to do then?
@@ -388,7 +386,7 @@ class App extends Component {
     }
     else if(route === 'workout'){
       return <div><Workout trainingDateSelected={this.state.trainingDateSelected} email={email} 
-                            fName={fName} onRouteChange={onRouteChange}/></div>
+                            fName={fName} onRouteChange={onRouteChange} serverURL={serverURL}/></div>
     }
   }
 

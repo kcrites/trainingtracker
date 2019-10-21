@@ -1,9 +1,19 @@
 import React from 'react';
-//import Groups from './Groups';
 import ExerciseElement from './ExerciseElement';
 import ShowWorkout from './ShowWorkout';
+import Popout from '../Popout/Popout';
+import ExampleImage from './ExampleImage.png';
 
-  let finalArray;
+let finalArray;
+
+let workoutHelp = <div><h2>Workout Plannning Help</h2>
+    <p>The workouts consist of a description of the workout and then a grouping.</p>
+    <p>For example: Group 1 has 3x10 Situps, 3x15 Pullups, 3x10 back extensions</p>
+    <p>You would list each exercise in the field and select the group that it belongs to.</p>
+    <img className='ma4 mt0 br2' style={{marginRight: 'auto', height: '120px', justifyContent: 'flex-start', paddingTop: '10px'}} alt='Logo' src={ExampleImage} />
+    <p>You don't need to use a group. If there isn't one for the training, just leave the group selection on 0.</p>
+    <p>Currently this page supports 9 exercises and 10 groups.</p>
+    </div>
 
 class Workout extends React.Component {
 	constructor(props){
@@ -13,19 +23,21 @@ class Workout extends React.Component {
                 exercise2: null,
                 exercise3: null,
                 exercise4: null,
-                exercise5: [],
-                exercise6: [],
-                exercise7: [],
-                exercise8: [],
-                exercise9: [],
-                1: null,
-                2: null,
-                3: null,
-                4: null,
-                5: null,
-            counter: 9,
+                exercise5: null,
+                exercise6: null,
+                exercise7: null,
+                exercise8: null,
+                exercise9: null,
+                group1: null,
+                group2: null,
+                group3: null,
+                group4: null,
+                group5: null,
+            eCounter: 9,
+            gCounter: 5,
             trainingDate: '',
             submitted: false,
+            showPopup: false,
             }
             this.dateToState(this.props.trainingDateSelected);
         }
@@ -37,19 +49,28 @@ class Workout extends React.Component {
         this.setState({trainingDate: originalDate})
     }
 
+    togglePopup() {
+		this.setState({
+		  showPopup: !this.state.showPopup
+		});
+	  }
+
     checkForDuplicate = (ex, gp) => {
-        let x;
+        let x, j;
         for(x in this.state){
-            console.log(`x is: ${ex}`);
-            if(x >= '0' && x <= '9' && this.state[x] != null && x !== gp){
+           // console.log(`x is: ${ex}`);
+           j = x;
+           x = x.substr(5, 1);
+        
+            if(x >= '0' && x <= '9' && this.state[j] != null && j !== gp){
                 //It is a group object in state, not empty, and not the last (final) group id
-                console.log(`hit check for duplicates + ${x} + ${ex} + ${gp}`);
+              //  console.log(`hit check for duplicates + ${x} + ${ex} + ${gp}`);
                 //check for ex in gp array
                 //if found remove it   
-                let temp = this.state[x];    
+                let temp = this.state[j];    
                 //console.log('temp before: ' + temp);
                let found = temp.findIndex(function(repeat){
-                   console.log(`repeat: ${repeat}`);
+              //     console.log(`repeat: ${repeat}`);
                    return repeat === ex;
                });
                if(found >= 0){
@@ -62,9 +83,6 @@ class Workout extends React.Component {
         }
     }
 
-    removeExisting(item){
-        console.log(`Removing: ${item}`);
-    }
 
 	handleDateChange = (event) => {
 		this.setState({trainingDate: event.target.value})
@@ -76,74 +94,80 @@ class Workout extends React.Component {
 		this.setState({...this.state, [name]: temp});
     }
 
-    
+    //****handle a group selection with a null exercise field ****
     handleExGroup = (event) => {
         let name = event.target.name;
         name = name.substring(1);
-       // let combo = '';
-        let temp = event.target.value;
+        let valueGp = event.target.value;
+      //let correctedGpName = 'group" + valueGp;  
         let comboArray = [];
-        
-        if(this.state[temp] != null){
-           // combo = this.state[temp] + ', ' + name;
-           comboArray = this.state[temp];
-            comboArray.push(name);
-            console.log("comboarray "+ comboArray);
-            this.setState({[temp]: comboArray});
+        console.log(`name: ${event.target.name} value: ${event.target.value} state: ${this.state[name]}`);
+        if(this.state[valueGp] != null){
+            comboArray = this.state[valueGp];
+            comboArray.push(this.state[name]);
+            this.setState({[valueGp]: comboArray});
         } else {
-            comboArray = [name];
-            console.log("comboarray "+ comboArray);
-            this.setState({[temp]: comboArray});
+            comboArray = [this.state[name]];
+            this.setState({[valueGp]: comboArray});
         }
-        this.checkForDuplicate(name, temp);
+        this.checkForDuplicate(name, valueGp);
         
     }
 
     manageGroups = () => {
         //group workout and concat exercises
-        let x, i = 0;
+        let x, j, i = 0;
         let collectionArray = [];
-        
+        console.log('hitting managegroups');
         for(x in this.state){
-            
-            if(x >= '1' && x <= '9' && this.state[x] != null){
-                let w = this.state[x];
-                
+            j = x;
+            x = x.substr(5, 1);
+            console.log(`j: ${j} x: ${x}`);
+            if(x >= '1' && x <= '9' && this.state[j] != null){
+                let w = this.state[j];
                 collectionArray[i] = [
-                    x,w
-                ];
+                    j,w
+                ];console.log(`w: ${w} state at w: ${this.state[w]}`);
+                i++;
             };
-            i++;
+            
         }
        console.table(collectionArray);
        return collectionArray;
     }
 
 	handleSubmitWorkout = () => {
-	//	const { email }  = this.props;
-	//	const { exercise1, exercise2, exercise3, exercise4, exercise5, exercise6, trainingDate } = this.state;
-		/*fetch(serverURL + 'addworkout', {
+		const { email , serverURL}  = this.props;
+    	const { exercise1, exercise2, exercise3, exercise4, exercise5, exercise6, trainingDate } = this.state;
+        const { exercise7, exercise8, exercise9 } = this.state;
+		fetch(serverURL + 'updateworkout', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
                 email: email,
-                trainingdate: trainingDate
-
+                trainingdate: trainingDate,
+                exercise1: exercise1,
+                exercise2: exercise2,
+                exercise3: exercise3,
+                exercise4: exercise4,
+                exercise5: exercise5,
+                exercise6: exercise6,
+                exercise7: exercise7,
+                exercise8: exercise8,
+                exercise9: exercise9,
+                group1: this.state[1],
+                group2: this.state[2],
+                group3: this.state[3],
+                group4: this.state[4],
+                group5: this.state[5],
 			})
 		})
 		.then(response => response.json())
-		.then(userStats => {
-			if(userStats){
-			let d = new Date(this.state.statsDate);
-			let tempD = d.toLocaleDateString();
-				this.props.statAdmin(tempD, statsWeight, statsMuscleMass, statsFatLevel, 
-					statsBMI, statsVV, statsPercentWater);
-
-				this.props.onRouteChange('stats');
+		.then(workoutPlan => {
+			if(workoutPlan){
+                console.log('workout sent to Node.js');
 			}
-        }) */
-       // this.manageGroups(this.state.distinctGroups);
-       // this.props.storeWorkout(this.state);
+        }) 
        this.setState({submitted: true});
         finalArray = this.manageGroups();        
     }
@@ -156,13 +180,13 @@ class Workout extends React.Component {
 
 	render(){
         const { fName, trainingDateSelected } = this.props;
-        let j = this.state.counter;
+        let j = this.state.eCounter;
 
-var Object_rows=[];
-for (var i=0; i < j; i++) {
-    Object_rows.push(<ExerciseElement number={i+1} handleGFunction={this.handleExGroup} handleEFunction={this.handleExChange}/>
-        )
-} ;
+        var Object_rows=[];
+        for (var i=0; i < j; i++) {
+            Object_rows.push(<ExerciseElement number={i+1} handleGFunction={this.handleExGroup} handleEFunction={this.handleExChange}/>
+                )
+        } ;
 
 		return (
 
@@ -181,13 +205,23 @@ for (var i=0; i < j; i++) {
 					 <td><input className='f4 pa2 w-240 center' name='date' value={trainingDateSelected} type='date'onChange={this.handleDateChange}/></td>
 					 <td>Groups</td>
                      </tr>
-                  
                      {Object_rows}
                     <tr>
-					<td colSpan="3"><button className='w-75 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitWorkout} >Submit</button></td>
+					    <td colSpan="3"><button className='w-75 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitWorkout} >Submit</button></td>
 					</tr>
                     <tr>
-                        <td>Example: </td><td colSpan="1" className='center w-100'>3 x 15 Pushups</td><td></td>
+                        <td colSpan="3"><button onClick={this.togglePopup.bind(this)}>Workout Help</button></td>
+                        <td>
+                        <div>
+						  {this.state.showPopup ? 
+								<Popout
+									text={workoutHelp}
+									closePopup={this.togglePopup.bind(this)}
+								/>
+								: null
+								}
+						  </div>
+                        </td>
                         </tr></tbody>
 					</table>
 					</div>

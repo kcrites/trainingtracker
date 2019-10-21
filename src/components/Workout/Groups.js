@@ -6,9 +6,9 @@ const Groups = (props) => {
 
 return (
     <select name={groupID} onChange={props.handleFunction}>
-    <option value="0">0</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
+    <option value="group0">0</option>
+    <option value="group1">1</option>
+    <option value="group2">2</option>
     <option value="3">3</option>
     <option value="4">4</option>
     <option value="5">5</option>
