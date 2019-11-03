@@ -28,6 +28,8 @@ class Workout extends React.Component {
                 exercise7: null,
                 exercise8: null,
                 exercise9: null,
+                    groupArray: [],
+                group0: null,
                 group1: null,
                 group2: null,
                 group3: null,
@@ -39,14 +41,31 @@ class Workout extends React.Component {
             submitted: false,
             showPopup: false,
             }
-            this.dateToState(this.props.trainingDateSelected);
+            this.groupArraySetup(this.state.eCounter);
         }
        
     componentWillMount() {
-       
+        this.dateToState(this.props.trainingDateSelected);
     }
     dateToState = (originalDate) => {
         this.setState({trainingDate: originalDate})
+    }
+
+    groupArraySetup = (exerciseCount) => {
+        let array = [];
+        for(let i = 0; i < exerciseCount; i++){
+            array[i] = 'group0';
+        }
+        console.log(array);
+        this.setState({groupArray : array});
+    }
+
+    exerciseIsValid = (num) => {
+        if(this.state[num] === null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     togglePopup() {
@@ -58,19 +77,19 @@ class Workout extends React.Component {
     checkForDuplicate = (ex, gp) => {
         let x, j;
         for(x in this.state){
-           // console.log(`x is: ${ex}`);
+   
            j = x;
            x = x.substr(5, 1);
         
             if(x >= '0' && x <= '9' && this.state[j] != null && j !== gp){
                 //It is a group object in state, not empty, and not the last (final) group id
-              //  console.log(`hit check for duplicates + ${x} + ${ex} + ${gp}`);
+     //  console.log(`hit check for duplicates, x:  ${x} + ex: ${ex}, gp: ${gp}`);
                 //check for ex in gp array
                 //if found remove it   
                 let temp = this.state[j];    
-                //console.log('temp before: ' + temp);
+     // console.log('temp before: ' + temp);
                let found = temp.findIndex(function(repeat){
-              //     console.log(`repeat: ${repeat}`);
+       
                    return repeat === ex;
                });
                if(found >= 0){
@@ -79,7 +98,6 @@ class Workout extends React.Component {
                    console.log('Not found');
                }
             };
-            
         }
     }
 
@@ -95,13 +113,29 @@ class Workout extends React.Component {
     }
 
     //****handle a group selection with a null exercise field ****
+    //**** handle group 0 when no action is triggered on selection */
     handleExGroup = (event) => {
-        let name = event.target.name;
-        name = name.substring(1);
-        let valueGp = event.target.value;
-      //let correctedGpName = 'group" + valueGp;  
+        let longName = event.target.name; // gexercise1
+        let name = longName.substring(1); //exercise1
+        let number = longName.substring(9); //1
+        let valueGp = event.target.value; // group1
+        let tempArray = this.state.groupArray;
+        tempArray[number-1] = valueGp;
+
+
+        if(this.state[name] === null) {
+            tempArray[number-1] = 'group0';
+            this.setState({groupArray: tempArray});
+            return window.alert('Please enter an exercise first');
+        }
+
+      // start area to verify group selected
+      this.setState({groupArray: tempArray});
+      // end of group selector area
+
+
         let comboArray = [];
-        console.log(`name: ${event.target.name} value: ${event.target.value} state: ${this.state[name]}`);
+// console.log(`name: ${event.target.name} value: ${event.target.value} state: ${this.state[name]}`);
         if(this.state[valueGp] != null){
             comboArray = this.state[valueGp];
             comboArray.push(this.state[name]);
@@ -110,7 +144,7 @@ class Workout extends React.Component {
             comboArray = [this.state[name]];
             this.setState({[valueGp]: comboArray});
         }
-        this.checkForDuplicate(name, valueGp);
+        this.checkForDuplicate(this.state[name], valueGp);
         
     }
 
@@ -118,16 +152,16 @@ class Workout extends React.Component {
         //group workout and concat exercises
         let x, j, i = 0;
         let collectionArray = [];
-        console.log('hitting managegroups');
+      //  console.log('hitting managegroups');
         for(x in this.state){
             j = x;
             x = x.substr(5, 1);
-            console.log(`j: ${j} x: ${x}`);
-            if(x >= '1' && x <= '9' && this.state[j] != null){
+           //console.log(`j: ${j} x: ${x}`);
+            if(x >= '0' && x <= '9' && this.state[j] != null){
                 let w = this.state[j];
                 collectionArray[i] = [
                     j,w
-                ];console.log(`w: ${w} state at w: ${this.state[w]}`);
+                ]; //console.log(`w: ${w} state at w: ${this.state[w]}`);
                 i++;
             };
             
@@ -138,7 +172,8 @@ class Workout extends React.Component {
 
 	handleSubmitWorkout = () => {
 		const { email , serverURL}  = this.props;
-    	const { exercise1, exercise2, exercise3, exercise4, exercise5, exercise6, trainingDate } = this.state;
+        const { exercise1, exercise2, exercise3, exercise4, exercise5, exercise6, trainingDate } = this.state;
+        const { group1, group2, group3, group4, group5 } = this.state;
         const { exercise7, exercise8, exercise9 } = this.state;
 		fetch(serverURL + 'updateworkout', {
 			method: 'post',
@@ -155,19 +190,21 @@ class Workout extends React.Component {
                 exercise7: exercise7,
                 exercise8: exercise8,
                 exercise9: exercise9,
-                group1: this.state[1],
-                group2: this.state[2],
-                group3: this.state[3],
-                group4: this.state[4],
-                group5: this.state[5],
+                group1: group1,
+                group2: group2,
+                group3: group3,
+                group4: group4,
+                group5: group5,
 			})
 		})
-		.then(response => response.json())
-		.then(workoutPlan => {
+    //	.then(response => response.json())
+    .then(console.log('Fetch call'))
+/* 		.then(workoutPlan => {
 			if(workoutPlan){
                 console.log('workout sent to Node.js');
 			}
-        }) 
+        })  */
+        console.log('HandleSubmit');
        this.setState({submitted: true});
         finalArray = this.manageGroups();        
     }
@@ -180,11 +217,13 @@ class Workout extends React.Component {
 
 	render(){
         const { fName, trainingDateSelected } = this.props;
+        const { groupArray } = this.state;
         let j = this.state.eCounter;
 
         var Object_rows=[];
         for (var i=0; i < j; i++) {
-            Object_rows.push(<ExerciseElement number={i+1} handleGFunction={this.handleExGroup} handleEFunction={this.handleExChange}/>
+            Object_rows.push(<ExerciseElement number={i+1} handleGFunction={this.handleExGroup}
+                                            handleEFunction={this.handleExChange} groupArray={groupArray}/>
                 )
         } ;
 

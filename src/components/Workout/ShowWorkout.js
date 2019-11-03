@@ -43,7 +43,7 @@ class ShowWorkout extends React.Component {
     
     componentWillMount(){
       fixedDate = fixDate(this.props.dateSelected);
-      console.log("array: " + this.props.workout[0][1]);
+     // console.log("array: " + this.props.workout[0][1]);
     }
     
     render() {
