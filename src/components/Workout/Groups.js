@@ -5,7 +5,7 @@ const Groups = (props) => {
     let groupID = 'gexercise' + number;
 
 return (
-    <select name={groupID} value={groupArray[number-1]} onChange={props.handleFunction}>
+    <select name={groupID} value={groupArray[number-1]} onChange={props.handleFunction} key={number.toString()}>
     <option value="group0">-</option>
     <option value="group1">1</option>
     <option value="group2">2</option>

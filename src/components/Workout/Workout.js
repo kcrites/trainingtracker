@@ -28,7 +28,7 @@ class Workout extends React.Component {
                 exercise7: null,
                 exercise8: null,
                 exercise9: null,
-                    groupArray: [],
+                groupArray: [],
                 group0: null,
                 group1: null,
                 group2: null,
@@ -41,12 +41,16 @@ class Workout extends React.Component {
             submitted: false,
             showPopup: false,
             }
-            this.groupArraySetup(this.state.eCounter);
         }
        
     componentWillMount() {
         this.dateToState(this.props.trainingDateSelected);
     }
+
+    componentDidMount() {
+        this.groupArraySetup(this.state.eCounter);
+    }
+
     dateToState = (originalDate) => {
         this.setState({trainingDate: originalDate})
     }
@@ -56,7 +60,7 @@ class Workout extends React.Component {
         for(let i = 0; i < exerciseCount; i++){
             array[i] = 'group0';
         }
-        console.log(array);
+        //console.log(array);
         this.setState({groupArray : array});
     }
 
@@ -83,24 +87,20 @@ class Workout extends React.Component {
         
             if(x >= '0' && x <= '9' && this.state[j] != null && j !== gp){
                 //It is a group object in state, not empty, and not the last (final) group id
-     //  console.log(`hit check for duplicates, x:  ${x} + ex: ${ex}, gp: ${gp}`);
                 //check for ex in gp array
                 //if found remove it   
                 let temp = this.state[j];    
-     // console.log('temp before: ' + temp);
-               let found = temp.findIndex(function(repeat){
-       
+                let found = temp.findIndex(function(repeat){
                    return repeat === ex;
                });
                if(found >= 0){
                 temp.splice(found, 1);
-               }else {
+               } else {
                    console.log('Not found');
                }
             };
         }
     }
-
 
 	handleDateChange = (event) => {
 		this.setState({trainingDate: event.target.value})
@@ -121,18 +121,15 @@ class Workout extends React.Component {
         let valueGp = event.target.value; // group1
         let tempArray = this.state.groupArray;
         tempArray[number-1] = valueGp;
-
-
+        
+        // start area to verify group selected
         if(this.state[name] === null) {
             tempArray[number-1] = 'group0';
             this.setState({groupArray: tempArray});
             return window.alert('Please enter an exercise first');
         }
-
-      // start area to verify group selected
-      this.setState({groupArray: tempArray});
-      // end of group selector area
-
+          this.setState({groupArray: tempArray});
+          // end of group selector area
 
         let comboArray = [];
 // console.log(`name: ${event.target.name} value: ${event.target.value} state: ${this.state[name]}`);
@@ -164,7 +161,6 @@ class Workout extends React.Component {
                 ]; //console.log(`w: ${w} state at w: ${this.state[w]}`);
                 i++;
             };
-            
         }
        console.table(collectionArray);
        return collectionArray;
@@ -197,15 +193,15 @@ class Workout extends React.Component {
                 group5: group5,
 			})
 		})
-    //	.then(response => response.json())
-    .then(console.log('Fetch call'))
-/* 		.then(workoutPlan => {
-			if(workoutPlan){
-                console.log('workout sent to Node.js');
-			}
-        })  */
-        console.log('HandleSubmit');
-       this.setState({submitted: true});
+            //	.then(response => response.json())
+        .then(console.log('Fetch call'))
+        /* 		.then(workoutPlan => {
+                    if(workoutPlan){
+                        console.log('workout sent to Node.js');
+                    }
+                })  */
+    
+        this.setState({submitted: true});
         finalArray = this.manageGroups();        
     }
 
@@ -240,10 +236,10 @@ class Workout extends React.Component {
 					<table>
 					<tbody>
 					<tr>
-					<td><label>Date</label></td>
-					 <td><input className='f4 pa2 w-240 center' name='date' value={trainingDateSelected} type='date'onChange={this.handleDateChange}/></td>
-					 <td>Groups</td>
-                     </tr>
+					  <td><label>Date</label></td>
+					  <td><input className='f4 pa2 w-240 center' name='date' value={trainingDateSelected} type='date'onChange={this.handleDateChange}/></td>
+					  <td>Groups</td>
+                    </tr>
                      {Object_rows}
                     <tr>
 					    <td colSpan="3"><button className='w-75 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitWorkout} >Submit</button></td>
@@ -261,7 +257,8 @@ class Workout extends React.Component {
 								}
 						  </div>
                         </td>
-                        </tr></tbody>
+                        </tr>
+                        </tbody>
 					</table>
 					</div>
 				</div>
