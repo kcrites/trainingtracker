@@ -237,7 +237,7 @@ class Workout extends React.Component {
 					<tbody>
 					<tr>
 					  <td><label>Date</label></td>
-					  <td><input className='f4 pa2 w-240 center' name='date' value={trainingDateSelected} type='date'onChange={this.handleDateChange}/></td>
+					  <td><input className='f4 pa2 w-240 center' name='date' value={trainingDateSelected} type='date' onChange={this.handleDateChange}/></td>
 					  <td>Groups</td>
                     </tr>
                      {Object_rows}
