@@ -91,7 +91,7 @@ onRouteChange('workout');
 				</div>
 				</div>
 				</div>
-			<div>
+		{ 	<div>
 			<p className='f3'>
 				{'Please input the training plan'}
 			</p>
@@ -99,7 +99,7 @@ onRouteChange('workout');
 					<input className='f5 pa1 w-70 center' type='date'onChange={this.onDateChange}/>
 					<button name='plan' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
 				</div>
-			</div>
+			</div> }
 			
 		</div>
 		);
