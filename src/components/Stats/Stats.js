@@ -47,7 +47,7 @@ render() {
 
 	return (
 
-      <div className="pa4"><p>Stats History for {name}</p>
+      <div className="pa4"><p className="f3 fw7">Stats History for {name}</p>
         <div className="overflow-auto center">      
           <table className="f6 w-100 mw8 " cellSpacing="0">
             <thead>
