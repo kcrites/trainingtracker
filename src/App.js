@@ -13,7 +13,8 @@ import Dashboard from './components/Dashboard/Dashboard';
 import './App.css';
 import ArrowImage from './components/Stats/ArrowImage';
 
-const serverURL = 'http://localhost:3005/';
+//const serverURL = 'http://localhost:3005/';
+const serverURL = 'https://ttrackerserver-ams.herokuapp.com/';
 const trainingHistoryArr = [];
 const statHistoryArr = [];
 const allUserHistoryArr = []; //For Trainer Panel
