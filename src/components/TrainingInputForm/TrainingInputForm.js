@@ -15,15 +15,15 @@ class TrainingInputForm extends React.Component {
 
 	handleSubmitDate = (event) => {
 		const { sessionDate } = this.state;
-		const { workoutDate, onRouteChange } = this.props;
+		//const { workoutDate, onRouteChange } = this.props;
 		if(event.target.name === 'plan'){
 			console.log("plan");
 		} else {
 			console.log('session');
 		}
-		//const { packagedate, email, sessionCount, serverURL } = this.props;
-		//const { packageId} = this.props.pack;
-	/*	fetch(serverURL + 'addtraining', {
+		const { packagedate, email, sessionCount, serverURL } = this.props;
+		const { packageId} = this.props.pack;
+		fetch(serverURL + 'addtraining', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
@@ -36,8 +36,8 @@ class TrainingInputForm extends React.Component {
 		.then(response => response.json())
 		.then(userStats => {
 			if(userStats){
-				//this.props.loadUser(userStats);
-				//this.props.onRouteChange('trainingHistory');
+				this.props.loadUser(userStats);
+				this.props.onRouteChange('trainingHistory');
 			}
 		}).catch(err => {console.log(err)});
 		let newSession = {
@@ -47,13 +47,13 @@ class TrainingInputForm extends React.Component {
 				packageid: packageId,
 				packagedate: packagedate
 		}
-		this.updatePackage();
+	//	this.updatePackage();
 		this.props.addSession(newSession);
-		this.props.onRouteChange('trainingHistory');
-*/
+	//	this.props.onRouteChange('trainingHistory');
+
 		
-workoutDate(sessionDate);
-onRouteChange('workout');
+//workoutDate(sessionDate);
+//onRouteChange('workout');
 	}
 
 	updatePackage() {
@@ -91,7 +91,7 @@ onRouteChange('workout');
 				</div>
 				</div>
 				</div>
-		{ 	<div>
+	{/* 	{ 	<div>
 			<p className='f3'>
 				{'Please input the training plan'}
 			</p>
@@ -99,7 +99,7 @@ onRouteChange('workout');
 					<input className='f5 pa1 w-70 center' type='date'onChange={this.onDateChange}/>
 					<button name='plan' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
 				</div>
-			</div> }
+			</div> } */}
 			
 		</div>
 		);
