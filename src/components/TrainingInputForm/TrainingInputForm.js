@@ -15,12 +15,8 @@ class TrainingInputForm extends React.Component {
 
 	handleSubmitDate = (event) => {
 		const { sessionDate } = this.state;
-		//const { workoutDate, onRouteChange } = this.props;
-		if(event.target.name === 'plan'){
-			console.log("plan");
-		} else {
-			console.log('session');
-		}
+		const {  onRouteChange } = this.props;
+	
 		const { packagedate, email, sessionCount, serverURL } = this.props;
 		const { packageId} = this.props.pack;
 		fetch(serverURL + 'addtraining', {
@@ -37,7 +33,7 @@ class TrainingInputForm extends React.Component {
 		.then(userStats => {
 			if(userStats){
 				this.props.loadUser(userStats);
-				this.props.onRouteChange('trainingHistory');
+				//this.props.onRouteChange('trainingHistory');
 			}
 		}).catch(err => {console.log(err)});
 		let newSession = {
@@ -47,13 +43,13 @@ class TrainingInputForm extends React.Component {
 				packageid: packageId,
 				packagedate: packagedate
 		}
-	//	this.updatePackage();
+		this.updatePackage();
 		this.props.addSession(newSession);
-	//	this.props.onRouteChange('trainingHistory');
+		//this.props.onRouteChange('trainingHistory');
 
 		
 //workoutDate(sessionDate);
-//onRouteChange('workout');
+onRouteChange('workout');
 	}
 
 	updatePackage() {
@@ -70,7 +66,7 @@ class TrainingInputForm extends React.Component {
 		.then(response => response.json())
 		.then(userStats => {
 			if(userStats){
-				//this.props.loadUserPack(userStats);
+				this.props.loadUserPack(userStats);
 				//this.props.onRouteChange('trainingHistory');
 			}
 		}).catch(err => {console.log(err)});
