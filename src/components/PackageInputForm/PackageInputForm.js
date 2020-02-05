@@ -35,9 +35,9 @@ onPackIDChange = (event) => {
 
 handleTrainerSubmit = (e) => {
 	console.log('package submit');
-	const { email, newPackage } = this.props;
+	const { email, newPackage, serverURL } = this.props;
 	const { success, dateInput, maxSessionsInput, packageIDInput } = this.state;
-    fetch('http://localhost:3001/addpackage', {
+    fetch(serverURL + 'addpackage', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
