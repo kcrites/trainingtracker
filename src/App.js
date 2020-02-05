@@ -10,11 +10,13 @@ import PackageInputForm from './components/PackageInputForm/PackageInputForm';
 import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
 import Dashboard from './components/Dashboard/Dashboard';
+import Workout from './components/Workout/Workout';
 import './App.css';
 import ArrowImage from './components/Stats/ArrowImage';
 
 //const serverURL = 'http://localhost:3005/';
 const serverURL = 'https://ttrackerserver-ams.herokuapp.com/';
+
 const trainingHistoryArr = [];
 const statHistoryArr = [];
 const allUserHistoryArr = []; //For Trainer Panel
@@ -29,7 +31,8 @@ const initialState = {
     input: '',     
     route: 'signin',
     isSignedIn: false,
-    loaded: false,   
+    loaded: false,  
+    trainingDateSelected: '', 
     user: {
       id: '',
       fName: '',
@@ -120,7 +123,6 @@ class App extends Component {
 
 //Training Package Information and calculate sessions left (sl)
   loadUserPack = (data) => {
-    console.log("loaduserpack: " + data);
     let sl = data.maxsessions - data.sessioncount;
     let fixed = fixDate(data.datestarted);
     this.setState( {
@@ -149,6 +151,7 @@ class App extends Component {
       pack: {
         newUser: data,
         packageId: 0,
+        completed: true,
         dateStarted: null,
       }});
   }
@@ -186,7 +189,6 @@ class App extends Component {
           s.forEach(e => {statHistoryArr.push(e)});
           this.loadLastStat(statHistoryArr[statHistoryArr.length-1]);
           this.statIndicator(statHistoryArr);
-          console.log(`stats array: ${statHistoryArr[statHistoryArr.length-1]}`);
           //set state and put last element of array into state for display
         } else {
             //the stats history table is empty. What to do then?
@@ -231,6 +233,11 @@ class App extends Component {
   addPackage = (e) => {
       this.onRouteChange('packageInputForm');
     }
+
+ //Puts the workout date selected into State. Called from TrainingInputForm.
+  workoutDate = (d) => {
+    this.setState({trainingDateSelected: d});
+  }
 
  //indicates if the history for stats and training sessions has been loaded from the DB
   historyLoaded = (value) => {
@@ -340,6 +347,8 @@ class App extends Component {
                               getStatsHistory={getStatsHistory}
                               historyLoaded={historyLoaded}
                               loadUserPack={loadUserPack}
+                              workoutDate={this.workoutDate}
+                              trainingDateSelected={this.state.trainingDateSelected}
                               addSession={addSession}
                               serverURL={serverURL}
                               onRouteChange={onRouteChange} emptyPackage={this.emptyPackage}
@@ -377,6 +386,10 @@ class App extends Component {
     }
     else if (route === 'trainerinfo') {
       return <div><TrainerInfo trainer={trainer}/></div>
+    }
+    else if(route === 'workout'){
+      return <div><Workout trainingDateSelected={this.state.trainingDateSelected} email={email} 
+                            fName={fName} onRouteChange={onRouteChange} serverURL={serverURL}/></div>
     }
   }
 
