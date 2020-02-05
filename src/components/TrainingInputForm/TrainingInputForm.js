@@ -49,7 +49,7 @@ class TrainingInputForm extends React.Component {
 
 		
 //workoutDate(sessionDate);
-onRouteChange('workout');
+onRouteChange('trainingHistory');
 	}
 
 	updatePackage() {
