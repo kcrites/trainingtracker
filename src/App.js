@@ -15,8 +15,8 @@ import Workout from './components/Workout/Workout';
 import './App.css';
 import ArrowImage from './components/Stats/ArrowImage';
 
-const serverURL = 'http://localhost:3005/';
-//const serverURL = 'https://ttrackerserver-ams.herokuapp.com/';
+//const serverURL = 'http://localhost:3005/';
+const serverURL = 'https://ttrackerserver-ams.herokuapp.com/';
 
 const trainingHistoryArr = [];
 const statHistoryArr = [];
