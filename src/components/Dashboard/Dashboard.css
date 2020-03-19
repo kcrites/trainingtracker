@@ -10,9 +10,6 @@
     flex: 1 100%;
   }
 
-  .header {
-    background: #999;
-  }
 
   .header-flex {
       display: flex;

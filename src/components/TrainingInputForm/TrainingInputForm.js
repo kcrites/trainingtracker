@@ -75,24 +75,22 @@ class TrainingInputForm extends React.Component {
 	return (
 		<nav className='center' style={{display: 'flex', justifyContent: 'center',gridArea:'header'}}>
 			
-			<div className='f3'>
+		{/* 	<div className='f3'>
 				{'Add a training session'}
 				<div className='pa1 br2 shadow-5 form center'>
 					<input className='f5 pa1 w-70 center' type='date'onChange={this.onDateChange}/>
 					<button name='session' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
 				</div>
 				
-				</div>
-	{/* 	{ 	<div>
-			<p className='f3'>
-				{'Please input the training plan'}
-			</p>
-				<div className='pa1 br2 shadow-5 form center'> 
+				</div>	 */}
+		<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
+        <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Add a Training Session</h1>
+        <div className="pa3 bt b--black-10">	
+		<div className='pa1 br2 shadow-5 form center'>
 					<input className='f5 pa1 w-70 center' type='date'onChange={this.onDateChange}/>
-					<button name='plan' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
+					<button name='session' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
 				</div>
-			</div> } */}
-			
+				</div></article>
 		</nav>
 		);
 	}

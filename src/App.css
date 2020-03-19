@@ -62,7 +62,7 @@
 
 .header,
 .footer {
-  background-color: #999;
+  /* background-color: #999; */
   border-top: .5px solid #fff;
 }
 /* .sidebar {
