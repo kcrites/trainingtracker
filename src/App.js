@@ -9,13 +9,14 @@ import Trainer from './components/Trainer/Trainer';
 import PackageInputForm from './components/PackageInputForm/PackageInputForm';
 import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
+import {TrainingCard} from './TrainingCard';
 import Dashboard from './components/Dashboard/Dashboard';
 import Workout from './components/Workout/Workout';
 import './App.css';
 import ArrowImage from './components/Stats/ArrowImage';
 
-//const serverURL = 'http://localhost:3005/';
-const serverURL = 'https://ttrackerserver-ams.herokuapp.com/';
+const serverURL = 'http://localhost:3005/';
+//const serverURL = 'https://ttrackerserver-ams.herokuapp.com/';
 
 const trainingHistoryArr = [];
 const statHistoryArr = [];
@@ -33,6 +34,8 @@ const initialState = {
     isSignedIn: false,
     loaded: false,  
     trainingDateSelected: '', 
+    dbAwake: false,
+    trainingPackage: [],
     user: {
       id: '',
       fName: '',
@@ -88,6 +91,19 @@ class App extends Component {
     super();
     this.state = initialState;
    
+  }
+
+  componentWillMount(){
+    fetch(serverURL, {
+      method: 'get',
+      headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => {
+     if(response.length < 1){
+       console.log('Error waking the DB');
+     } else this.setState({dbAwake: true});
+      
+   }).catch(err => {console.log(err)});
   }
 
 //Load Data into State and Arrays
@@ -187,9 +203,9 @@ class App extends Component {
       .then(s => {
         if(s.length > 0){
           s.forEach(e => {statHistoryArr.push(e)});
-          this.loadLastStat(statHistoryArr[statHistoryArr.length-1]);
+          this.loadLastStat(statHistoryArr[0]);
           this.statIndicator(statHistoryArr);
-          //set state and put last element of array into state for display
+          //set state and put first element of array into state for display (last entry)
         } else {
             //the stats history table is empty. What to do then?
             console.log(`stat history table is empty in getStatsHistory`);
@@ -216,6 +232,8 @@ class App extends Component {
       .then(train => {
         if(train){
           train.forEach(e => {trainingHistoryArr.push(e)});
+          const result = trainingHistoryArr.filter(id => id.packageid === parseInt(this.state.pack.packageId));
+          this.setState({trainingPackage : [...result]});
           return true;
         } 
       }).catch(err => {
@@ -226,7 +244,7 @@ class App extends Component {
 
   //Tracks new sessions in an array (the session is also sent to the DB for persistant storage)
   addSession = (e) => {
-      trainingHistoryArr.push(e);
+      trainingHistoryArr.unshift(e);
     }
 
 //Loads component to add a new client package for the trainer
@@ -247,15 +265,16 @@ class App extends Component {
   // Provides images to indicate if the current stats are more, less, or equal to the previous 
   // measurements. This is called when the user is logging in so that the indicators are stored in state.
   statIndicator = (array) => {
-    let x = array.length; 
+  //  let x = array.length; 
     let results = [];
-    results[0] = this.checkStats(array[x-1].weight, array[x-2].weight, false);
-    results[1] = this.checkStats(array[x-1].musclemass, array[x-2].musclemass, true);
-    results[2] = this.checkStats(array[x-1].fatlevel, array[x-2].fatlevel, false);
-    results[3] = this.checkStats(array[x-1].bmi, array[x-2].bmi, false);
-    results[4] = this.checkStats(array[x-1].vv, array[x-2].vv, false);
-    results[5] = this.checkStats(array[x-1].percentwater, array[x-2].percentwater, true);
-   
+
+   results[0] = this.checkStats(array[0].weight, array[1].weight, false);
+   results[1] = this.checkStats(array[0].musclemass, array[1].musclemass, true);
+   results[2] = this.checkStats(array[0].fatlevel, array[1].fatlevel, false);
+   results[3] = this.checkStats(array[0].bmi, array[1].bmi, false);
+   results[4] = this.checkStats(array[0].vv, array[1].vv, false);
+   results[5] = this.checkStats(array[0].percentwater, array[1].percentwater, true);
+  
     this.setState({indicator:{
       weight : results[0],
       musclemass : results[1],
@@ -333,7 +352,7 @@ class App extends Component {
   }
 
   renderOption = (route) => {
-    const { stats, pack, loaded, user, indicator } = this.state;
+    const { stats, pack, loaded, user, indicator, dbAwake, trainingPackage } = this.state;
     const { fName, email, height, trainer } = this.state.user;
     const { packageId, completed, newUser } = this.state.pack;
     const { isTrainer } = this.state.trainer;
@@ -344,6 +363,8 @@ class App extends Component {
     if(route === 'home'){
       return <div> <Dashboard user={user} pack={pack} stats={stats} loaded = {loaded}
                               getTrainingHistory={getTrainingHistory}
+                              packageArr={trainingHistoryArr}
+                              trainingPackageArr={trainingPackage}
                               getStatsHistory={getStatsHistory}
                               historyLoaded={historyLoaded}
                               loadUserPack={loadUserPack}
@@ -358,7 +379,7 @@ class App extends Component {
       return <div> <Stats statHistory={statHistoryArr} name={fName} indicator={indicator}/></div>
     }
     else if (route === 'signout'){
-      return <div><Signin loadUser={ loadUser } onRouteChange={onRouteChange} 
+      return <div><Signin loadUser={ loadUser } onRouteChange={onRouteChange} dbAwake={dbAwake}
                            clearArrays={clearArrays} serverURL={serverURL} loadTrainer={loadTrainer}  /></div>
     }
     else if (route === 'register'){
@@ -391,19 +412,23 @@ class App extends Component {
       return <div><Workout trainingDateSelected={this.state.trainingDateSelected} email={email} 
                             fName={fName} onRouteChange={onRouteChange} serverURL={serverURL}/></div>
     }
+    else if(route === 'trainingcard'){
+      return <div><TrainingCard package={trainingHistoryArr}
+      pack={pack}/></div>
+    }
   }
 
   render() {
-    const {isSignedIn, route} = this.state;
-    const { isTrainer } = this.state.user;
+    const {isSignedIn, route, dbAwake} = this.state;
+    const { isTrainer, fName } = this.state.user;
     const { loadUser, loadTrainer, onRouteChange, clearArrays, renderOption } = this;
     return (
       <div className="App">
-        <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} isTrainer={isTrainer} />
+        <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} isTrainer={isTrainer} name={fName} />
         {(route !== 'signin' ? renderOption(route)
         : 
             route === 'signin'
-            ? <Signin loadUser={loadUser}  onRouteChange={onRouteChange} clearArrays={clearArrays} serverURL={serverURL} loadTrainer={loadTrainer}/>
+            ? <Signin loadUser={loadUser} dbAwake={dbAwake} onRouteChange={onRouteChange} clearArrays={clearArrays} serverURL={serverURL} loadTrainer={loadTrainer}/>
             : <Register loadUser={loadUser} serverURL={serverURL} onRouteChange={onRouteChange} />
             )
         }

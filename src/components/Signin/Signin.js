@@ -74,7 +74,7 @@ class Signin extends React.Component {
 							      <p onClick={() => onRouteChange('register')} className="f6 link dim black db pointer">Register</p>
 							    </div>
 							  </div>
-							  <div className="center f6 fw2">version 1.0</div>
+							  <div className="center f6 fw2">version 2.0</div>
 							</main>
 						</article>
 					);

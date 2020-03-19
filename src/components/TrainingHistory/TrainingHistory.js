@@ -53,6 +53,7 @@ handleSelectorChange = (event) => {
     this.setState({history: tempArray});
   } 
 }
+//Add package number (example 2 of 11) on each row by running through in a function and adding to state
 
   render(){
     const {trainingHistoryArr, name} = this.props;

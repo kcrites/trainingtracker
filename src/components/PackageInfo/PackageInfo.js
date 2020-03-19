@@ -47,28 +47,44 @@ loadPackage = () => {
 
 render() {
 	const { completed, sessionsLeft, sessionCount, dateStarted} = this.props.pack;
-	const { isTrainer, email, addPackage } = this.props;
+	const { isTrainer, email, addPackage, trainingPackageArr } = this.props;
 	const { noPackage } = this.state;
 	let formattedDate;
+
 	if(!noPackage) {
 		formattedDate = DateFormat(dateStarted);
 			return (
-				<div>
+				<div >
 				{(!completed ?  <div >
-					<p className="sidetitle">Package Information</p>
-							<table width="60%">
-								<tbody className='packtable'>
+					<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
+       				 <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Package Information</h1>
+     				   <div className="pa3 bt b--black-10">
+					
+							<table >
+								<tbody className='packtable tabletext'>
 									<tr>
-										<td className='tl'>Sessions Used: </td><td>{sessionCount}</td>
+										<td className='tl'>Sessions Used </td><td>{sessionCount}</td>
 									</tr>
 									<tr>
-										<td className='tl'>Sessions left: </td><td>{sessionsLeft}</td>
+										<td className='tl'>Sessions left </td><td>{sessionsLeft}</td>
 									</tr>
 									<tr>
-										<td className='tl'>Package Date: </td><td>{formattedDate}</td>
+										<td className='tl'>Package Date </td><td>{formattedDate}</td>
 									</tr>
 								</tbody>
 							</table>
+							</div></article>
+							<br />
+					<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
+      				 <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Package Session History</h1>
+       					 <div className="pa3 bt b--black-10">
+							<ol className='fw4 tabletext'>
+							{trainingPackageArr.map(item => {
+								 return <li key={item.id}>{DateFormat(item.sessiondate)}</li>
+							})}
+        					</ol>
+						</div>
+					</article>
 						</div>
 				: <article className="pa1 pa5-ns" data-name="slab-stat">
 					<h3>You are out of sessions in your current package</h3>

@@ -45,11 +45,9 @@ class TrainingInputForm extends React.Component {
 		}
 		this.updatePackage();
 		this.props.addSession(newSession);
-		//this.props.onRouteChange('trainingHistory');
 
-		
-//workoutDate(sessionDate);
-onRouteChange('trainingHistory');
+		//onRouteChange('trainingHistory');
+		onRouteChange('trainingcard');
 	}
 
 	updatePackage() {
@@ -75,17 +73,15 @@ onRouteChange('trainingHistory');
 	render() {
 	
 	return (
-		<div>
-			<div>
-			<p className='f3'>
-				{'Please input your training session'}
-			</p>
-			<div className='center'>
+		<nav className='center' style={{display: 'flex', justifyContent: 'center',gridArea:'header'}}>
+			
+			<div className='f3'>
+				{'Add a training session'}
 				<div className='pa1 br2 shadow-5 form center'>
 					<input className='f5 pa1 w-70 center' type='date'onChange={this.onDateChange}/>
 					<button name='session' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
 				</div>
-				</div>
+				
 				</div>
 	{/* 	{ 	<div>
 			<p className='f3'>
@@ -97,7 +93,7 @@ onRouteChange('trainingHistory');
 				</div>
 			</div> } */}
 			
-		</div>
+		</nav>
 		);
 	}
 }

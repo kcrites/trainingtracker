@@ -4,7 +4,10 @@ import './Sidebar.css';
 const Sidebar = (props) => {
 	const { date, weight, musclemass, fatlevel, bmi, vv, percentwater} = props.stats;
     return(
-                    <div className="box sidebar"><p className="sidetitle">Stats</p>
+        <article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
+        <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Measurements</h1>
+        <div className="pa3 bt b--black-10">
+                    {/* <div className=""><p className="sidetitle">Measurments</p> */}
                     <table style={{width:'100%'}}> 
                         <tbody >
                         <tr className='sidetable'>
@@ -38,6 +41,7 @@ const Sidebar = (props) => {
                         </tbody>
                     </table>
                    </div>
+                   </article>
     )
 }
 export default Sidebar;

@@ -10,17 +10,17 @@ const fixDate = (array) => {
 
 const renderRow= (array, indicator) =>{
     fixDate(array);
-    let i = array.length-1;
+    let i = 0;//array.length-1;
   return array.map((item, index)  => 
             <tr key={index} className="stripe-dark">
             <td className="pa3">{index+1}</td>
               <td className="pa3">{item.statsdate}</td>
-              <td className="pa3">{item.weight}{(index === i )? indicator.weight : ''}</td>
-              <td className="pa3">{item.musclemass}{(index === i )? indicator.musclemass : ''}</td>
-              <td className="pa3">{item.fatlevel}{(index === i )? indicator.fatlevel: ''}</td>
-              <td className="pa3">{item.bmi}{(index === i )? indicator.bmi: ''}</td>
-              <td className="pa3">{item.vv}{(index === i )? indicator.vv: ''}</td>
-              <td className="pa3">{item.percentwater}{(index === i )? indicator.percentwater : ''}</td>
+              <td className="pa3">{item.weight} {(index === i )? indicator.weight : ''}</td>
+              <td className="pa3">{item.musclemass} {(index === i )? indicator.musclemass : ''}</td>
+              <td className="pa3">{item.fatlevel} {(index === i )? indicator.fatlevel: ''}</td>
+              <td className="pa3">{item.bmi} {(index === i )? indicator.bmi: ''}</td>
+              <td className="pa3">{item.vv} {(index === i )? indicator.vv: ''}</td>
+              <td className="pa3">{item.percentwater} {(index === i )? indicator.percentwater : ''}</td>
             </tr>
     );
 }
@@ -59,7 +59,7 @@ render() {
                 <th className="fw6 tl pa3 bg-white">Fat Level</th>
                 <th className="fw6 tl pa3 bg-white">BMI</th>
                 <th className="fw6 tl pa3 bg-white">Fat Level Organs</th>
-                  <th className="fw6 tl pa3 bg-white">% Body Water</th>
+                <th className="fw6 tl pa3 bg-white">% Body Water</th>
               </tr>
             </thead>
             <tbody className="lh-copy">

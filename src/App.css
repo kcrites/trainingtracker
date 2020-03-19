@@ -1,12 +1,13 @@
 .App {
   text-align: center;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .center {
   display: flex;
   justify-content: center;
 }
-
+/* 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
@@ -34,53 +35,51 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
 
-.header {
+/* .header {
   grid-area: header;
 }
 
 .footer {
   grid-area: footer;
 }
-
-.wrapper {
+ */
+/* .wrapper {
         display: grid;
         grid-gap: 10px;
-        grid-template-columns: auto auto auto;
+        grid-template-columns: 30% 70%;
         grid-template-areas:
-        "header  header  header"
-        "sidebar content content"
-        "footer  footer  footer";
+        "header  header"
+        "sidebar content"
+        "footer  footer ";
         background-color: #fff;
         color: #444;
     }
+ */
 
 
-.box {
-  background-color: #48487F;
-  color: #fff;
-  border-radius: 5px;
-  padding: 30px;
-  font-size: 150%;
-}
 
 .header,
 .footer {
   background-color: #999;
+  border-top: .5px solid #fff;
 }
-.sidebar {
+/* .sidebar {
   grid-area: sidebar;
 }
-
+ */
 .sidetitle {
+ 
     font-size: 1.25em;
+    font-weight: 600;
     margin-bottom: 15px;
     margin-top: 10px;
     text-align: left;
 }
 
 .headertitle {
+  
   font-size: 2em;
   font-weight: 700;
   color: white;
@@ -92,15 +91,16 @@
   
 }
 
-.content {
+/* .content {
   grid-area: content;
   position: relative;
-} 
- .footer {
-  background-color: #fff;
+ 
+}  */
+  .footer {
+  background-color: white;
   color: #000;
-  padding: 20px;
-}
+
+} 
 
 .topleft {
   position: absolute;
@@ -122,7 +122,7 @@
 }
 
 .sidetable {
-  border-bottom: 3px solid #ddd;
+  border-bottom: 3px solid rgb(116, 112, 112);
 }
 
 .sidetable:hover {background-color: #555555;}

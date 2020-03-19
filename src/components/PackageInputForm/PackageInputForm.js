@@ -36,7 +36,7 @@ onPackIDChange = (event) => {
 handleTrainerSubmit = (e) => {
 	console.log('package submit');
 	const { email, newPackage, serverURL } = this.props;
-	const { success, dateInput, maxSessionsInput, packageIDInput } = this.state;
+	const { dateInput, maxSessionsInput, packageIDInput } = this.state;
     fetch(serverURL + 'addpackage', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
@@ -53,7 +53,7 @@ handleTrainerSubmit = (e) => {
 			if(newpack.id){
 				//reload page showing status of insert to DB
 				this.setState({success: true});
-				console.log(success);
+				
 			}
 		}).catch(err => {console.log(err)});
 	};
