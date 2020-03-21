@@ -1,4 +1,5 @@
 import React from 'react';
+import Spinner from 'react-bootstrap/Spinner';
 
 class Signin extends React.Component { 
 	constructor(props){
@@ -50,7 +51,7 @@ class Signin extends React.Component {
 	}
 
 	render() {
-				const { onRouteChange } = this.props;
+				const { onRouteChange, dbAwake } = this.props;
 				return ( 
 						<article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
 							<main className="pa4 black-80">
@@ -74,7 +75,8 @@ class Signin extends React.Component {
 							      <p onClick={() => onRouteChange('register')} className="f6 link dim black db pointer">Register</p>
 							    </div>
 							  </div>
-							  <div className="center f6 fw2">version 2.0</div>
+							  <p className="center f6 fw2">version 2.1 {(dbAwake) ? '' : 
+                                   <Spinner animation="border" size="sm" as="span" variant="secondary" />}</p>
 							</main>
 						</article>
 					);
