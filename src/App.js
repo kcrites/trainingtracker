@@ -14,7 +14,9 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Workout from './components/Workout/Workout';
 import './App.css';
 import ArrowImage from './components/Stats/ArrowImage';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+
+//import 'bootstrap/dist/css/bootstrap.min.css';
 
 //const serverURL = 'http://localhost:3005/';
 const serverURL = 'https://ttrackerserver-ams.herokuapp.com/';

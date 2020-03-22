@@ -14,9 +14,9 @@
 }
 
 .sidetable {
-    border-bottom: 3px solid rgb(66, 12, 12);
+    /* border-bottom: 3px solid rgb(66, 12, 12); */
   }
 
 .sidetable:hover {
-  background-color: #555555;
+  background-color: #bdb9b9;
 }

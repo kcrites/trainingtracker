@@ -1,5 +1,5 @@
 import React from 'react';
-import Spinner from 'react-bootstrap/Spinner';
+import Loader from 'react-loader-spinner'
 
 class Signin extends React.Component { 
 	constructor(props){
@@ -75,8 +75,15 @@ class Signin extends React.Component {
 							      <p onClick={() => onRouteChange('register')} className="f6 link dim black db pointer">Register</p>
 							    </div>
 							  </div>
-							  <p className="center f6 fw2">version 2.1 {(dbAwake) ? '' : 
-                                   <Spinner animation="border" size="sm" as="span" variant="secondary" />}</p>
+							  <div className="center f6 fw2 flex items-center">version 2.2 {(dbAwake) ? '' : 
+                                    <Loader
+									type="ThreeDots"
+									color="#00BFFF"
+									height={16}
+									width={30}
+									timeout={0} //3 secs
+						   
+								 />}</div>
 							</main>
 						</article>
 					);
