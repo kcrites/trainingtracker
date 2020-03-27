@@ -78,11 +78,12 @@ render() {
 					<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
       				 <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Package Session History</h1>
        					 <div className="pa3 bt b--black-10">
+							{trainingPackageArr.length > 0 ?
 							<ol className='fw4 tabletext'>
 							{trainingPackageArr.map(item => {
 								 return <li key={item.id}>{DateFormat(item.sessiondate)}</li>
 							})}
-        					</ol>
+        					</ol> : <p className="fw4 tabletext">No Training Sessions Yet</p>}
 						</div>
 					</article>
 						</div>

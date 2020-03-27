@@ -6,6 +6,7 @@ class TrainingInputForm extends React.Component {
 		super(props);
 		this.state = {
 			sessionDate: '',
+		
 			}
 		}
 
@@ -17,8 +18,9 @@ class TrainingInputForm extends React.Component {
 		const { sessionDate } = this.state;
 		const {  onRouteChange } = this.props;
 	
-		const { packagedate, email, sessionCount, serverURL } = this.props;
+		const { packagedate, email, serverURL } = this.props;
 		const { packageId} = this.props.pack;
+		let id = -1;
 		fetch(serverURL + 'addtraining', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
@@ -30,24 +32,28 @@ class TrainingInputForm extends React.Component {
 			})
 		})
 		.then(response => response.json())
-		.then(userStats => {
-			if(userStats){
-				this.props.loadUser(userStats);
-				//this.props.onRouteChange('trainingHistory');
+		.then(data => {
+			
+			if(data.id){
+			//	this.props.loadUser(data);
+			
+			id = data.id;
+				console.log(`data.id: ${data.id}, ${id}`)
+				let newSession = {
+					id: id,
+					sessiondate: sessionDate,
+					email: email,
+					packageid: parseInt(packageId),
+					packagedate: packagedate
+			}
+			this.updatePackage();
+			this.props.addSession(newSession);
+			//this.props.getTrainingHistory();
+			onRouteChange('trainingHistory');
 			}
 		}).catch(err => {console.log(err)});
-		let newSession = {
-				id: sessionCount,
-				sessiondate: sessionDate,
-				email: email,
-				packageid: packageId,
-				packagedate: packagedate
-		}
-		this.updatePackage();
-		this.props.addSession(newSession);
 
-		//onRouteChange('trainingHistory');
-		onRouteChange('trainingcard');
+		
 	}
 
 	updatePackage() {

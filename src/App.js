@@ -39,6 +39,7 @@ const initialState = {
     trainingDateSelected: '', 
     dbAwake: false,
     trainingPackage: [],
+    trainingHistory: [],
     user: {
       id: '',
       fName: '',
@@ -236,7 +237,7 @@ class App extends Component {
         if(train){
           train.forEach(e => {trainingHistoryArr.push(e)});
           const result = trainingHistoryArr.filter(id => id.packageid === parseInt(this.state.pack.packageId));
-          this.setState({trainingPackage : [...result]});
+          this.setState({trainingPackage : [...result], trainingHistory: trainingHistoryArr});
           return true;
         } 
       }).catch(err => {
@@ -247,13 +248,24 @@ class App extends Component {
 
   //Tracks new sessions in an array (the session is also sent to the DB for persistant storage)
   addSession = (e) => {
+    console.log('call to addSession');
       trainingHistoryArr.unshift(e);
+      this.setState(state => {
+        const trainingPackage = [e, ...state.trainingPackage];
+        console.table(trainingPackage)
+        return {
+          trainingPackage
+          
+        };
+      });
+    
     }
 
 //Loads component to add a new client package for the trainer
   addPackage = (e) => {
       this.onRouteChange('packageInputForm');
     }
+
 
  //Puts the workout date selected into State. Called from TrainingInputForm.
   workoutDate = (d) => {
