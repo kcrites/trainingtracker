@@ -18,8 +18,8 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
-//const serverURL = 'http://localhost:3005/';
-const serverURL = 'https://ttrackerserver-ams.herokuapp.com/';
+const serverURL = 'http://localhost:3005/';
+//const serverURL = 'https://ttrackerserver-ams.herokuapp.com/';
 
 const trainingHistoryArr = [];
 const statHistoryArr = [];
@@ -252,7 +252,7 @@ class App extends Component {
       trainingHistoryArr.unshift(e);
       this.setState(state => {
         const trainingPackage = [e, ...state.trainingPackage];
-        console.table(trainingPackage)
+        //console.table(trainingPackage)
         return {
           trainingPackage
           

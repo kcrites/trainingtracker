@@ -1,6 +1,8 @@
 import React from 'react';
 import Loader from 'react-loader-spinner'
 
+const version = '2.5';
+
 class Signin extends React.Component { 
 	constructor(props){
 		super(props);
@@ -75,7 +77,7 @@ class Signin extends React.Component {
 							      <p onClick={() => onRouteChange('register')} className="f6 link dim black db pointer">Register</p>
 							    </div>
 							  </div>
-							  <div className="center f6 fw2 flex items-center">version 2.2 {(dbAwake) ? '' : 
+							  <div className="center f6 fw2 flex items-center">version {version} {(dbAwake) ? '' : 
                                     <Loader
 									type="ThreeDots"
 									color="#00BFFF"

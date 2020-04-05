@@ -15,7 +15,6 @@ const Navigation = ({onRouteChange, isSignedIn, isTrainer, name}) => {
 				: <p onClick={() => onRouteChange('home')} className='f5 link dim black pa2 pointer'>Home</p>}
 				<p onClick={() => onRouteChange('trainingHistory')} className='f5 link dim black  pa2 pointer'>Training History</p>
 				<p onClick={() => onRouteChange('stats')} className='f5 link dim black  pa2 pointer'>Measurement History</p>
-				{/* <p onClick={() => onRouteChange('statsInputForm')} className='f5 link dim black  pa2 pointer'>Enter Stats</p> */}
 				<p onClick={() => onRouteChange('signout')} className='f5 link dim black pa2 pointer'>Sign Out</p>
 				</nav>
 			);
