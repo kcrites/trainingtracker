@@ -9,12 +9,14 @@ import Trainer from './components/Trainer/Trainer';
 import PackageInputForm from './components/PackageInputForm/PackageInputForm';
 import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
-import {TrainingCard} from './TrainingCard';
+
 import Dashboard from './components/Dashboard/Dashboard';
 import Workout from './components/Workout/Workout';
 import './App.css';
 import ArrowImage from './components/Stats/ArrowImage';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import SignIn from './pages/sign-in-up/sign-in-up.component';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -40,6 +42,7 @@ const initialState = {
     dbAwake: false,
     trainingPackage: [],
     trainingHistory: [],
+    currentUser: null,
     user: {
       id: '',
       fName: '',
@@ -96,6 +99,8 @@ class App extends Component {
     this.state = initialState;
    
   }
+  
+  unsubscribeFromAuth = null;
 
   componentWillMount(){
     fetch(serverURL, {
@@ -108,6 +113,27 @@ class App extends Component {
      } else this.setState({dbAwake: true});
       
    }).catch(err => {console.log(err)});
+   //Method to store user information after signin into state as currentUser
+   this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    if(userAuth) {
+      const userRef = await createUserProfileDocument(userAuth);
+
+      userRef.onSnapshot(snapShot => {
+        
+        this.setState({
+          currentUser: {
+            id: snapShot.id,
+          ...snapShot.data()
+        }
+        });
+      });
+    }
+    else (this.setState({currentUser: userAuth}));
+  });
+  }
+
+  componentWillUnmount(){
+    this.unsubscribeFromAuth();
   }
 
 //Load Data into State and Arrays
@@ -427,10 +453,7 @@ class App extends Component {
       return <div><Workout trainingDateSelected={this.state.trainingDateSelected} email={email} 
                             fName={fName} onRouteChange={onRouteChange} serverURL={serverURL}/></div>
     }
-    else if(route === 'trainingcard'){
-      return <div><TrainingCard package={trainingHistoryArr}
-      pack={pack}/></div>
-    }
+
   }
 
   render() {
@@ -443,7 +466,7 @@ class App extends Component {
         {(route !== 'signin' ? renderOption(route)
         : 
             route === 'signin'
-            ? <Signin loadUser={loadUser} dbAwake={dbAwake} onRouteChange={onRouteChange} clearArrays={clearArrays} serverURL={serverURL} loadTrainer={loadTrainer}/>
+            ? <SignIn />//<Signin loadUser={loadUser} dbAwake={dbAwake} onRouteChange={onRouteChange} clearArrays={clearArrays} serverURL={serverURL} loadTrainer={loadTrainer}/>
             : <Register loadUser={loadUser} serverURL={serverURL} onRouteChange={onRouteChange} />
             )
         }
