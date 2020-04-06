@@ -22,6 +22,15 @@ class SignIn extends React.Component {
         }catch (error){
             console.log(error);
         }
+        if(this.state.email.length > 1){
+       /*      if(user.istrainer === true) {
+                loadTrainer(user); // LOAD TO A SUPER USER LEVEL??
+                onRouteChange('trainer');
+            } else */ 
+                    await this.props.loadUser(this.state);
+                    this.props.onRouteChange('home');
+            }
+        
         
     }
 

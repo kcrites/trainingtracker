@@ -3,7 +3,7 @@ import logo from '../Logo/dmpt.jpg';
 import { auth } from '../../firebase/firebase.utils';
 
 import './Navigation.css';
-
+const version = '2.x';
 
 const Navigation = ({onRouteChange, isSignedIn, isTrainer, name, currentUser}) => {
 	if(currentUser) {
@@ -24,8 +24,7 @@ const Navigation = ({onRouteChange, isSignedIn, isTrainer, name, currentUser}) =
 				return(
 				<nav style={{display: 'flex', justifyContent: 'flex-end'}}>
 					<img className='ma4 mt0 br2' style={{marginRight: 'auto', height: '60px', justifyContent: 'flex-start', paddingTop: '10px'}} alt='Logo' src={logo} />
-					<p onClick={() => onRouteChange('signin')} className='f5 link dim black  pa3 pointer'>Sign in</p>
-					<p onClick={() => onRouteChange('register')} className='f5 link dim black  pa3 pointer'>Register</p>
+					<p className='f5 pa2'>Personal Training Tracker v{version}</p>
 				</nav>
 				);
 			}

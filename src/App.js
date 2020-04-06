@@ -115,9 +115,16 @@ class App extends Component {
       
    }).catch(err => {console.log(err)});
    //Method to store user information after signin into state as currentUser
+   let extraInfo = {
+     height: 175,
+     isTrainer: false,
+     isAdmin: false,
+     trainer: 'Desire',
+
+   }
    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
     if(userAuth) {
-      const userRef = await createUserProfileDocument(userAuth);
+      const userRef = await createUserProfileDocument(userAuth,extraInfo);
 
       userRef.onSnapshot(snapShot => {
         
@@ -126,16 +133,24 @@ class App extends Component {
             id: snapShot.id,
           ...snapShot.data()
           }
-          
+
         });
+this.loadUser(this.state.currentUser);
+console.log('active user')
+this.onRouteChange('home');
       });
     }
-    else (this.setState({currentUser: userAuth}));
+    else {
+      this.setState({currentUser: userAuth});
+      if(this.state.isSignedIn) this.resetApp();
+      
+  };
   });
   }
 
   componentWillUnmount(){
     this.unsubscribeFromAuth();
+    this.resetApp();
   }
 
 //Load Data into State and Arrays
@@ -376,14 +391,17 @@ class App extends Component {
 		}).catch(err => {console.log(err)});
   }
 
+  resetApp = () => {
+    this.setState(initialState);
+    this.clearArrays(statHistoryArr);
+    this.clearArrays(trainingHistoryArr);
+    this.setState({dbAwake: true})
+  }
+
 
 // Custom routing based on the 'route' variable in state
   onRouteChange = (route) => {
-    if(route === 'signout') {
-      this.setState(initialState);
-      this.clearArrays(statHistoryArr);
-      this.clearArrays(trainingHistoryArr);
-    } else if (route === 'home' || route === 'stats') {
+     if (route === 'home' || route === 'stats') {
               this.setState({isSignedIn: true})
               } else if (route === 'trainer'){
                 this.clearArrays(statHistoryArr);
@@ -395,8 +413,10 @@ class App extends Component {
   }
 
   renderOption = (route) => {
+    console.log(`route: ${route}`)
     const { stats, pack, loaded, user, indicator, dbAwake, trainingPackage } = this.state;
-    const { fName, email, height, trainer } = this.state.user;
+    const { fName, height, trainer } = this.state.user;
+    const { email } = this.state.currentUser;
     const { packageId, completed, newUser } = this.state.pack;
     const { isTrainer } = this.state.trainer;
     const { addSession, onRouteChange, loadUserPack, historyLoaded,
@@ -464,17 +484,19 @@ class App extends Component {
   render() {
     const {isSignedIn, route, dbAwake} = this.state;
     const { isTrainer, fName } = this.state.user;
+    const { currentUser } = this.state;
     const { loadUser, loadTrainer, onRouteChange, clearArrays, renderOption } = this;
+ 
     return (
       <div className="App">
         <Navigation currentUser={this.state.currentUser} isSignedIn={isSignedIn} onRouteChange={onRouteChange} isTrainer={isTrainer} name={fName} />
-        {(route !== 'start' ? renderOption(route)
-        : 
-            route === 'start'
-            ? <LoadingPage dbAwake={dbAwake} onRouteChange={onRouteChange}/>//<SignIn />//<Signin loadUser={loadUser} dbAwake={dbAwake} onRouteChange={onRouteChange} clearArrays={clearArrays} serverURL={serverURL} loadTrainer={loadTrainer}/>
-            : <SignIn />//<Register loadUser={loadUser} serverURL={serverURL} onRouteChange={onRouteChange} />
-            )
-        }
+
+      {(!currentUser && isSignedIn)
+      ? <SignIn />
+      : (route !== 'start') ?
+        renderOption(route)
+        :<LoadingPage dbAwake={dbAwake} onRouteChange={onRouteChange} loadUser={loadUser}/>
+      }
       </div>
     );
   }

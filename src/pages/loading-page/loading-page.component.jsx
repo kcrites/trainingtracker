@@ -5,11 +5,11 @@ import SignIn from '../sign-in-up/sign-in-up.component';
 import './loading-page.styles.scss';
 
 
-const LoadingPage = ({ dbAwake, onRouteChange}) => (
+const LoadingPage = ({ dbAwake, ...otherProps}) => (
        
             <div>
-                   {(dbAwake) ? <SignIn /> : 
-                               (<div>Loading Site    <Loader
+                   {(dbAwake) ? <SignIn {...otherProps}/> : 
+                               (<div><h2>Loading Site </h2>   <Loader
 									type="ThreeDots"
 									color="#00BFFF"
 									height={16}
