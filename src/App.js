@@ -16,6 +16,7 @@ import './App.css';
 import ArrowImage from './components/Stats/ArrowImage';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import SignIn from './pages/sign-in-up/sign-in-up.component';
+import LoadingPage from '../src/pages/loading-page/loading-page.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
@@ -35,7 +36,7 @@ const fixDate = (olddate) => {
 const initialState = {
   
     input: '',     
-    route: 'signin',
+    route: 'start',
     isSignedIn: false,
     loaded: false,  
     trainingDateSelected: '', 
@@ -124,7 +125,8 @@ class App extends Component {
           currentUser: {
             id: snapShot.id,
           ...snapShot.data()
-        }
+          }
+          
         });
       });
     }
@@ -453,6 +455,9 @@ class App extends Component {
       return <div><Workout trainingDateSelected={this.state.trainingDateSelected} email={email} 
                             fName={fName} onRouteChange={onRouteChange} serverURL={serverURL}/></div>
     }
+    else if(route === 'signin'){
+      return <div><SignIn /></div>
+    }
 
   }
 
@@ -462,12 +467,12 @@ class App extends Component {
     const { loadUser, loadTrainer, onRouteChange, clearArrays, renderOption } = this;
     return (
       <div className="App">
-        <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} isTrainer={isTrainer} name={fName} />
-        {(route !== 'signin' ? renderOption(route)
+        <Navigation currentUser={this.state.currentUser} isSignedIn={isSignedIn} onRouteChange={onRouteChange} isTrainer={isTrainer} name={fName} />
+        {(route !== 'start' ? renderOption(route)
         : 
-            route === 'signin'
-            ? <SignIn />//<Signin loadUser={loadUser} dbAwake={dbAwake} onRouteChange={onRouteChange} clearArrays={clearArrays} serverURL={serverURL} loadTrainer={loadTrainer}/>
-            : <Register loadUser={loadUser} serverURL={serverURL} onRouteChange={onRouteChange} />
+            route === 'start'
+            ? <LoadingPage dbAwake={dbAwake} onRouteChange={onRouteChange}/>//<SignIn />//<Signin loadUser={loadUser} dbAwake={dbAwake} onRouteChange={onRouteChange} clearArrays={clearArrays} serverURL={serverURL} loadTrainer={loadTrainer}/>
+            : <SignIn />//<Register loadUser={loadUser} serverURL={serverURL} onRouteChange={onRouteChange} />
             )
         }
       </div>
