@@ -20,9 +20,8 @@ class Dashboard extends React.Component {
             <div className="box header">
                 <div className='header-flex'>
                     <StatsButton onRouteChange={onRouteChange}/>
-                    {/* {(isTrainer) ? <div className="box header headertitle">Trainer Input for {fName}</div> 
-                         : <div className="box header headertitle">{fName}</div> } */}
-                    {(!completed ? <TrainingInputForm email={email}
+                
+                    <TrainingInputForm email={email}
                     pack={pack}
                     packagedate={dateStarted}  //FIX THIS
                     addSession={addSession}
@@ -31,8 +30,8 @@ class Dashboard extends React.Component {
                     workoutDate={workoutDate}
                     loadUserPack={loadUserPack}
                     trainingDateSelected={trainingDateSelected}
-                    onRouteChange={onRouteChange}/> : '')}
-                    </div>
+                    onRouteChange={onRouteChange}/> 
+                </div>
             </div>
             
             <div className='aside-1 aside box'>

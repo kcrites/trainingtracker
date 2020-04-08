@@ -13,10 +13,6 @@
   text-align: left;
 }
 
-.sidetable {
-    /* border-bottom: 3px solid rgb(66, 12, 12); */
-  }
-
 .sidetable:hover {
   background-color: #bdb9b9;
 }
