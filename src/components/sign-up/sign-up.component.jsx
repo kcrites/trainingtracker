@@ -131,12 +131,12 @@ render() {
                     required
                     />
                     	<div className="mv3">
-				       		<label className="db fw6 lh-copy f7" htmlFor="privacy">By selecting here you agree to the privacy policy for this application ->&nbsp; 
-				       		<input onChange={this.handlePrivacyChange}  type="checkbox" value="true" name="privacy"  id="privacy"/></label>
-							{/* <br/><button onClick={this.togglePopup.bind(this)}>Read Privacy Policy</button> */}
-                            <CustomButton onClick={this.togglePopup.bind(this)} isPrivacy>
+				       		<label className="db fw6 lh-copy f7 priv-label" htmlFor="privacy">Agree to the privacy policy for this application ->&nbsp; 
+				       		    <input onChange={this.handlePrivacyChange}  type="checkbox" value="true" name="privacy"  id="privacy"/>
+                                <span className="req">{' '}* required</span></label>
+                <CustomButton onClick={this.togglePopup.bind(this)} isPrivacy>
                             {' '}Read Privacy Policy{' '}
-                        </CustomButton>
+                </CustomButton>
 				      	</div>
 						  <div>
 						  {this.state.showPopup ? 
@@ -147,7 +147,7 @@ render() {
 								: null
 								}
 						  </div>
-               <CustomButton type='submit'>Sign Up</CustomButton>
+                <CustomButton type='submit'>Sign Up</CustomButton>
                
             </form>
         </div>

@@ -156,6 +156,10 @@ this.onRouteChange('home');
 //Load Data into State and Arrays
 //Puts user information into state after signin
  loadUser = (data) => {
+   if(data.height ) {
+     //capture height in db
+
+   }
     this.setState({
       user: {
         id: data.id,
@@ -251,7 +255,7 @@ this.onRouteChange('home');
         if(s.length > 0){
           s.forEach(e => {statHistoryArr.push(e)});
           this.loadLastStat(statHistoryArr[0]);
-          this.statIndicator(statHistoryArr);
+          if(statHistoryArr.length > 1) this.statIndicator(statHistoryArr);
           //set state and put first element of array into state for display (last entry)
         } else {
             //the stats history table is empty. What to do then?
@@ -290,18 +294,19 @@ this.onRouteChange('home');
   } 
 
   //Tracks new sessions in an array (the session is also sent to the DB for persistant storage)
-  addSession = (e) => {
-    console.log('call to addSession');
+  addSession = (e, self) => {
+    console.log('call to addSession' + self);
       trainingHistoryArr.unshift(e);
-      this.setState(state => {
-        const trainingPackage = [e, ...state.trainingPackage];
-        //console.table(trainingPackage)
-        return {
-          trainingPackage
-          
-        };
-      });
-    
+      if(!self){
+        this.setState(state => {
+          const trainingPackage = [e, ...state.trainingPackage];
+          //console.table(trainingPackage)
+          return {
+            trainingPackage
+            
+          };
+        });
+      }
     }
 
 //Loads component to add a new client package for the trainer
@@ -417,7 +422,7 @@ this.onRouteChange('home');
     const { stats, pack, loaded, user, indicator, dbAwake, trainingPackage } = this.state;
     const { fName, height, trainer } = this.state.user;
     const { email } = this.state.currentUser;
-    const { packageId, completed, newUser } = this.state.pack;
+    const { packageId, newUser, completed } = this.state.pack;
     const { isTrainer } = this.state.trainer;
     const { addSession, onRouteChange, loadUserPack, historyLoaded,
             getStatsHistory, getTrainingHistory, loadUser, clearArrays, loadTrainer, statAdmin,
@@ -485,7 +490,7 @@ this.onRouteChange('home');
     const {isSignedIn, route, dbAwake} = this.state;
     const { isTrainer, fName } = this.state.user;
     const { currentUser } = this.state;
-    const { loadUser, loadTrainer, onRouteChange, clearArrays, renderOption } = this;
+    const { loadUser, onRouteChange, renderOption } = this;
  
     return (
       <div className="App">

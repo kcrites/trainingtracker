@@ -7,7 +7,7 @@ class Popout extends React.Component {
         <div className='popup'>
           <div className='popup_inner'>
             <div style={{fontSize : '.75em'}}>{this.props.text}</div>
-          <button onClick={this.props.closePopup}>Close</button>
+          <button className='button-center' onClick={this.props.closePopup}>Close</button>
           </div>
         </div>
       );
@@ -15,3 +15,4 @@ class Popout extends React.Component {
   }
 
 export default Popout;
+

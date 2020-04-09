@@ -6,20 +6,33 @@ class TrainingInputForm extends React.Component {
 		super(props);
 		this.state = {
 			sessionDate: '',
+			selfTraining: false
 		
 			}
 		}
 
-	onDateChange = (event) => {
+	handleDateChange = (event) => {
 		this.setState({sessionDate: event.target.value})
+	}
+
+	handleSelfChange = event => {
+		this.setState({selfTraining: event.target.checked});
 	}
 
 	handleSubmitDate = (event) => {
 		const { sessionDate } = this.state;
 		const {  onRouteChange } = this.props;
-	
 		const { packagedate, email, serverURL } = this.props;
 		const { packageId} = this.props.pack;
+		let pId, pDate;
+
+		if(this.state.selfTraining){
+			pDate = null;
+			pId = 0;
+		} else{
+			pDate = packagedate;
+			pId = parseInt(packageId);
+		}
 		let id = -1;
 		fetch(serverURL + 'addtraining', {
 			method: 'post',
@@ -27,8 +40,8 @@ class TrainingInputForm extends React.Component {
 			body: JSON.stringify({
 				sessiondate: sessionDate,
 				email: email,
-				packageid: packageId,
-				packagedate: packagedate
+				packageid: pId,
+				packagedate: pDate
 			})
 		})
 		.then(response => response.json())
@@ -43,11 +56,13 @@ class TrainingInputForm extends React.Component {
 					id: id,
 					sessiondate: sessionDate,
 					email: email,
-					packageid: parseInt(packageId),
-					packagedate: packagedate
+					packageid: pId,
+					packagedate: pDate
 			}
-			this.updatePackage();
-			this.props.addSession(newSession);
+			if(!this.state.selfTraining){
+				this.updatePackage();
+			}
+			this.props.addSession(newSession, this.state.selfTraining);
 			//this.props.getTrainingHistory();
 			onRouteChange('trainingHistory');
 			}
@@ -90,13 +105,15 @@ class TrainingInputForm extends React.Component {
 				
 				</div>	 */}
 		<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
-        <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Add a Training Session</h1>
-        <div className="pa3 bt b--black-10">	
-		<div className='pa1 br2 shadow-5 form center'>
-					<input className='f5 pa1 w-70 center' type='date'onChange={this.onDateChange}/>
+        	<h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Add a Training Session</h1>
+        	<div className="pa3 bt b--black-10">	
+				<div className='pa1 br2 shadow-5 form center'>
+					<input className='f5 pa1 w-70 center' type='date'onChange={this.handleDateChange}/>
 					<button name='session' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
 				</div>
-				</div></article>
+				<span className='f7'>Self-training</span>{" "}<input type='checkbox' onChange={this.handleSelfChange} name='selfTraining'/>
+			</div>
+		</article>
 		</nav>
 		);
 	}

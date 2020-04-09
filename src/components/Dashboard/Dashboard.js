@@ -12,7 +12,7 @@ class Dashboard extends React.Component {
         const { stats, pack, loaded, addSession, onRouteChange, serverURL, workoutDate, trainingDateSelected, trainingPackageArr } = this.props;
         const { email } = this.props.user;
         const { isTrainer, emptyPackage, addPackage, loadUserPack, historyLoaded, getStatsHistory, getTrainingHistory } = this.props;
-        const { completed, dateStarted } = this.props.pack;
+        const { dateStarted } = this.props.pack;
       
         return (
             <div className="wrapper">
