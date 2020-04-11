@@ -5,7 +5,6 @@ import CustomButton from '../custom-button/custom-button.component';
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
 import './sign-up.styles.scss';
-let errorCode = '';
 
 let privacyPolicy = <div><h2>Privacy Policy</h2>
 <p>Your privacy is important to us. It is Karve Software's policy to respect your privacy regarding any information we may collect from you across our website, <a href="http://karvesoftware.com">http://karvesoftware.com</a>, and other sites we own and operate.</p>

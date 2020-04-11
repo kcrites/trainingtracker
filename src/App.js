@@ -156,8 +156,9 @@ this.onRouteChange('home');
 //Load Data into State and Arrays
 //Puts user information into state after signin
  loadUser = (data) => {
-   if(data.height ) {
+   if(data.height) {
      //capture height in db
+     console.log(data.height);
 
    }
     this.setState({
