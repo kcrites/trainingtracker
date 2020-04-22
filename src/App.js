@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import Navigation from './components/Navigation/Navigation';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
-import Stats from './components/Stats/Stats';
+//import Stats from './components/Stats/Stats';
 import StatsInputForm from './components/StatsInputForm/StatsInputForm';
 import TrainingHistory from './components/TrainingHistory/TrainingHistory';
 import Trainer from './components/Trainer/Trainer';
 import PackageInputForm from './components/PackageInputForm/PackageInputForm';
 import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
-
+import History from './components/history/history.component';
 import Dashboard from './components/Dashboard/Dashboard';
 import Workout from './components/Workout/Workout';
 import './App.css';
@@ -135,17 +135,18 @@ class App extends Component {
           }
 
         });
-this.loadUser(this.state.currentUser);
-console.log('active user')
-this.onRouteChange('home');
+        this.loadUser(this.state.currentUser);
+        console.log('active user')
+        this.onRouteChange('home');
       });
     }
     else {
       this.setState({currentUser: userAuth});
       if(this.state.isSignedIn) this.resetApp();
       
-  };
-  });
+    };
+    });
+    
   }
 
   componentWillUnmount(){
@@ -158,7 +159,7 @@ this.onRouteChange('home');
  loadUser = (data) => {
    if(data.height) {
      //capture height in db
-     console.log(data.height);
+     console.log(`user height: ${data.height}`);
 
    }
     this.setState({
@@ -421,6 +422,7 @@ this.onRouteChange('home');
   renderOption = (route) => {
     console.log(`route: ${route}`)
     const { stats, pack, loaded, user, indicator, dbAwake, trainingPackage } = this.state;
+    const { displayName } = this.state.currentUser;
     const { fName, height, trainer } = this.state.user;
     const { email } = this.state.currentUser;
     const { packageId, newUser, completed } = this.state.pack;
@@ -444,8 +446,11 @@ this.onRouteChange('home');
                               onRouteChange={onRouteChange} emptyPackage={this.emptyPackage}
                               isTrainer={isTrainer} addPackage={this.addPackage}/></div> 
     }
-    else if (route === 'stats'){
-      return <div> <Stats statHistory={statHistoryArr} name={fName} indicator={indicator}/></div>
+    else if (route === 'stats'){ //converted to component
+      return <div> <History array={statHistoryArr} name={displayName} indicator={indicator} type='Measurements' /></div>
+    }
+    else if (route === 'trainingHistory'){ //converted to component
+      return <div><History array={trainingHistoryArr} name={displayName} type='Training'/></div>
     }
     else if (route === 'signout'){
       return <div><Signin loadUser={ loadUser } onRouteChange={onRouteChange} dbAwake={dbAwake}
@@ -454,10 +459,7 @@ this.onRouteChange('home');
     else if (route === 'register'){
       return <div><Register loadUser={ loadUser } serverURL={serverURL} onRouteChange={onRouteChange} /></div>
     }
-    else if (route === 'trainingHistory'){
-      return <div><TrainingHistory packageId={packageId} trainingHistoryArr={trainingHistoryArr}
-                                  email={email} name={fName} getTrainingHistory={getTrainingHistory}/></div>
-    }
+
     else if (route === 'statsInputForm'){
       return <div><StatsInputForm name={fName}  email={email} serverURL={serverURL}
                                   height={height} onRouteChange={onRouteChange}

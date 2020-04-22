@@ -28,13 +28,16 @@ constructor(){
         height: '',
         privacy: false,
         error: false,
-        showPopup: false
+        showPopup: false,
+        isTrainer: false,
+        isAdmin: false,
+        trainer: 'Desire',
     }
 }
 
 handleSubmit = async e => {
     e.preventDefault();
-    const { displayName, email, password, confirmPassword, height, privacy } = this.state;
+    const { displayName, email, password, confirmPassword, height, privacy, isAdmin, isTrainer, trainer } = this.state;
 
     if(password !== confirmPassword){
         alert("Password doesn't match");
@@ -49,7 +52,7 @@ handleSubmit = async e => {
             email,
             password
         );
-    await createUserProfileDocument(user, {displayName, height});
+    await createUserProfileDocument(user, {displayName, height, isAdmin, isTrainer, trainer});
     this.setState({
         displayName: '',
         email: '',

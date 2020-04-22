@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+//import 'firebase/database';
 
 const config = {
     apiKey: "AIzaSyDaQ26ZGK34rZzRWGhHlsRw389rBkeCv9I",
@@ -16,7 +17,6 @@ const config = {
   export const createUserProfileDocument = async (userAuth, additionalData) => {
     if(!userAuth) return;
     const userRef = firestore.doc(`users/${userAuth.uid}`)
-
     const snapShot = await userRef.get();
 
     if(!snapShot.exists) {
@@ -37,10 +37,25 @@ const config = {
     return userRef;
   };
 
+/*             export const displayUsers = async () => {
+                const userList = fireBase.ref("users").orderByKey();
+                   userList.once("value")
+                 .then(function(snapshot) {
+                     snapshot.forEach(function(childSnapshot) {
+                        // key will be "ada" the first time and "alan" the second time
+                        var key = childSnapshot.key;
+                        // childData will be the actual contents of the child
+                        var childData = childSnapshot.val();
+                    });
+                });
+                console.table(userList)
+            }; */
+
   firebase.initializeApp(config);
 
   export const auth = firebase.auth();
   export const firestore = firebase.firestore();
+ // export const fireBase = firebase.database();
 
   const provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account'});

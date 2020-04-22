@@ -1,7 +1,8 @@
 
 import React from 'react';
+import { RenderRowTraining } from '../render-row/render-row.component';
 
-const fixDate = (array) => {
+/* const fixDate = (array) => {
       array.map((item) => {
       let d1 = new Date(item.sessiondate);
       let d2 = new Date(item.packagedate);
@@ -21,7 +22,7 @@ const renderRow= (array) =>{
               </tr>
             
       );
-}
+} */
 
 class TrainingHistory extends React.Component {
 
@@ -73,7 +74,8 @@ handleSelectorChange = (event) => {
                   </tr>
                 </thead>
                 <tbody className="lh-copy">
-                {renderRow(this.state.history)}
+                {/* {renderRow(this.state.history)} */}
+                <RenderRowTraining array={this.state.history} />
                 </tbody>
               </table>
             </div>

@@ -1,6 +1,7 @@
 import React from 'react';
+import { RenderRowMeasurements } from '../render-row/render-row.component';
 
-const fixDate = (array) => {
+/* const fixDate = (array) => {
       array.map((item) => {
       let d = new Date(item.statsdate);
       item.statsdate = d.toLocaleDateString();
@@ -23,7 +24,7 @@ const renderRow= (array, indicator) =>{
               <td className="pa3">{item.percentwater} {(index === i )? indicator.percentwater : ''}</td>
             </tr>
     );
-}
+} */
 
 
 class Stats extends React.Component {
@@ -63,7 +64,8 @@ render() {
               </tr>
             </thead>
             <tbody className="lh-copy">
-              {renderRow(statHistory, indicator)}
+              {/* {renderRow(statHistory, indicator)} */}
+              <RenderRowMeasurements array={statHistory} indicator={indicator} />
 
             </tbody>
           </table>
