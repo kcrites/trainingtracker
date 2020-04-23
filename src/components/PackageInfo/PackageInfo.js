@@ -8,12 +8,14 @@ class PackageInfo extends React.Component {
 		this.state = {
 			noPackage: false
 		}
-		this.loadPackage();
+		//this.loadPackage();
+		//this.getPackageHistory();
 		}
 
-loadPackage = () => {
+
+ loadPackage = () => {
 	const { loadUserPack, emptyPackage, email, serverURL} = this.props;
-    fetch(serverURL + 'getpackage', {
+     fetch(serverURL + 'getpackage', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -34,6 +36,24 @@ loadPackage = () => {
     }).catch(err => {console.log(`loadPackage Error: ${err}`)});
 	}
 	
+	async getPackageHistory(){
+		const { email, serverURL } = this.props;
+		
+			const packageObj = await  fetch(serverURL + 'getpackage', {
+				method: 'post',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({
+				  email: email
+				})
+			  })
+			  .then(response => response.json())
+			  .then(pack => {
+				  //(LOAD TO REDUX STORE)
+				  console.log(pack);
+				  this.setState({pack: pack});
+			  })
+		
+	}
 	//Get the stats and training history for the user from the DB
 	async getHistory(){
 		const { loaded, getStatsHistory, getTrainingHistory, historyLoaded } = this.props;

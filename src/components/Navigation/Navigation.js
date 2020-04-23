@@ -10,7 +10,7 @@ const Navigation = ({onRouteChange, isSignedIn, isTrainer, name, currentUser}) =
 		return(
 			<nav className='nav' style={{display: 'flex', justifyContent: 'space-between', height:'60px'}}>
 				<div  style={{marginRight: 'auto', height: '50px', direction: 'row',flexWrap: 'nowrap',justifyContent: 'flex-start'}}>
-					<img className='ma4 mt0 br2' style={{ height: '40px', paddingTop: '10px' ,paddingBottom: '10px'}} alt='Logo' src={logo} />
+					<img className='ma4 mt0 br2' style={{ height: '50px', paddingTop: '10px'}} alt='Logo' src={logo} />
 					 <p style={{marginLeft: '5px'}} className='mt2 mb0 fw2 f3 pa2'>{name}</p> 
 				</div>
 				{(isTrainer) ? <p onClick={() => onRouteChange('trainer')} className='f5 link dim black pa2  pointer'>Home</p>

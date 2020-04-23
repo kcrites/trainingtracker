@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import Navigation from './components/Navigation/Navigation';
-import Signin from './components/Signin/Signin';
-import Register from './components/Register/Register';
-//import Stats from './components/Stats/Stats';
 import StatsInputForm from './components/StatsInputForm/StatsInputForm';
-import TrainingHistory from './components/TrainingHistory/TrainingHistory';
 import Trainer from './components/Trainer/Trainer';
 import PackageInputForm from './components/PackageInputForm/PackageInputForm';
 import Help from './components/Help/Help';
@@ -18,6 +14,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import SignIn from './pages/sign-in-up/sign-in-up.component';
 import LoadingPage from '../src/pages/loading-page/loading-page.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -104,49 +101,49 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   componentWillMount(){
-    fetch(serverURL, {
-      method: 'get',
-      headers: {'Content-Type': 'application/json'},
-    })
-    .then(response => {
-     if(response.length < 1){
-       console.log('Error waking the DB');
-     } else this.setState({dbAwake: true});
-      
-   }).catch(err => {console.log(err)});
-   //Method to store user information after signin into state as currentUser
-   let extraInfo = {
-     height: 175,
-     isTrainer: false,
-     isAdmin: false,
-     trainer: 'Desire',
-
-   }
-   this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-    if(userAuth) {
-      const userRef = await createUserProfileDocument(userAuth,extraInfo);
-
-      userRef.onSnapshot(snapShot => {
+      fetch(serverURL, {
+        method: 'get',
+        headers: {'Content-Type': 'application/json'},
+      })
+      .then(response => {
+      if(response.length < 1){
+        console.log('Error waking the DB');
+      } else this.setState({dbAwake: true});
         
-        this.setState({
-          currentUser: {
-            id: snapShot.id,
-          ...snapShot.data()
-          }
+    }).catch(err => {console.log(err)});
+    //Method to store user information after signin into state as currentUser
+    let extraInfo = {
+      height: 175,
+      isTrainer: false,
+      isAdmin: false,
+      trainer: 'Desire',
 
-        });
-        this.loadUser(this.state.currentUser);
-        console.log('active user')
-        this.onRouteChange('home');
-      });
     }
-    else {
-      this.setState({currentUser: userAuth});
-      if(this.state.isSignedIn) this.resetApp();
-      
-    };
-    });
-    
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if(userAuth) {
+        const userRef = await createUserProfileDocument(userAuth,extraInfo);
+
+        userRef.onSnapshot(snapShot => {
+          
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+            ...snapShot.data()
+            }
+
+          });
+          this.loadUser(this.state.currentUser);
+          
+          this.onRouteChange('home');
+        });
+      }
+      else {
+        this.setState({currentUser: userAuth});
+        if(this.state.isSignedIn) this.resetApp();
+        
+      };
+      });
+ 
   }
 
   componentWillUnmount(){
@@ -159,7 +156,7 @@ class App extends Component {
  loadUser = (data) => {
    if(data.height) {
      //capture height in db
-     console.log(`user height: ${data.height}`);
+    
 
    }
     this.setState({
@@ -421,14 +418,14 @@ class App extends Component {
 
   renderOption = (route) => {
     console.log(`route: ${route}`)
-    const { stats, pack, loaded, user, indicator, dbAwake, trainingPackage } = this.state;
+    const { stats, pack, loaded, user, indicator, trainingPackage } = this.state;
     const { displayName } = this.state.currentUser;
     const { fName, height, trainer } = this.state.user;
     const { email } = this.state.currentUser;
     const { packageId, newUser, completed } = this.state.pack;
     const { isTrainer } = this.state.trainer;
     const { addSession, onRouteChange, loadUserPack, historyLoaded,
-            getStatsHistory, getTrainingHistory, loadUser, clearArrays, loadTrainer, statAdmin,
+            getStatsHistory, getTrainingHistory, statAdmin,
             handleTrainerSubmit } = this;
     
     if(route === 'home'){
@@ -452,14 +449,6 @@ class App extends Component {
     else if (route === 'trainingHistory'){ //converted to component
       return <div><History array={trainingHistoryArr} name={displayName} type='Training'/></div>
     }
-    else if (route === 'signout'){
-      return <div><Signin loadUser={ loadUser } onRouteChange={onRouteChange} dbAwake={dbAwake}
-                           clearArrays={clearArrays} serverURL={serverURL} loadTrainer={loadTrainer}  /></div>
-    }
-    else if (route === 'register'){
-      return <div><Register loadUser={ loadUser } serverURL={serverURL} onRouteChange={onRouteChange} /></div>
-    }
-
     else if (route === 'statsInputForm'){
       return <div><StatsInputForm name={fName}  email={email} serverURL={serverURL}
                                   height={height} onRouteChange={onRouteChange}

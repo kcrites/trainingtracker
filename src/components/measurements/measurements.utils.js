@@ -40,3 +40,75 @@ export const checkStats = (newStat, lastStat, arrowMeaning) => {
   } else return " ";
  
 }
+
+export const getPackageHistory = (email,serverURL, storeInState) => {
+  //Only returns active package (1 record)
+  try{
+          fetch(serverURL + 'getpackage', {
+                  method: 'post',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({
+                    email: email
+                  })
+            })
+            .then(response => response.json())
+            .then(pack => {
+                    //(LOAD TO REDUX STORE)
+                    console.log('pack:' + pack);
+                    if(pack.id){
+                      storeInState(pack, 'pack');
+                    } else console.log('no package info')
+            })
+          }catch(error) {
+            console.log('Get Stats History Error: ', error);
+          }
+          return true;
+        };
+
+export const getMeasurementsHistory = (email, serverURL, storeInState) => {
+  const tempHistoryArr = [];
+    try{
+      fetch(serverURL + 'getstats', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          email: email
+        })
+      })
+      .then(response => response.json())
+      .then(s => {
+        if(s.length > 0){
+         s.forEach(e => {tempHistoryArr.push(e)});
+         storeInState(s, 'stats');
+        } else {
+            //the stats history table is empty. What to do then?
+            console.log(`stat history table is empty in getStatsHistory`);
+        }
+      })
+    }catch(error) {
+        console.log('Get Stats History Error: ', error);
+      }
+      return true;
+    };
+
+
+    export const getTrainingHistory = (email, serverURL, storeInState) => {
+      const tempHistoryArr = [];
+      fetch(serverURL + 'gettrainings', {
+          method: 'post',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            email: email
+          })
+        })
+        .then(response => response.json())
+        .then(train => {
+          if(train){
+            train.forEach(e => {tempHistoryArr.push(e)});
+            storeInState(train, 'training');
+          } 
+        }).catch(err => {
+                    console.log('Get Training History Error: ' + err);
+                });
+        return true;
+    } 
