@@ -9,7 +9,7 @@ const LoadingPage = ({ dbAwake, ...otherProps}) => (
        
             <div>
                    {(dbAwake) ? <SignIn {...otherProps}/> : 
-                               (<div><h2>Loading Site </h2>   <Loader
+                               (<div className='centered-element'><h2>Loading Site </h2>   <Loader
 									type="ThreeDots"
 									color="#00BFFF"
 									height={16}

@@ -1,32 +1,36 @@
 import React from 'react';
-import logo from '../Logo/dmpt.jpg';
+import { ReactComponent as Logo } from '../Logo/dmpt.svg';
 import { auth } from '../../firebase/firebase.utils';
 
 import './navigation.styles.scss';
 const version = '2.x';
 
-const Navigation = ({onRouteChange, isSignedIn, isTrainer, name, currentUser}) => {
+const Navigation = ({onRouteChange, isSignedIn, isTrainer, currentUser}) => {
 	if(currentUser) {
 		return(
-			<nav className='header'>
+			<nav className='app-header'>
 			<div className='logo-container'>
-            <img src = {logo} className='logo' alt="logo"/>
-				
+				<Logo className='app-logo' />
+				<span className='option option-name'>{currentUser.displayName}</span>
 			</div>
-				{(isTrainer) ? <span onClick={() => onRouteChange('trainer')} className='options'>Home</span>
-				: <span onClick={() => onRouteChange('home')} className='options'>Home</span>}
-				<span onClick={() => onRouteChange('trainingHistory')} className='options'>Training History</span>
-				<span onClick={() => onRouteChange('stats')} className='options'>Measurement History</span>
-				<span onClick={() => auth.signOut()}className='options'>Sign Out</span>
-				</nav>
+			<div className='options'>
+				{(isTrainer) ? <span onClick={() => onRouteChange('trainer')} className='option'>Home</span>
+				: <span onClick={() => onRouteChange('home')} className='option'>Home</span>}
+				<span onClick={() => onRouteChange('trainingHistory')} className='option'>Training</span>
+				<span onClick={() => onRouteChange('stats')} className='option'>Measurements</span>
+				<span onClick={() => auth.signOut()}className='option'>Sign Out</span>
+				</div>
+			</nav>
 			);
 		} else {
 				return(
-					<nav className='header'>
+					<nav className='app-header'>
 					<div className='logo-container'>
-                    <img src = {logo} className='logo' alt="logo"/>
+                    <Logo className='app-logo' alt="logo"/>
 					</div>
-					<span className='f5 pa2'>Personal Training Tracker v{version}</span>
+					<div className='options'>
+						<span className='option'>Personal Training Tracker v{version}</span>
+					</div>
 				</nav>
 				);
 			}

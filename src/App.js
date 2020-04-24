@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Navigation from './components/Navigation/Navigation';
+//import Navigation from './components/Navigation/Navigation';
+import Navigation from './components/Navigation/navigation.component';
 import StatsInputForm from './components/StatsInputForm/StatsInputForm';
 import Trainer from './components/Trainer/Trainer';
 import PackageInputForm from './components/PackageInputForm/PackageInputForm';
@@ -430,6 +431,7 @@ class App extends Component {
     
     if(route === 'home'){
       return <div> <Dashboard user={user} pack={pack} stats={stats} loaded = {loaded}
+      currentUser={this.state.currentUser}
                               getTrainingHistory={getTrainingHistory}
                               packageArr={trainingHistoryArr}
                               trainingPackageArr={trainingPackage}

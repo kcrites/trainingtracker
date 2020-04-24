@@ -16,13 +16,9 @@
       justify-content: flex-end;
   }
   
-  .footer {
-    background: #fff;
-  }
-  
   .main {
     text-align: left;
-    background: deepskyblue;
+    background: rgb(27,102,236);
   }
   
   .aside-1 {
@@ -44,9 +40,6 @@
     .footer  { order: 3; }
   }
   
-  body {
-    padding: .5em; 
-  }
   .box {
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
@@ -56,3 +49,56 @@
     font-size: 150%;
     
   }
+  .header,
+.footer {
+  /* background-color: #999; */
+  border-top: .5px solid #fff;
+}
+
+/* .sidetitle {
+ 
+    font-size: 1.25em;
+    font-weight: 600;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    text-align: left;
+} */
+
+/* .headertitle {
+  
+  font-size: 2em;
+  font-weight: 700;
+  color: white;
+  text-shadow:
+   -1px -1px 0 #777,  
+    1px -1px 0 #777,
+    -1px 1px 0 #777,
+     1px 1px 0 #777;
+  
+} */
+
+
+  /* .footer {
+  background-color: white;
+  color: #000;
+
+}  */
+
+/* .topleft {
+  position: absolute;
+  top: 0;
+  left: 0;
+} */
+
+/* .tabletext {
+    font-size: .75em;
+    text-align: left;
+} */
+
+/* .footertext {
+    font-size: 1em;
+} */
+
+/* .packtable {
+    text-align: left;
+} */

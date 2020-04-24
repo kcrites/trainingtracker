@@ -7,8 +7,8 @@ import './Dashboard.css';
 import StatsButton from '../StatsInputForm/StatsButton';
 import { getPackageHistory, getMeasurementsHistory, getTrainingHistory } from '../measurements/measurements.utils';
 
-let email = 'kenrcrites@gmail.com';
-let serverURL = 'http://localhost:3005/';
+//let email = 'kenrcrites@gmail.com';
+//let serverURL = 'http://localhost:3005/';
 
 class Dashboard extends React.Component { 
     constructor(){
@@ -23,11 +23,13 @@ class Dashboard extends React.Component {
 
  componentWillMount(){
         if(!this.state.loaded) {
-            this.myfunction();
+            this.getData();
 		}
     }
 
-     myfunction = async () => {
+     getData = async () => {
+         const { email } = this.props.currentUser;
+         const { serverURL } = this.props;
         const result3 = await getMeasurementsHistory(email, serverURL, this.storeInState); 
        
         const result2 = await getTrainingHistory(email, serverURL, this.storeInState);
@@ -44,7 +46,7 @@ class Dashboard extends React.Component {
     } 
 
     render() {
-        const { stats, pack, loaded, addSession, onRouteChange, serverURL, workoutDate, trainingDateSelected, trainingPackageArr } = this.props;
+        const { stats, loaded, addSession, onRouteChange, serverURL, workoutDate, trainingDateSelected, trainingPackageArr } = this.props;
         const { email } = this.props.user;
         const { isTrainer, emptyPackage, addPackage, loadUserPack, historyLoaded, getStatsHistory, getTrainingHistory } = this.props;
         const { dateStarted } = this.props.pack;
@@ -57,7 +59,7 @@ class Dashboard extends React.Component {
                     <StatsButton onRouteChange={onRouteChange}/>
                 
                     <TrainingInputForm email={email}
-                    pack={pack}
+                    pack={this.state.pack}
                     packagedate={dateStarted}  //FIX THIS
                     addSession={addSession}
                     getTrainingHistory={getTrainingHistory}
@@ -89,7 +91,7 @@ class Dashboard extends React.Component {
                     emptyPackage={emptyPackage}/>
                 
             </div>
-            <div className=" footer ">
+            <div className="footer">
                 <Footer onRouteChange={onRouteChange} isAdmin={isTrainer} />
             </div>
             </div>

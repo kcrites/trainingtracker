@@ -1,14 +1,16 @@
-.header {
+.app-header {
     height: 70px;
     width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 25px;
+    margin-bottom: 0px;
+    background-color: rgb(27, 102, 236);
+    color: white;
 
     .logo-container {
         height: 100%;
-        width: 70px;
-        padding: 25px;
+        width: 200px;
+        padding: 5px;
     }
 
     .options {
@@ -22,11 +24,22 @@
     .option {
         padding: 10px 15px;
         cursor: pointer;
+    
+    }
+    .option-name {
+        align-items: center;
     }
 
-    .logo {
-        height: '40px';
+    .app-logo{
+        height: '20px';
+        background-color: white;
          padding-top: '10px' ;
-         padding-bottom: '10px'
+         padding-bottom: '0px';
+         padding-right: '10px;';
+    }
+    .header-name {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
     }
 }

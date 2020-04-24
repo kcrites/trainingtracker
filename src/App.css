@@ -1,68 +1,28 @@
-.App {
-  text-align: center;
-  font-family: 'Open Sans', sans-serif;
+body {
+  font-family:  'Open Sans Condensed', sans-serif;;
+  /* padding: 20px 60px; from clothing scss*/
+  padding: .5em;
 }
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
 * {
   box-sizing: border-box;
 }
+
+/* .App {
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+} */
+
 /* .center {
   display: flex;
   justify-content: center;
 } */
 
 
-.header,
-.footer {
-  /* background-color: #999; */
-  border-top: .5px solid #fff;
-}
-
-.sidetitle {
- 
-    font-size: 1.25em;
-    font-weight: 600;
-    margin-bottom: 15px;
-    margin-top: 10px;
-    text-align: left;
-}
-
-.headertitle {
-  
-  font-size: 2em;
-  font-weight: 700;
-  color: white;
-  text-shadow:
-   -1px -1px 0 #777,  
-    1px -1px 0 #777,
-    -1px 1px 0 #777,
-     1px 1px 0 #777;
-  
-}
-
-
-  .footer {
-  background-color: white;
-  color: #000;
-
-} 
-
-.topleft {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.tabletext {
-    font-size: .75em;
-    text-align: left;
-}
-
-.footertext {
-    font-size: 1em;
-}
-
-.packtable {
-    text-align: left;
-}
 
 

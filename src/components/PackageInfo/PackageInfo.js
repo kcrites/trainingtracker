@@ -8,7 +8,7 @@ class PackageInfo extends React.Component {
 		this.state = {
 			noPackage: false
 		}
-		//this.loadPackage();
+		this.loadPackage();
 		//this.getPackageHistory();
 		}
 
@@ -56,7 +56,7 @@ class PackageInfo extends React.Component {
 	}
 	//Get the stats and training history for the user from the DB
 	async getHistory(){
-		const { loaded, getStatsHistory, getTrainingHistory, historyLoaded } = this.props;
+		const { loaded, getStatsHistory, getTrainingHistory, historyLoaded} = this.props;
 		if(!loaded) {
 			let [result1, result2] = await Promise.all([getStatsHistory(), getTrainingHistory()]);
 			(result1 && result2) ?
@@ -66,13 +66,14 @@ class PackageInfo extends React.Component {
 	}
 
 render() {
-	const { completed, sessionsLeft, sessionCount, dateStarted} = this.props.pack;
+	const { completed, sessioncount, datestarted, maxsessions} = this.props.pack;
 	const { isTrainer, email, addPackage, trainingPackageArr } = this.props;
 	const { noPackage } = this.state;
+	const sessionsLeft = maxsessions - sessioncount;
 	let formattedDate;
 
 	if(!noPackage) {
-		formattedDate = DateFormat(dateStarted);
+		formattedDate = DateFormat(datestarted);
 			return (
 				<div >
 				{(!completed ?  <div >
@@ -83,7 +84,7 @@ render() {
 							<table >
 								<tbody className='packtable tabletext'>
 									<tr>
-										<td className='tl'>Sessions Used </td><td>{sessionCount}</td>
+										<td className='tl'>Sessions Used </td><td>{sessioncount}</td>
 									</tr>
 									<tr>
 										<td className='tl'>Sessions left </td><td>{sessionsLeft}</td>
