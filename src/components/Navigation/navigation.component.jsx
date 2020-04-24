@@ -1,11 +1,12 @@
 import React from 'react';
 import { ReactComponent as Logo } from '../Logo/dmpt.svg';
 import { auth } from '../../firebase/firebase.utils';
+import { connect } from 'react-redux';
 
 import './navigation.styles.scss';
 const version = '2.x';
 
-const Navigation = ({onRouteChange, isSignedIn, isTrainer, currentUser}) => {
+const Navigation = ({onRouteChange, currentUser}) => {
 	if(currentUser) {
 		return(
 			<nav className='app-header'>
@@ -14,8 +15,7 @@ const Navigation = ({onRouteChange, isSignedIn, isTrainer, currentUser}) => {
 				<span className='option option-name'>{currentUser.displayName}</span>
 			</div>
 			<div className='options'>
-				{(isTrainer) ? <span onClick={() => onRouteChange('trainer')} className='option'>Home</span>
-				: <span onClick={() => onRouteChange('home')} className='option'>Home</span>}
+				<span onClick={() => onRouteChange(`${currentUser.isTrainer ? 'trainer' : 'home'}`)} className='option'>Home</span>
 				<span onClick={() => onRouteChange('trainingHistory')} className='option'>Training</span>
 				<span onClick={() => onRouteChange('stats')} className='option'>Measurements</span>
 				<span onClick={() => auth.signOut()}className='option'>Sign Out</span>
@@ -34,7 +34,11 @@ const Navigation = ({onRouteChange, isSignedIn, isTrainer, currentUser}) => {
 				</nav>
 				);
 			}
-	}
+	};
 
 
-export default Navigation;
+const mapStateToProps = state => ({
+	currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(Navigation);

@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import './TrainingInputForm.css';
+import { serverURL } from '../../server-path';
 
 class TrainingInputForm extends React.Component {
 	constructor(props){
@@ -21,8 +23,9 @@ class TrainingInputForm extends React.Component {
 
 	handleSubmitDate = (event) => {
 		const { sessionDate } = this.state;
+		const { email } = this.props.currentUser;
 		const {  onRouteChange } = this.props;
-		const { packagedate, email, serverURL } = this.props;
+		const { packagedate} = this.props;
 		const { packageId} = this.props.pack;
 		let pId, pDate;
 
@@ -72,7 +75,8 @@ class TrainingInputForm extends React.Component {
 	}
 
 	updatePackage() {
-		const {  email, serverURL } = this.props;
+		
+		const { email } = this.props.currentUser;
 		const { packageId } = this.props.pack;
 			fetch(serverURL + 'updatepackage', {
 			method: 'post',
@@ -119,4 +123,8 @@ class TrainingInputForm extends React.Component {
 	}
 }
 
-export default TrainingInputForm;
+const mapStateToProps = state => ({
+	currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(TrainingInputForm);

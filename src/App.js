@@ -10,16 +10,19 @@ import History from './components/history/history.component';
 import Dashboard from './components/Dashboard/Dashboard';
 import Workout from './components/Workout/Workout';
 import './App.css';
+import { serverURL } from './server-path';
 import ArrowImage from './components/Stats/ArrowImage';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import SignIn from './pages/sign-in-up/sign-in-up.component';
 import LoadingPage from '../src/pages/loading-page/loading-page.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import { connect } from 'react-redux';
+import { setCurrentUser } from './redux/user/user.actions'
 
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
-const serverURL = 'http://localhost:3005/';
+//const serverURL = 'http://localhost:3005/';
 //const serverURL = 'https://ttrackerserver-ams.herokuapp.com/';
 
 const trainingHistoryArr = [];
@@ -35,13 +38,12 @@ const initialState = {
   
     input: '',     
     route: 'start',
-    isSignedIn: false,
     loaded: false,  
     trainingDateSelected: '', 
     dbAwake: false,
     trainingPackage: [],
     trainingHistory: [],
-    currentUser: null,
+    
     user: {
       id: '',
       fName: '',
@@ -120,27 +122,26 @@ class App extends Component {
       trainer: 'Desire',
 
     }
+    const { setCurrentUser } = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if(userAuth) {
         const userRef = await createUserProfileDocument(userAuth,extraInfo);
 
         userRef.onSnapshot(snapShot => {
           
-          this.setState({
-            currentUser: {
+          setCurrentUser({
+            
               id: snapShot.id,
             ...snapShot.data()
-            }
-
           });
-          this.loadUser(this.state.currentUser);
+          this.loadUser(this.props.currentUser);
           
           this.onRouteChange('home');
         });
       }
       else {
-        this.setState({currentUser: userAuth});
-        if(this.state.isSignedIn) this.resetApp();
+        setCurrentUser(userAuth);
+        this.resetApp();
         
       };
       });
@@ -406,23 +407,23 @@ class App extends Component {
 
 // Custom routing based on the 'route' variable in state
   onRouteChange = (route) => {
-     if (route === 'home' || route === 'stats') {
+  /*    if (route === 'home' || route === 'stats') {
               this.setState({isSignedIn: true})
               } else if (route === 'trainer'){
                 this.clearArrays(statHistoryArr);
                 this.clearArrays(trainingHistoryArr);
                 this.setState({isSignedIn: true});
                 this.setState({user: [], pack: [], stats: [], loaded: false});
-              }
+              } */
     this.setState({route: route});
   }
 
   renderOption = (route) => {
     console.log(`route: ${route}`)
     const { stats, pack, loaded, user, indicator, trainingPackage } = this.state;
-    const { displayName } = this.state.currentUser;
+    const { displayName } = this.props.currentUser;
     const { fName, height, trainer } = this.state.user;
-    const { email } = this.state.currentUser;
+    const { email } = this.props.currentUser;
     const { packageId, newUser, completed } = this.state.pack;
     const { isTrainer } = this.state.trainer;
     const { addSession, onRouteChange, loadUserPack, historyLoaded,
@@ -431,19 +432,18 @@ class App extends Component {
     
     if(route === 'home'){
       return <div> <Dashboard user={user} pack={pack} stats={stats} loaded = {loaded}
-      currentUser={this.state.currentUser}
-                              getTrainingHistory={getTrainingHistory}
-                              packageArr={trainingHistoryArr}
-                              trainingPackageArr={trainingPackage}
-                              getStatsHistory={getStatsHistory}
-                              historyLoaded={historyLoaded}
-                              loadUserPack={loadUserPack}
-                              workoutDate={this.workoutDate}
-                              trainingDateSelected={this.state.trainingDateSelected}
-                              addSession={addSession}
-                              serverURL={serverURL}
-                              onRouteChange={onRouteChange} emptyPackage={this.emptyPackage}
-                              isTrainer={isTrainer} addPackage={this.addPackage}/></div> 
+                      getTrainingHistory={getTrainingHistory}
+                          packageArr={trainingHistoryArr}
+                          trainingPackageArr={trainingPackage}
+                          getStatsHistory={getStatsHistory}
+                          historyLoaded={historyLoaded}
+                          loadUserPack={loadUserPack}
+                          workoutDate={this.workoutDate}
+                          trainingDateSelected={this.state.trainingDateSelected}
+                          addSession={addSession}
+                          serverURL={serverURL}
+                          onRouteChange={onRouteChange} emptyPackage={this.emptyPackage}
+                          isTrainer={isTrainer} addPackage={this.addPackage}/></div> 
     }
     else if (route === 'stats'){ //converted to component
       return <div> <History array={statHistoryArr} name={displayName} indicator={indicator} type='Measurements' /></div>
@@ -481,24 +481,29 @@ class App extends Component {
   }
 
   render() {
-    const {isSignedIn, route, dbAwake} = this.state;
-    const { isTrainer, fName } = this.state.user;
-    const { currentUser } = this.state;
+    const { route, dbAwake} = this.state;
+    const { currentUser } = this.props;
     const { loadUser, onRouteChange, renderOption } = this;
  
     return (
       <div className="App">
-        <Navigation currentUser={this.state.currentUser} isSignedIn={isSignedIn} onRouteChange={onRouteChange} isTrainer={isTrainer} name={fName} />
+        <Navigation onRouteChange={onRouteChange} />
 
-      {(!currentUser && isSignedIn)
-      ? <SignIn />
-      : (route !== 'start') ?
-        renderOption(route)
-        :<LoadingPage dbAwake={dbAwake} onRouteChange={onRouteChange} loadUser={loadUser}/>
+      {(!currentUser )
+      ? <LoadingPage dbAwake={dbAwake} onRouteChange={onRouteChange} loadUser={loadUser}/>
+      : renderOption(route)
       }
       </div>
     );
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+})
+
+const mapStateToProps = state => ({
+	currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

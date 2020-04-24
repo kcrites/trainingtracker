@@ -18,12 +18,27 @@
   
   .main {
     text-align: left;
-    background: rgb(27,102,236);
+    
   }
   
   .aside-1 {
-    background: gold;
+    background-color: rgb(255, 255, 255);
   }
+  
+  .box {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    /* border-radius: 5px; */
+    border: 1px solid rgb(99, 97, 97);
+    padding: 10px;
+    font-size: 150%;
+    
+  }
+  .header,
+.footer {
+  
+  border-top: .5px solid #fff;
+}
   
   /* .aside-2 {
     background: hotpink;
@@ -40,20 +55,7 @@
     .footer  { order: 3; }
   }
   
-  .box {
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
-    /* border-radius: 5px; */
-    border: 1px solid rgb(99, 97, 97);
-    padding: 10px;
-    font-size: 150%;
-    
-  }
-  .header,
-.footer {
-  /* background-color: #999; */
-  border-top: .5px solid #fff;
-}
+
 
 /* .sidetitle {
  

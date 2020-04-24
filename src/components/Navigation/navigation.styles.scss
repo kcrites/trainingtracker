@@ -11,6 +11,8 @@
         height: 100%;
         width: 200px;
         padding: 5px;
+        display: flex;
+        align-items: center;
     }
 
     .options {
@@ -26,9 +28,7 @@
         cursor: pointer;
     
     }
-    .option-name {
-        align-items: center;
-    }
+  
 
     .app-logo{
         height: '20px';
@@ -37,9 +37,5 @@
          padding-bottom: '0px';
          padding-right: '10px;';
     }
-    .header-name {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-    }
+
 }

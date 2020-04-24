@@ -8,15 +8,17 @@ import './loading-page.styles.scss';
 const LoadingPage = ({ dbAwake, ...otherProps}) => (
        
             <div>
-                   {(dbAwake) ? <SignIn {...otherProps}/> : 
-                               (<div className='centered-element'><h2>Loading Site </h2>   <Loader
-									type="ThreeDots"
-									color="#00BFFF"
-									height={16}
-									width={30}
-									timeout={0} //3 secs
-						   
-								 /> </div>)}
+				   {(dbAwake) 
+				   ? <SignIn {...otherProps}/> 
+				   : 
+					(<div className='centered-element'><h2>Loading Site </h2>   
+						<Loader
+							type="ThreeDots"
+							color="#00BFFF"
+							height={16}
+							width={30}
+							timeout={0} //3 secs
+						/> </div>)}
             </div>
         
 )

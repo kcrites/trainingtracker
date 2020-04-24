@@ -1,6 +1,8 @@
 import React from 'react';
 import './PackageInfo.css';
 import DateFormat from '../DateFormat/DateFormat';
+import { connect } from 'react-redux';
+import { serverURL } from '../../server-path';
 
 class PackageInfo extends React.Component { 
 		constructor(props){
@@ -14,7 +16,8 @@ class PackageInfo extends React.Component {
 
 
  loadPackage = () => {
-	const { loadUserPack, emptyPackage, email, serverURL} = this.props;
+	const { loadUserPack, emptyPackage} = this.props;
+	const { email } = this.props.currentUser;
      fetch(serverURL + 'getpackage', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -37,7 +40,8 @@ class PackageInfo extends React.Component {
 	}
 	
 	async getPackageHistory(){
-		const { email, serverURL } = this.props;
+	
+		const { email } = this.props.currentUser;
 		
 			const packageObj = await  fetch(serverURL + 'getpackage', {
 				method: 'post',
@@ -66,10 +70,11 @@ class PackageInfo extends React.Component {
 	}
 
 render() {
+	const { isTrainer, email } = this.props.currentUser;
 	const { completed, sessioncount, datestarted, maxsessions} = this.props.pack;
-	const { isTrainer, email, addPackage, trainingPackageArr } = this.props;
+	const { addPackage, trainingPackageArr } = this.props;
 	const { noPackage } = this.state;
-	const sessionsLeft = maxsessions - sessioncount;
+	const sessionsLeft = (maxsessions) ? maxsessions - sessioncount : 0;
 	let formattedDate;
 
 	if(!noPackage) {
@@ -124,4 +129,8 @@ render() {
 	
 	}
 
-export default PackageInfo;
+const mapStateToProps = state => ({
+		currentUser: state.user.currentUser
+	});
+
+export default connect(mapStateToProps)(PackageInfo);

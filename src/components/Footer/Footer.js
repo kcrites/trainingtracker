@@ -1,10 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import './Footer.css';
 
-const Footer = ({onRouteChange, isAdmin}) => {
+const Footer = ({onRouteChange, isTrainer}) => {
 	return(
 			<nav className='footer-size' style={{display: 'flex', justifyContent: 'center'}}>
-				{(isAdmin ? <p onClick={() => onRouteChange('trainer')} className='f5 link dim black pa3 pointer'>Client List -</p>
+				{(isTrainer ? <p onClick={() => onRouteChange('trainer')} className='f5 link dim black pa3 pointer'>Client List -</p>
 				: ''
 					)}
 				<p onClick={() => onRouteChange('trainerinfo')} className='f5 link dim black  pa1 pointer'>Trainer Information -</p>
@@ -12,4 +13,8 @@ const Footer = ({onRouteChange, isAdmin}) => {
 			</nav>
 			);
 	}
-export default Footer;
+
+const mapStateToProps = state => ({
+		currentUser: state.user.currentUser
+	});
+export default connect(mapStateToProps)(Footer);

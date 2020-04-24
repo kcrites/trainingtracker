@@ -1,4 +1,4 @@
-
+import { serverURL } from '../../server-path';
 // Provides images to indicate if the current stats are more, less, or equal to the previous 
 // measurements. This is called when the user is logging in so that the indicators are stored in state.
 export const statIndicator = (array) => {
@@ -41,31 +41,9 @@ export const checkStats = (newStat, lastStat, arrowMeaning) => {
  
 }
 
-export const getPackageHistory = (email,serverURL, storeInState) => {
-  //Only returns active package (1 record)
-  try{
-          fetch(serverURL + 'getpackage', {
-                  method: 'post',
-                  headers: {'Content-Type': 'application/json'},
-                  body: JSON.stringify({
-                    email: email
-                  })
-            })
-            .then(response => response.json())
-            .then(pack => {
-                    //(LOAD TO REDUX STORE)
-                    console.log('pack:' + pack);
-                    if(pack.id){
-                      storeInState(pack, 'pack');
-                    } else console.log('no package info')
-            })
-          }catch(error) {
-            console.log('Get Stats History Error: ', error);
-          }
-          return true;
-        };
 
-export const getMeasurementsHistory = (email, serverURL, storeInState) => {
+
+export const getMeasurementsHistory = (email, storeInState) => {
   const tempHistoryArr = [];
     try{
       fetch(serverURL + 'getstats', {
@@ -91,24 +69,9 @@ export const getMeasurementsHistory = (email, serverURL, storeInState) => {
       return true;
     };
 
-
-    export const getTrainingHistory = (email, serverURL, storeInState) => {
-      const tempHistoryArr = [];
-      fetch(serverURL + 'gettrainings', {
-          method: 'post',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            email: email
-          })
-        })
-        .then(response => response.json())
-        .then(train => {
-          if(train){
-            train.forEach(e => {tempHistoryArr.push(e)});
-            storeInState(train, 'training');
-          } 
-        }).catch(err => {
-                    console.log('Get Training History Error: ' + err);
-                });
-        return true;
-    } 
+//Fix system date to normal format
+    export const fixDate = (olddate) => {
+      let d = new Date(olddate);
+      let newdate = d.toLocaleDateString();
+      return newdate;
+}

@@ -1,8 +1,11 @@
 import React from 'react';
+import { fixDate } from '../measurements/measurements.utils';
 import './Sidebar.css';
 
 const Sidebar = (props) => {
-	const { date, weight, musclemass, fatlevel, bmi, vv, percentwater} = props.stats;
+        const { statsdate, weight, musclemass, fatlevel, bmi, vv, percentwater} = props.stats;
+       let fixed = fixDate(statsdate);
+
     return(
         <article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
         <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Measurements</h1>
@@ -12,7 +15,7 @@ const Sidebar = (props) => {
                         <tbody >
                         <tr className='sidetable'>
                             <td className='tabletext'>Date</td>
-                            <td className='tabletext'>{date}</td>
+                            <td className='tabletext'>{fixed}</td>
                         </tr>
                         <tr className='sidetable'>
                             <td className='tabletext'>Weight</td>
