@@ -9,7 +9,6 @@ import TrainerInfo from './components/TrainerInfo/TrainerInfo';
 import History from './components/history/history.component';
 import Dashboard from './components/Dashboard/Dashboard';
 import Workout from './components/Workout/Workout';
-import './App.css';
 import { serverURL } from './server-path';
 import ArrowImage from './components/Stats/ArrowImage';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -19,11 +18,8 @@ import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions'
 
+import './App.css';
 
-//import 'bootstrap/dist/css/bootstrap.min.css';
-
-//const serverURL = 'http://localhost:3005/';
-//const serverURL = 'https://ttrackerserver-ams.herokuapp.com/';
 
 const trainingHistoryArr = [];
 const statHistoryArr = [];
@@ -441,28 +437,24 @@ class App extends Component {
                           workoutDate={this.workoutDate}
                           trainingDateSelected={this.state.trainingDateSelected}
                           addSession={addSession}
-                          serverURL={serverURL}
+                          
                           onRouteChange={onRouteChange} emptyPackage={this.emptyPackage}
                           isTrainer={isTrainer} addPackage={this.addPackage}/></div> 
     }
     else if (route === 'stats'){ //converted to component
-      return <div> <History array={statHistoryArr} name={displayName} indicator={indicator} type='Measurements' /></div>
+      return <div> <History array={statHistoryArr} indicator={indicator} type='Measurements' /></div>
     }
     else if (route === 'trainingHistory'){ //converted to component
-      return <div><History array={trainingHistoryArr} name={displayName} type='Training'/></div>
+      return <div><History array={trainingHistoryArr}  type='Training'/></div>
     }
     else if (route === 'statsInputForm'){
-      return <div><StatsInputForm name={fName}  email={email} serverURL={serverURL}
-                                  height={height} onRouteChange={onRouteChange}
-                                  statAdmin={statAdmin}/></div>
+      return <div><StatsInputForm height={height} onRouteChange={onRouteChange} statAdmin={statAdmin}/></div>
     }   
     else if (route === 'trainer'){
-      return <div><Trainer history={allUserHistoryArr} handleTrainerSubmit={handleTrainerSubmit}
-                                  serverURL={serverURL} /></div>
+      return <div><Trainer history={allUserHistoryArr} handleTrainerSubmit={handleTrainerSubmit}/></div>
     }
     else if (route === 'packageInputForm'){
-      return <div><PackageInputForm email={email} fName={fName} completed={completed} packageId={packageId}
-                                    serverURL={serverURL} newUser={newUser}/></div>
+      return <div><PackageInputForm completed={completed} packageId={packageId} newUser={newUser}/></div>
     }   
     else if (route === 'help') {
       return <div><Help /></div>
@@ -471,8 +463,7 @@ class App extends Component {
       return <div><TrainerInfo trainer={trainer}/></div>
     }
     else if(route === 'workout'){
-      return <div><Workout trainingDateSelected={this.state.trainingDateSelected} email={email} 
-                            fName={fName} onRouteChange={onRouteChange} serverURL={serverURL}/></div>
+      return <div><Workout trainingDateSelected={this.state.trainingDateSelected} onRouteChange={onRouteChange} /></div>
     }
     else if(route === 'signin'){
       return <div><SignIn /></div>

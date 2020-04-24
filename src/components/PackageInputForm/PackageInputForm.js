@@ -1,7 +1,6 @@
 import React from 'react';
-
-
-
+import { serverURL } from '../../server-path';
+import { connect } from 'react-redux';
 
 class PackageInputForm extends React.Component {
 	constructor(props){
@@ -34,8 +33,9 @@ onPackIDChange = (event) => {
 }
 
 handleTrainerSubmit = (e) => {
-	console.log('package submit');
-	const { email, newPackage, serverURL } = this.props;
+	
+	const { newPackage } = this.props;
+	const { email } = this.props.currentUser
 	const { dateInput, maxSessionsInput, packageIDInput } = this.state;
     fetch(serverURL + 'addpackage', {
 			method: 'post',
@@ -59,7 +59,7 @@ handleTrainerSubmit = (e) => {
 	};
 
 render() {
-const { fName } = this.props;
+const { displayName } = this.props.currentUser;
 const { allowed, packageIDInput, success } = this.state;
 
 	if(success){
@@ -69,7 +69,7 @@ const { allowed, packageIDInput, success } = this.state;
 			!allowed ? <div>Current Package is not yet completed</div>
 			: <div>
 				<p className='f3'>
-					{`Please input the new training package for ${fName}`}
+					{`Please input the new training package for ${displayName}`}
 				</p>
 				<div className='center'>
 					<div className='pa4 br2 shadow-5 center'>
@@ -100,4 +100,8 @@ const { allowed, packageIDInput, success } = this.state;
 	}	
 }
 
-export default PackageInputForm;
+const mapStateToProps = state => ({
+	currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(PackageInputForm);

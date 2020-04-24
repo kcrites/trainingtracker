@@ -1,4 +1,6 @@
 import React from 'react';
+import { serverURL } from '../../server-path';
+import { connect } from 'react-redux';
 
 class StatsInputForm extends React.Component {
 	constructor(props){
@@ -43,13 +45,14 @@ class StatsInputForm extends React.Component {
 	}
 
 	handleSubmitStats = () => {
-		const { name, email, height, serverURL }  = this.props;
+		const { height }  = this.props;
+		const { displayName, email } = this.props.currentUser;
 		const { statsWeight, statsMuscleMass, statsFatLevel, statsBMI, statsVV, statsPercentWater, statsDate} = this.state;
 		fetch(serverURL + 'addstats', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
-				name: name,
+				name: displayName,
 				email: email,
 				height: height,
 				weight: statsWeight,
@@ -83,11 +86,11 @@ class StatsInputForm extends React.Component {
 	  }
 
 	render(){
-
+		const { displayName } = this.props.currentUser;
 		return (
 			<div>
 				<p className='f3'>
-					{this.props.name + ': Please input your measurments'}
+					{displayName+ ': Please input your measurments'}
 				</p>
 				<div className='center'>
 					<div className='pa4 br2 shadow-5 center'>
@@ -121,4 +124,8 @@ class StatsInputForm extends React.Component {
 	}
 }
 
-export default StatsInputForm;
+const mapStateToProps = state => ({
+	currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(StatsInputForm);

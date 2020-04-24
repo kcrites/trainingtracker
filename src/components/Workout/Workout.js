@@ -3,6 +3,8 @@ import ExerciseElement from './ExerciseElement';
 import ShowWorkout from './ShowWorkout';
 import Popout from '../Popout/Popout';
 import ExampleImage from './ExampleImage.png';
+import { serverURL } from '../../server-path';
+import { connect } from 'react-redux';
 
 let finalArray;
 
@@ -167,7 +169,7 @@ class Workout extends React.Component {
     }
 
 	handleSubmitWorkout = () => {
-		const { email , serverURL}  = this.props;
+		const { email }  = this.props.currentUser;
         const { exercise1, exercise2, exercise3, exercise4, exercise5, exercise6, trainingDate } = this.state;
         const { group1, group2, group3, group4, group5 } = this.state;
         const { exercise7, exercise8, exercise9 } = this.state;
@@ -212,7 +214,8 @@ class Workout extends React.Component {
 	  }
 
 	render(){
-        const { fName, trainingDateSelected } = this.props;
+        const { trainingDateSelected } = this.props;
+        const { displayName } = this.props.currentUser
         const { groupArray } = this.state;
         let j = this.state.eCounter;
 
@@ -225,11 +228,11 @@ class Workout extends React.Component {
 
 		return (
 
-            this.state.submitted ? <ShowWorkout workout={finalArray} fName={fName} dateSelected={trainingDateSelected} />
+            this.state.submitted ? <ShowWorkout workout={finalArray} fName={displayName} dateSelected={trainingDateSelected} />
             :
 			<div>
 				<p className='f3'>
-					{'Workout Planner for '+ fName + ' on ' + trainingDateSelected}
+					{'Workout Planner for '+ displayName + ' on ' + trainingDateSelected}
 				</p>
 				<div className='center'>
 					<div className='pa4 br2 shadow-5 center'>
@@ -267,4 +270,8 @@ class Workout extends React.Component {
 	}
 }
 
-export default Workout;
+const mapStateToProps = state => ({
+	currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(Workout);

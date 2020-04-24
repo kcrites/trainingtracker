@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { RenderRowTraining, RenderRowMeasurements, RenderColumn } from '../render-row/render-row.component';
-
+import { connect } from 'react-redux';
 
 const measurementColumnArray = [
     
@@ -47,7 +47,8 @@ handleSelectorChange = (event) => {
 //Add package number (example 2 of 11) on each row by running through in a function and adding to state
 
   render(){
-    const {array, name, type} = this.props;
+    const {array,  type} = this.props;
+    const { name } = this.props.currentUser;
     const { history } = this.state;
    
     if(array.length === 0) {
@@ -89,4 +90,8 @@ handleSelectorChange = (event) => {
   }
 }
 
-export default History;
+const mapStateToProps = state => ({
+	currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(History);

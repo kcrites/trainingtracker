@@ -1,4 +1,5 @@
 import React from 'react';
+import { serverURL } from '../../server-path';
 
 const renderRow= (array, action) =>{
   return array.map((item, index)  => 
@@ -36,7 +37,7 @@ componentWillUnmount() {
 
 getClients = () => {
   const { loading } = this.state;
-  const { serverURL } = this.props;
+  
   //console.log('trainer loading: ' + loading);
     if(clientListArr.length === 0) {
       fetch(serverURL + 'getclients', {

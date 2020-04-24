@@ -9,6 +9,7 @@ import { getMeasurementsHistory } from '../measurements/measurements.utils';
 import { getTrainingHistory } from '../training-sessions/training-sessions.utils';
 import { getPackageHistory } from '../packages/packages.utils';
 import { connect } from 'react-redux';
+import { setMeasurements } from '../../redux/measurements/measurements.actions';
 
 class Dashboard extends React.Component { 
     constructor(){
@@ -29,7 +30,7 @@ class Dashboard extends React.Component {
     }
 
      getData = async () => {
-         const { email } = this.props.currentUser;
+        const { email } = this.props.currentUser;
         
         const result3 = await getMeasurementsHistory(email,  this.storeInState); 
        
@@ -44,7 +45,11 @@ class Dashboard extends React.Component {
     }
 
     storeInState = (data, type) => {
+        if(type === 'stats'){
+            this.props.setMeasurements(data);
+        } else {
         this.setState({[type]: data});
+        }
     } 
 
     render() {
@@ -52,7 +57,8 @@ class Dashboard extends React.Component {
         
         const { emptyPackage, addPackage, loadUserPack, historyLoaded, getStatsHistory, getTrainingHistory } = this.props;
        
-        const { pack, stats } = this.state;
+        const { pack } = this.state;
+        const { stats }= this.props;
     
         return (
             <div className="wrapper">
@@ -100,10 +106,16 @@ class Dashboard extends React.Component {
 }
 
 const mapStateToProps = state => ({
-	currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    stats: state.measurements.stats
 });
 
-export default connect(mapStateToProps)(Dashboard);
+const mapDispatchToProps = dispatch => ({
+   
+    setMeasurements: stats => dispatch(setMeasurements(stats))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 
            /*   {(!completed ? <TrainingInputForm email={email}
                 pack={pack}
