@@ -64,7 +64,7 @@ class Dashboard extends React.Component {
         const { loaded, addSession, onRouteChange, workoutDate, trainingDateSelected, trainingPackageArr } = this.props;
         const { emptyPackage, addPackage, loadUserPack, historyLoaded, getStatsHistory, getTrainingHistory } = this.props;
         const { pack } = this.state;
-        const { stats }= this.props;
+        
     
         return (
             <div className="wrapper">
@@ -87,7 +87,7 @@ class Dashboard extends React.Component {
             </div>
             
             <div className='aside-1 aside box'>
-                <Sidebar stats={stats[0]}/>
+                <Sidebar />
             </div>       
             
             <div className="box main shadow-3">

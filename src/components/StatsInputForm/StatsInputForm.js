@@ -1,6 +1,7 @@
 import React from 'react';
 import { serverURL } from '../../server-path';
 import { connect } from 'react-redux';
+import { addMeasurements } from '../../redux/measurements/measurements.actions';
 
 class StatsInputForm extends React.Component {
 	constructor(props){
@@ -71,8 +72,19 @@ class StatsInputForm extends React.Component {
 			let tempD = d.toLocaleDateString();
 				this.props.statAdmin(tempD, statsWeight, statsMuscleMass, statsFatLevel, 
 					statsBMI, statsVV, statsPercentWater);
-					//console.log(tempD, this.state.statsWeight, this.state.statsMuscleMass, this.state.statsFatLevel, 
-					//	this.state.statsBMI, this.state.statsVV, this.state.statsPercentWater);
+
+					this.props.addMeasurements({
+						id: userStats.id,
+						email: email,
+						height: height,
+						weight: statsWeight,
+						musclemass: statsMuscleMass,
+						fatlevel: statsFatLevel,
+						bmi: statsBMI,
+						vv: statsVV,
+						percentwater: statsPercentWater,
+						statsdate: tempD
+					});
 				this.props.onRouteChange('stats');
 			}
 		})
@@ -128,4 +140,8 @@ const mapStateToProps = state => ({
 	currentUser: state.user.currentUser
 });
 
-export default connect(mapStateToProps)(StatsInputForm);
+const mapDisplatchToProps = dispatch => ({
+	addMeasurements: stats => dispatch(addMeasurements(stats))
+});
+
+export default connect(mapStateToProps, mapDisplatchToProps)(StatsInputForm);

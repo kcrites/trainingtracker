@@ -1,7 +1,11 @@
 import { MeasurementsActionTypes } from './measurements.types';
 
-export const setMeasurements = stats => ({
+export const setMeasurements = data => ({
     type: MeasurementsActionTypes.SET_MEASUREMENTS,
-    payload: stats
+    payload: data
 });
 
+export const addMeasurements = data => ({
+    type: MeasurementsActionTypes.ADD_MEASUREMENTS,
+    payload: data
+});

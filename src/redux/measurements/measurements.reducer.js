@@ -1,15 +1,15 @@
 import { MeasurementsActionTypes } from './measurements.types';
 
 const INITIAL_STATE = {
-stats: [{
-    date: '',
-    weight: 0.0,
-    musclemass: 0.0,
-    fatlevel: 0.0,
-    bmi: 0.0,
-    vv: 0.0,
-    percentwater: 0.0
-}]
+     stats:  [{
+        statsdate: null,
+        weight: null,
+        musclemass: 0.0,
+        fatlevel: 0.0,
+        bmi: 0.0,
+        vv: 0.0,
+        percentwater: 0.0
+    }] 
 }
 
 
@@ -19,7 +19,14 @@ const measurementsReducer = (state = INITIAL_STATE, action) => {
         case MeasurementsActionTypes.SET_MEASUREMENTS:
             return {
                 ...state,
-                stats: action.payload
+                //stats: state.stats.push([action.payload])
+                //stats: []...state.stats, action.payload]
+               stats: action.payload
+            }
+        case MeasurementsActionTypes.ADD_MEASUREMENTS:
+            return {
+                ...state,
+                stats: [ action.payload, ...state.stats]
             }
         default:
             return state;

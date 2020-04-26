@@ -416,7 +416,7 @@ class App extends Component {
 
   renderOption = (route) => {
     console.log(`route: ${route}`)
-    const { stats, pack, loaded, user, indicator, trainingPackage } = this.state;
+    const {  pack, loaded, user, indicator, trainingPackage } = this.state;
   
     const { height, trainer } = this.state.user;
  
@@ -427,7 +427,7 @@ class App extends Component {
             handleTrainerSubmit } = this;
     
     if(route === 'home'){
-      return <div> <Dashboard user={user} pack={pack} stats={stats} loaded = {loaded}
+      return <div> <Dashboard user={user} pack={pack} loaded = {loaded}
                       getTrainingHistory={getTrainingHistory}
                           packageArr={trainingHistoryArr}
                           trainingPackageArr={trainingPackage}

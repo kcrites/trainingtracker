@@ -31,25 +31,22 @@ export const RenderRowTraining = ({array}) =>{
 
 export const RenderRowMeasurements = ({array}) =>{
   fixDate(array,1);
-  //***** check for ematpy or single element array *******
   const indicator = [];
   for(let k = 0; k < array.length-1; k++){
     indicator.push(statIndicator(array, k));
   }
-  console.table(indicator);
-  let i = 0;//array.length-1;
-return array.map((item, index)  => 
-          <tr key={index} className="stripe-dark">
-          <td className="pa3">{index+1}</td>
-            <td className="pa3">{item.statsdate}</td>
-            <td className="pa3">{item.weight} {(index < array.length-1  )? indicator[index][0] : ''}</td>
-            <td className="pa3">{item.musclemass} {(index< array.length-1  )? indicator[index][1] : ''}</td>
-            <td className="pa3">{item.fatlevel} {(index < array.length-1  )? indicator[index][2]: ''}</td>
-            <td className="pa3">{item.bmi} {(index < array.length-1  )? indicator[index][3]: ''}</td>
-            <td className="pa3">{item.vv} {(index < array.length-1  )? indicator[index][4]: ''}</td>
-            <td className="pa3">{item.percentwater} {(index < array.length-1  )? indicator[index][5] : ''}</td>
-          </tr>
-  );
+  return array.map((item, index)  => 
+            <tr key={index} className="stripe-dark">
+            <td className="pa3">{index+1}</td>
+              <td className="pa3">{item.statsdate}</td>
+              <td className="pa3">{item.weight} {(index < array.length-1  )? indicator[index][0] : ''}</td>
+              <td className="pa3">{item.musclemass} {(index< array.length-1  )? indicator[index][1] : ''}</td>
+              <td className="pa3">{item.fatlevel} {(index < array.length-1  )? indicator[index][2]: ''}</td>
+              <td className="pa3">{item.bmi} {(index < array.length-1  )? indicator[index][3]: ''}</td>
+              <td className="pa3">{item.vv} {(index < array.length-1  )? indicator[index][4]: ''}</td>
+              <td className="pa3">{item.percentwater} {(index < array.length-1  )? indicator[index][5] : ''}</td>
+            </tr>
+    );
 }
 
 export const RenderColumn = ({array}) => {
