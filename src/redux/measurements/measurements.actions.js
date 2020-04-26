@@ -4,3 +4,4 @@ export const setMeasurements = stats => ({
     type: MeasurementsActionTypes.SET_MEASUREMENTS,
     payload: stats
 });
+

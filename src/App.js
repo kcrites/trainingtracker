@@ -417,9 +417,9 @@ class App extends Component {
   renderOption = (route) => {
     console.log(`route: ${route}`)
     const { stats, pack, loaded, user, indicator, trainingPackage } = this.state;
-    const { displayName } = this.props.currentUser;
-    const { fName, height, trainer } = this.state.user;
-    const { email } = this.props.currentUser;
+  
+    const { height, trainer } = this.state.user;
+ 
     const { packageId, newUser, completed } = this.state.pack;
     const { isTrainer } = this.state.trainer;
     const { addSession, onRouteChange, loadUserPack, historyLoaded,

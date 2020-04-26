@@ -4,7 +4,6 @@ import { RenderRowTraining, RenderRowMeasurements, RenderColumn } from '../rende
 import { connect } from 'react-redux';
 
 const measurementColumnArray = [
-    
         'Number', 'Date', 'Weight', 'Muscle Mass', 'Fat Level', 'BMI', 'Fat Level Organs', '%Body Water'
     ];
 
@@ -25,7 +24,11 @@ class History extends React.Component {
   }
 
 componentWillMount(){
-  this.setState({history: this.props.array});
+  if(this.props.type === 'Measurements'){
+    this.setState({ history: this.props.stats});
+  } else if(this.props.type === 'Training'){
+  this.setState({history: this.props.trainingList});
+  }
 }
 
 handleSelectorChange = (event) => {
@@ -48,7 +51,7 @@ handleSelectorChange = (event) => {
 
   render(){
     const {array,  type} = this.props;
-    const { name } = this.props.currentUser;
+    const { displayName } = this.props.currentUser;
     const { history } = this.state;
    
     if(array.length === 0) {
@@ -56,7 +59,7 @@ handleSelectorChange = (event) => {
     } else{
         return (
           <div className="pa4">
-          <p className="f3 fw7">{`${type} History for ${name}`}</p>
+          <p className="f3 fw7">{`${type} History for ${displayName}`}</p>
             <div className="overflow-auto center">
               <table className="f6 w-75 mw8 " cellSpacing="0">
                 <thead>
@@ -70,7 +73,7 @@ handleSelectorChange = (event) => {
                 </thead>
                 <tbody className="lh-copy">
                 {(type === 'Measurements') ? 
-                  <RenderRowMeasurements array={history} indicator={this.props.indicator} />
+                  <RenderRowMeasurements array={history} indicator={this.props.indicators} />
                 :
                   <RenderRowTraining array={history} />
                 } 
@@ -91,7 +94,9 @@ handleSelectorChange = (event) => {
 }
 
 const mapStateToProps = state => ({
-	currentUser: state.user.currentUser
+  currentUser: state.user.currentUser,
+  stats: state.measurements.stats,
+  trainingList: state.training.trainingList
 });
 
 export default connect(mapStateToProps)(History);

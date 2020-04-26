@@ -10,6 +10,9 @@ import { getTrainingHistory } from '../training-sessions/training-sessions.utils
 import { getPackageHistory } from '../packages/packages.utils';
 import { connect } from 'react-redux';
 import { setMeasurements } from '../../redux/measurements/measurements.actions';
+import { setTraining } from '../../redux/training/training.actions';
+
+
 
 class Dashboard extends React.Component { 
     constructor(){
@@ -29,34 +32,37 @@ class Dashboard extends React.Component {
 		}
     }
 
+    //Get user data on measurements, trainings and packages
      getData = async () => {
         const { email } = this.props.currentUser;
         
         const result3 = await getMeasurementsHistory(email,  this.storeInState); 
-       
+      
         const result2 = await getTrainingHistory(email,  this.storeInState);
          
         const result1 = await getPackageHistory(email,  this.storeInState); //Only returns active package (1)
-        
+       
         if(result1 && result2 && result3){
         this.setState({loaded: true})
        
         }
+       
     }
 
     storeInState = (data, type) => {
         if(type === 'stats'){
             this.props.setMeasurements(data);
-        } else {
-        this.setState({[type]: data});
-        }
+        } else if(type === 'training') {
+            this.setState({[type]: data});
+            this.props.setTraining(data);
+        } else if(type === 'pack'){ 
+            this.setState({[type]: data});
+        } 
     } 
 
     render() {
         const { loaded, addSession, onRouteChange, workoutDate, trainingDateSelected, trainingPackageArr } = this.props;
-        
         const { emptyPackage, addPackage, loadUserPack, historyLoaded, getStatsHistory, getTrainingHistory } = this.props;
-       
         const { pack } = this.state;
         const { stats }= this.props;
     
@@ -107,12 +113,16 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => ({
     currentUser: state.user.currentUser,
-    stats: state.measurements.stats
+    stats: state.measurements.stats,
+    trainingList: state.training.trainingList
+  //  indicators: state.indicator.indicators
 });
 
 const mapDispatchToProps = dispatch => ({
    
-    setMeasurements: stats => dispatch(setMeasurements(stats))
+    setMeasurements: stats => dispatch(setMeasurements(stats)),
+   // setIndicator: indicators => dispatch(setIndicator(indicators)),
+    setTraining: train => dispatch(setTraining(train))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
