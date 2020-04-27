@@ -12,21 +12,23 @@ const INITIAL_STATE = {
     }] 
 }
 
-
 const measurementsReducer = (state = INITIAL_STATE, action) => {
 
     switch(action.type){
         case MeasurementsActionTypes.SET_MEASUREMENTS:
             return {
                 ...state,
-                //stats: state.stats.push([action.payload])
-                //stats: []...state.stats, action.payload]
                stats: action.payload
             }
         case MeasurementsActionTypes.ADD_MEASUREMENTS:
             return {
                 ...state,
                 stats: [ action.payload, ...state.stats]
+            }
+        case MeasurementsActionTypes.RESET_MEASUREMENTS:
+            return {
+               ...state,
+                stats: INITIAL_STATE.stats
             }
         default:
             return state;

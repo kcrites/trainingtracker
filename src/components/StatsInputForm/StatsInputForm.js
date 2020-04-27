@@ -70,8 +70,8 @@ class StatsInputForm extends React.Component {
 			if(userStats){
 			let d = new Date(this.state.statsDate);
 			let tempD = d.toLocaleDateString();
-				this.props.statAdmin(tempD, statsWeight, statsMuscleMass, statsFatLevel, 
-					statsBMI, statsVV, statsPercentWater);
+	/* 			this.props.statAdmin(tempD, statsWeight, statsMuscleMass, statsFatLevel, 
+					statsBMI, statsVV, statsPercentWater); */
 
 					this.props.addMeasurements({
 						id: userStats.id,

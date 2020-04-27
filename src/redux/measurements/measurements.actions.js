@@ -9,3 +9,8 @@ export const addMeasurements = data => ({
     type: MeasurementsActionTypes.ADD_MEASUREMENTS,
     payload: data
 });
+
+export const resetMeasurements = data => ({
+    type: MeasurementsActionTypes.RESET_MEASUREMENTS,
+    payload: data
+});

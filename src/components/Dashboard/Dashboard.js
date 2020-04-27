@@ -11,6 +11,7 @@ import { getPackageHistory } from '../packages/packages.utils';
 import { connect } from 'react-redux';
 import { setMeasurements } from '../../redux/measurements/measurements.actions';
 import { setTraining } from '../../redux/training/training.actions';
+import { setCurrentPackage } from '../../redux/package/package.actions';
 
 
 
@@ -57,6 +58,7 @@ class Dashboard extends React.Component {
             this.props.setTraining(data);
         } else if(type === 'pack'){ 
             this.setState({[type]: data});
+            this.props.setCurrentPackage(data);
         } 
     } 
 
@@ -114,14 +116,14 @@ class Dashboard extends React.Component {
 const mapStateToProps = state => ({
     currentUser: state.user.currentUser,
     stats: state.measurements.stats,
-    trainingList: state.training.trainingList
-  //  indicators: state.indicator.indicators
+    trainingList: state.training.trainingList,
+    currentPackage: state.pack.currentPackage
 });
 
 const mapDispatchToProps = dispatch => ({
    
     setMeasurements: stats => dispatch(setMeasurements(stats)),
-   // setIndicator: indicators => dispatch(setIndicator(indicators)),
+    setCurrentPackage: pack => dispatch(setCurrentPackage(pack)),
     setTraining: train => dispatch(setTraining(train))
 })
 

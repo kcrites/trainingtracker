@@ -12,6 +12,16 @@ const trainingReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 trainingList: action.payload
             }
+        case TrainingActionTypes.ADD_TRAINING:
+            return {
+                ...state,
+                trainingList: [ action.payload, ...state.trainingList]
+            }
+        case TrainingActionTypes.RESET_TRAINING:
+            return {
+               ...state,
+                trainingList: INITIAL_STATE.trainingList
+            }
         default:
             return state;
     }

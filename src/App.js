@@ -19,6 +19,9 @@ import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions'
 
 import './App.css';
+import { resetMeasurements } from './redux/measurements/measurements.actions';
+import { resetTraining } from './redux/training/training.actions';
+import { resetPackage } from './redux/package/package.actions';
 
 
 const trainingHistoryArr = [];
@@ -138,7 +141,6 @@ class App extends Component {
       else {
         setCurrentUser(userAuth);
         this.resetApp();
-        
       };
       });
  
@@ -398,6 +400,11 @@ class App extends Component {
     this.clearArrays(statHistoryArr);
     this.clearArrays(trainingHistoryArr);
     this.setState({dbAwake: true})
+    this.props.resetMeasurements();
+    this.props.resetTraining();
+    this.props.resetPackage();
+    //set stats redux state to initial state
+    //set training redux store to initial state
   }
 
 
@@ -490,7 +497,10 @@ class App extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+  setCurrentUser: user => dispatch(setCurrentUser(user)),
+  resetMeasurements: stats => dispatch(resetMeasurements()),
+  resetTraining: training => dispatch(resetTraining()),
+  resetPackage: pack => dispatch(resetPackage())
 })
 
 const mapStateToProps = state => ({

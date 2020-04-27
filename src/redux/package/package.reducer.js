@@ -12,6 +12,16 @@ const packageReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 currentPackage: action.payload
             }
+        case PackageActionTypes.ADD_PACKAGE:
+            return {
+                ...state,
+                currentPackage: [ action.payload, ...state.currentPackage]
+            }
+        case PackageActionTypes.RESET_PACKAGE:
+            return {
+               ...state,
+                currentPackage: INITIAL_STATE.currentPackage
+            }
         default:
             return state;
     }
