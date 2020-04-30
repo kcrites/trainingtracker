@@ -14,6 +14,13 @@ const config = {
     measurementId: "G-4MDFJDG948"
   };
 
+  const userData =  {    
+  height: 0,
+  isTrainer: false,
+  isAdmin: false,
+  trainer: 'Desire',
+  };
+
   export const createUserProfileDocument = async (userAuth, additionalData) => {
     if(!userAuth) return;
     const userRef = firestore.doc(`users/${userAuth.uid}`)
@@ -28,7 +35,7 @@ const config = {
                 displayName,
                 email,
                 createdAt,
-                ...additionalData
+                ...userData
             })
         }catch(error) {
             console.log('error creating user', error.message);

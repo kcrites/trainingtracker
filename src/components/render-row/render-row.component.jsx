@@ -19,7 +19,7 @@ const fixDate = (array, dates) => {
 
 export const RenderRowTraining = ({array}) =>{
    fixDate(array, 2);
-   console.table(array);
+  
     return array.map((item, index)  => 
               <tr key={index} className="stripe-dark">
               <td className="pa3">{index+1}</td>

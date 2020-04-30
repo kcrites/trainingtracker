@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import './TrainingInputForm.css';
 import { serverURL } from '../../server-path';
+import { addPackage } from '../../redux/package/package.actions';
+import { addTraining } from '../../redux/training/training.actions';
 
 class TrainingInputForm extends React.Component {
 	constructor(props){
@@ -25,16 +27,16 @@ class TrainingInputForm extends React.Component {
 		const { sessionDate } = this.state;
 		const { email } = this.props.currentUser;
 		const {  onRouteChange } = this.props;
-		const { packagedate} = this.props;
-		const { packageId} = this.props.pack;
+		const { datestarted, packageid} = this.props.currentPackage;
+		//const { packageId} = this.props.pack;
 		let pId, pDate;
 
 		if(this.state.selfTraining){
 			pDate = null;
 			pId = 0;
 		} else{
-			pDate = packagedate;
-			pId = parseInt(packageId);
+			pDate = datestarted;
+			pId = parseInt(packageid);
 		}
 		let id = -1;
 		fetch(serverURL + 'addtraining', {
@@ -65,8 +67,8 @@ class TrainingInputForm extends React.Component {
 			if(!this.state.selfTraining){
 				this.updatePackage();
 			}
-			this.props.addSession(newSession, this.state.selfTraining);
-			//this.props.getTrainingHistory();
+			this.props.addTraining(newSession);
+		
 			onRouteChange('trainingHistory');
 			}
 		}).catch(err => {console.log(err)});
@@ -77,20 +79,21 @@ class TrainingInputForm extends React.Component {
 	updatePackage() {
 		
 		const { email } = this.props.currentUser;
-		const { packageId } = this.props.pack;
+		const { packageid } = this.props.currentPackage;
 			fetch(serverURL + 'updatepackage', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
 				email: email,
-				packageid: packageId,
+				packageid: packageid,
 			})
 		})
 		.then(response => response.json())
 		.then(userStats => {
 			if(userStats){
-				this.props.loadUserPack(userStats);
-				//this.props.onRouteChange('trainingHistory');
+			//	this.props.loadUserPack(userStats);
+			this.props.addPackage(userStats);
+				
 			}
 		}).catch(err => {console.log(err)});
 	}
@@ -99,32 +102,29 @@ class TrainingInputForm extends React.Component {
 	
 	return (
 		<nav className='center' style={{display: 'flex', justifyContent: 'center',gridArea:'header'}}>
-			
-		{/* 	<div className='f3'>
-				{'Add a training session'}
-				<div className='pa1 br2 shadow-5 form center'>
-					<input className='f5 pa1 w-70 center' type='date'onChange={this.onDateChange}/>
-					<button name='session' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
+			<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
+				<h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Add a Training Session</h1>
+				<div className="pa3 bt b--black-10">	
+					<div className='pa1 br2 shadow-5 form center'>
+						<input className='f5 pa1 w-70 center' type='date'onChange={this.handleDateChange}/>
+						<button name='session' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
+					</div>
+					<span className='f7'>Self-training</span>{" "}<input type='checkbox' onChange={this.handleSelfChange} name='selfTraining'/>
 				</div>
-				
-				</div>	 */}
-		<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
-        	<h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Add a Training Session</h1>
-        	<div className="pa3 bt b--black-10">	
-				<div className='pa1 br2 shadow-5 form center'>
-					<input className='f5 pa1 w-70 center' type='date'onChange={this.handleDateChange}/>
-					<button name='session' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
-				</div>
-				<span className='f7'>Self-training</span>{" "}<input type='checkbox' onChange={this.handleSelfChange} name='selfTraining'/>
-			</div>
-		</article>
+			</article>
 		</nav>
 		);
 	}
 }
 
 const mapStateToProps = state => ({
-	currentUser: state.user.currentUser
+	currentUser: state.user.currentUser,
+	currentPackage: state.pack.currentPackage
 });
 
-export default connect(mapStateToProps)(TrainingInputForm);
+const mapDispatchToProps = dispatch => ({
+	addPackage: pack => dispatch(addPackage(pack)),
+    addTraining: train => dispatch(addTraining(train))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TrainingInputForm);

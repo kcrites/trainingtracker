@@ -5,6 +5,7 @@ import CustomButton from '../custom-button/custom-button.component';
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
 import './sign-up.styles.scss';
+import { saveUserToDB } from './sign-up.utils';
 
 let privacyPolicy = <div><h2>Privacy Policy</h2>
 <p>Your privacy is important to us. It is Karve Software's policy to respect your privacy regarding any information we may collect from you across our website, <a href="http://karvesoftware.com">http://karvesoftware.com</a>, and other sites we own and operate.</p>
@@ -53,6 +54,7 @@ handleSubmit = async e => {
             password
         );
     await createUserProfileDocument(user, {displayName, height, isAdmin, isTrainer, trainer});
+    const newUser = {displayName, height, isAdmin, isTrainer, trainer, email};
     this.setState({
         displayName: '',
         email: '',
@@ -60,9 +62,11 @@ handleSubmit = async e => {
         confirmPassword: '',
         height: ''
     })
+    let result = saveUserToDB(newUser);
+    if(!result) return <div>Error Registering</div>
     }catch (error) {
         console.error(error);
-    }
+    }  
 };
 
 handleChange = (e) => {

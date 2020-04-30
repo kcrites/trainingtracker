@@ -1,7 +1,11 @@
 import { IndicatorActionTypes } from './indicator.types';
 
-export const setIndicator= indicators => ({
+export const setIndicator= data => ({
     type: IndicatorActionTypes.SET_INDICATOR,
-    payload: indicators
+    payload: data
 });
 
+export const resetIndicator = data => ({
+    type: IndicatorActionTypes.RESET_INDICATOR,
+    payload: data
+});

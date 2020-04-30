@@ -2,20 +2,37 @@ import React from 'react';
 import './PackageInfo.css';
 import DateFormat from '../DateFormat/DateFormat';
 import { connect } from 'react-redux';
-import { serverURL } from '../../server-path';
+//import { serverURL } from '../../server-path';
+//import { getPackageSessions } from '../packages/packages.utils';
 
 class PackageInfo extends React.Component { 
 		constructor(props){
 		super(props);
 		this.state = {
-			noPackage: false
+			noPackage: false,
+			history: []
 		}
-		this.loadPackage();
+	//	this.loadPackage();
 		//this.getPackageHistory();
 		}
+componentDidMount(){
+	
+}
 
+/* 	getData = async () => {
+		console.log('starting getData from packageinfo')
+        const result1 = await getPackageSessions(this.props.trainingList, this.props.currentPackage.packageid, this.storeInState)
+ 
+        if(result1){
+			console.log('ending getData from packageinfo')
+        }
+	}
+	
+	storeInState = (data) => {
+		this.setState({history: data})
+	} */
 
- loadPackage = () => {
+/*  loadPackage = () => {
 	const { loadUserPack, emptyPackage} = this.props;
 	const { email } = this.props.currentUser;
      fetch(serverURL + 'getpackage', {
@@ -37,9 +54,9 @@ class PackageInfo extends React.Component {
 					this.getHistory();
       }
     }).catch(err => {console.log(`loadPackage Error: ${err}`)});
-	}
+	} */
 	
-	async getPackageHistory(){
+/* 	async getPackageHistory(){
 	
 		const { email } = this.props.currentUser;
 		
@@ -57,9 +74,9 @@ class PackageInfo extends React.Component {
 				  this.setState({pack: pack});
 			  })
 		
-	}
+	} */
 	//Get the stats and training history for the user from the DB
-	async getHistory(){
+/* 	async getHistory(){
 		const { loaded, getStatsHistory, getTrainingHistory, historyLoaded} = this.props;
 		if(!loaded) {
 			let [result1, result2] = await Promise.all([getStatsHistory(), getTrainingHistory()]);
@@ -67,14 +84,16 @@ class PackageInfo extends React.Component {
 			 historyLoaded(true) 
 			: console.log('getHistory async error' , result1, result2);
 		}
-	}
+	} */
 
 render() {
 	const { isTrainer, email } = this.props.currentUser;
-	const { completed, sessioncount, datestarted, maxsessions} = this.props.pack;
-	const { addPackage, trainingPackageArr } = this.props;
+	const { completed, sessioncount, datestarted, maxsessions, packageid} = this.props.currentPackage;
+	const { trainingList } = this.props;
+	const { addPackage } = this.props;
 	const { noPackage } = this.state;
 	const sessionsLeft = (maxsessions) ? maxsessions - sessioncount : 0;
+	console.log('packageinfo redner');
 	let formattedDate;
 
 	if(!noPackage) {
@@ -104,10 +123,12 @@ render() {
 					<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
       				 <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Package Session History</h1>
        					 <div className="pa3 bt b--black-10">
-							{trainingPackageArr.length > 0 ?
+							{(trainingList)?
 							<ol className='fw4 tabletext'>
-							{trainingPackageArr.map(item => {
+							{trainingList.map(item => {
+								if(item.packageid === parseInt(packageid))
 								 return <li key={item.id}>{DateFormat(item.sessiondate)}</li>
+								 else return null;
 							})}
         					</ol> : <p className="fw4 tabletext">No Training Sessions Yet</p>}
 						</div>
@@ -130,7 +151,9 @@ render() {
 	}
 
 const mapStateToProps = state => ({
-		currentUser: state.user.currentUser
+		currentUser: state.user.currentUser,
+		currentPackage: state.pack.currentPackage,
+		trainingList: state.training.trainingList
 	});
 
 export default connect(mapStateToProps)(PackageInfo);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { serverURL } from '../../server-path';
 import { connect } from 'react-redux';
+import { addPackage } from '../../redux/package/package.actions';
 
 class PackageInputForm extends React.Component {
 	constructor(props){
@@ -15,20 +16,21 @@ class PackageInputForm extends React.Component {
 	}
 
 componentWillMount(){
-	if(this.props.completed === true){
+	if(this.props.currentPackage.completed === true){
 		this.setState({allowed: true});
 	}
-	let nextID = parseInt(this.props.packageId) + 1;
+	let nextID = parseInt(this.props.currentPackage.packageId) + 1;
 	this.setState({packageIDInput: nextID})
 }
-onDateChange = (event) => {
+
+handleDateChange = (event) => {
 	this.setState({dateInput: event.target.value})
 }
-onMSessionsChange = (event) => {
+handleMaxSessionsChange = (event) => {
 	this.setState({maxSessionsInput: parseInt(event.target.value)})
 }
 
-onPackIDChange = (event) => {
+handlePackIDChange = (event) => {
 	this.setState({packageIDInput: event.target.value})
 }
 
@@ -53,7 +55,7 @@ handleTrainerSubmit = (e) => {
 			if(newpack.id){
 				//reload page showing status of insert to DB
 				this.setState({success: true});
-				
+				this.props.addPackage(newpack);
 			}
 		}).catch(err => {console.log(err)});
 	};
@@ -77,15 +79,15 @@ const { allowed, packageIDInput, success } = this.state;
 							<tbody>
 								<tr>
 									<td className='tl'><label>Date</label></td>
-									<td><input className='f4 pa2 w-80 center' name='date' type='date'onChange={this.onDateChange}/></td>
+									<td><input className='f4 pa2 w-80 center' name='date' type='date'onChange={this.handleDateChange}/></td>
 								</tr>
 								<tr>
 									<td className='tl'><label>Package ID</label></td>
-									<td><input className='f4 pa2 w-50 center' name='packageid' value={packageIDInput} type='text'  onChange={this.onPackIDChange} /></td>
+									<td><input className='f4 pa2 w-50 center' name='packageid' value={packageIDInput} type='text'  onChange={this.handlePackIDChange} /></td>
 								</tr>
 								<tr>
 									<td className='tl'><label>Number of Sessions</label></td>
-									<td><input className='f4 pa2 w-50 center' name='maxsessions' type='number'  onChange={this.onMSessionsChange} /></td>
+									<td><input className='f4 pa2 w-50 center' name='maxsessions' type='number'  onChange={this.handleMaxSessionsChange} /></td>
 								</tr>
 								<tr>
 									<td colSpan='2'><button className='w-50 grow f4 link ph3 pv2 dib white bg-light-blue' onClick={this.handleTrainerSubmit}>Submit</button></td>
@@ -101,7 +103,12 @@ const { allowed, packageIDInput, success } = this.state;
 }
 
 const mapStateToProps = state => ({
-	currentUser: state.user.currentUser
+	currentUser: state.user.currentUser,
+	currentPackage: state.pack.currentPackage
 });
 
-export default connect(mapStateToProps)(PackageInputForm);
+const mapDispatchToProps = dispatch => ({
+	addPackage: pack => dispatch(addPackage(pack))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PackageInputForm);

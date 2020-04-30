@@ -46,16 +46,14 @@ class StatsInputForm extends React.Component {
 	}
 
 	handleSubmitStats = () => {
-		const { height }  = this.props;
-		const { displayName, email } = this.props.currentUser;
+		
+		const { email } = this.props.currentUser;
 		const { statsWeight, statsMuscleMass, statsFatLevel, statsBMI, statsVV, statsPercentWater, statsDate} = this.state;
 		fetch(serverURL + 'addstats', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
-				name: displayName,
 				email: email,
-				height: height,
 				weight: statsWeight,
 				musclemass: statsMuscleMass,
 				fatlevel: statsFatLevel,
@@ -76,7 +74,6 @@ class StatsInputForm extends React.Component {
 					this.props.addMeasurements({
 						id: userStats.id,
 						email: email,
-						height: height,
 						weight: statsWeight,
 						musclemass: statsMuscleMass,
 						fatlevel: statsFatLevel,

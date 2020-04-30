@@ -1,19 +1,20 @@
 import React from 'react';
+import Footer from '../Footer/Footer';
 import Sidebar from '../Sidebar/Sidebar';
 import PackageInfo from '../PackageInfo/PackageInfo';
-import TrainingInputForm from '../TrainingInputForm/TrainingInputForm';
-import Footer from '../Footer/Footer';
-import './Dashboard.css';
 import StatsButton from '../StatsInputForm/StatsButton';
+import TrainingInputForm from '../TrainingInputForm/TrainingInputForm';
+
 import { getMeasurementsHistory } from '../measurements/measurements.utils';
 import { getTrainingHistory } from '../training-sessions/training-sessions.utils';
-import { getPackageHistory } from '../packages/packages.utils';
+import { getPackageHistory} from '../packages/packages.utils';
 import { connect } from 'react-redux';
 import { setMeasurements } from '../../redux/measurements/measurements.actions';
 import { setTraining } from '../../redux/training/training.actions';
 import { setCurrentPackage } from '../../redux/package/package.actions';
+import { setIndicator } from '../../redux/indicator/indicator.actions';
 
-
+import './Dashboard.css';
 
 class Dashboard extends React.Component { 
     constructor(){
@@ -27,8 +28,8 @@ class Dashboard extends React.Component {
 }
 
  componentWillMount(){
-     console.log(`loaded in dashboard: ${this.state.loaded}`);
-        if(!this.state.loaded) {
+    // console.log(`loaded in dashboard: ${this.state.loaded}`);
+        if(!this.props.dash) {
             this.getData();
 		}
     }
@@ -42,12 +43,11 @@ class Dashboard extends React.Component {
         const result2 = await getTrainingHistory(email,  this.storeInState);
          
         const result1 = await getPackageHistory(email,  this.storeInState); //Only returns active package (1)
-       
+
         if(result1 && result2 && result3){
-        this.setState({loaded: true})
-       
+            this.setState({loaded: true})
+            this.props.setIndicator(true);
         }
-       
     }
 
     storeInState = (data, type) => {
@@ -63,11 +63,8 @@ class Dashboard extends React.Component {
     } 
 
     render() {
-        const { loaded, addSession, onRouteChange, workoutDate, trainingDateSelected, trainingPackageArr } = this.props;
-        const { emptyPackage, addPackage, loadUserPack, historyLoaded, getStatsHistory, getTrainingHistory } = this.props;
-        const { pack } = this.state;
-        
-    
+        const { onRouteChange, workoutDate, trainingDateSelected } = this.props;
+       
         return (
             <div className="wrapper">
             
@@ -75,15 +72,7 @@ class Dashboard extends React.Component {
                 <div className='header-flex'>
                     <StatsButton onRouteChange={onRouteChange}/>
                 
-                    <TrainingInputForm
-                    pack={pack}
-                    packagedate={this.state.pack.dateStarted}  //FIX THIS
-                    addSession={addSession}
-                    getTrainingHistory={getTrainingHistory}
-                   
-                    workoutDate={workoutDate}
-                    loadUserPack={loadUserPack}
-                    trainingDateSelected={trainingDateSelected}
+                    <TrainingInputForm 
                     onRouteChange={onRouteChange}/> 
                 </div>
             </div>
@@ -93,17 +82,7 @@ class Dashboard extends React.Component {
             </div>       
             
             <div className="box main shadow-3">
-                 <PackageInfo
-                    pack={this.state.pack}
-                    trainingPackageArr={trainingPackageArr}
-                    loaded={loaded}
-                   
-                    getTrainingHistory={getTrainingHistory}
-                    getStatsHistory={getStatsHistory}
-                    historyLoaded={historyLoaded}
-                    loadUserPack={loadUserPack}
-                    addPackage={addPackage}
-                    emptyPackage={emptyPackage}/>
+                 <PackageInfo />
             </div>
             <div className="footer">
                 <Footer onRouteChange={onRouteChange} />
@@ -117,14 +96,16 @@ const mapStateToProps = state => ({
     currentUser: state.user.currentUser,
     stats: state.measurements.stats,
     trainingList: state.training.trainingList,
-    currentPackage: state.pack.currentPackage
+    currentPackage: state.pack.currentPackage,
+    indicators: state.indicator.dash
 });
 
 const mapDispatchToProps = dispatch => ({
    
     setMeasurements: stats => dispatch(setMeasurements(stats)),
     setCurrentPackage: pack => dispatch(setCurrentPackage(pack)),
-    setTraining: train => dispatch(setTraining(train))
+    setTraining: train => dispatch(setTraining(train)),
+    setIndicator: status => dispatch(setIndicator(status))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

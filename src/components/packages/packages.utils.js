@@ -16,6 +16,7 @@ export const getPackageHistory = (email, storeInState) => {
                      // console.log('pack:' + pack);
                       if(pack.id){
                         storeInState(pack, 'pack');
+                        
                       } else console.log('no package info')
               })
             }catch(error) {
@@ -23,3 +24,16 @@ export const getPackageHistory = (email, storeInState) => {
             }
             return true;
           };
+
+export const getPackageSessions = (array, packageid,storeInState) => {
+
+if(array) {
+  const result = array.filter(id => id.packageid === parseInt(packageid));
+  
+storeInState(result, 'packSession');
+  return true;
+}
+return false;
+
+
+}

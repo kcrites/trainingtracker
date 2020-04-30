@@ -1,7 +1,15 @@
 import { PackageActionTypes } from './package.types';
 
 const INITIAL_STATE = {
-    currentPackage: null
+    currentPackage:   {
+        dateStarted: undefined,
+        packageId: 0,
+        completed: false,
+        sessionCount: 0,
+        sessionsLeft: 0,
+        maxSessions: 0,
+        newUser: false
+    }
 }
 
 const packageReducer = (state = INITIAL_STATE, action) => {

@@ -1,14 +1,7 @@
 import { IndicatorActionTypes } from './indicator.types';
 
 const INITIAL_STATE = {
- indicators: [{
-    weight: 0,
-    musclemass: 0,
-    bmi: 0,
-    fatlevel : 0,
-    percentwater : 0,
-    vv : 0
-}]
+ dash: false
 };
 
 
@@ -18,8 +11,13 @@ const indicatorReducer = (state = INITIAL_STATE, action) => {
         case IndicatorActionTypes.SET_INDICATOR:
             return {
                 ...state,
-                indicators: action.payload
+                dash: action.payload
             }
+        case IndicatorActionTypes.RESET_INDICATOR:
+                return {
+                   ...state,
+                    dash: false
+                }
         default:
             return state;
     }

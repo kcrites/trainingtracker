@@ -50,11 +50,11 @@ handleSelectorChange = (event) => {
 //Add package number (example 2 of 11) on each row by running through in a function and adding to state
 
   render(){
-    const {array,  type} = this.props;
+    const { type } = this.props;
     const { displayName } = this.props.currentUser;
     const { history } = this.state;
    
-    if(array.length === 0) {
+    if(history.length === 0) { //MODIFY TO ACCOUNT FOR INITIAL STATE
       return("Your history is empty");
     } else{
         return (

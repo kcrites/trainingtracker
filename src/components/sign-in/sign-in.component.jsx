@@ -27,8 +27,8 @@ class SignIn extends React.Component {
                 loadTrainer(user); // LOAD TO A SUPER USER LEVEL??
                 onRouteChange('trainer');
             } else */ 
-                    await this.props.loadUser(this.state);
-                    this.props.onRouteChange('home');
+                  //  await this.props.loadUser(this.state);
+                   // this.props.onRouteChange('home');
             }
         
         

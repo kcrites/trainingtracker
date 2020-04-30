@@ -10,7 +10,6 @@ import History from './components/history/history.component';
 import Dashboard from './components/Dashboard/Dashboard';
 import Workout from './components/Workout/Workout';
 import { serverURL } from './server-path';
-import ArrowImage from './components/Stats/ArrowImage';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import SignIn from './pages/sign-in-up/sign-in-up.component';
 import LoadingPage from '../src/pages/loading-page/loading-page.component';
@@ -22,6 +21,7 @@ import './App.css';
 import { resetMeasurements } from './redux/measurements/measurements.actions';
 import { resetTraining } from './redux/training/training.actions';
 import { resetPackage } from './redux/package/package.actions';
+import { resetIndicator } from './redux/indicator/indicator.actions';
 
 
 const trainingHistoryArr = [];
@@ -97,7 +97,6 @@ class App extends Component {
   constructor() {
     super();
     this.state = initialState;
-   
   }
   
   unsubscribeFromAuth = null;
@@ -114,17 +113,11 @@ class App extends Component {
         
     }).catch(err => {console.log(err)});
     //Method to store user information after signin into state as currentUser
-    let extraInfo = {
-      height: 175,
-      isTrainer: false,
-      isAdmin: false,
-      trainer: 'Desire',
-
-    }
+   
     const { setCurrentUser } = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if(userAuth) {
-        const userRef = await createUserProfileDocument(userAuth,extraInfo);
+        const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot(snapShot => {
           
@@ -133,9 +126,12 @@ class App extends Component {
               id: snapShot.id,
             ...snapShot.data()
           });
-          this.loadUser(this.props.currentUser);
-          
-          this.onRouteChange('home');
+       //   this.loadUser(this.props.currentUser);
+          if(this.props.currentUser.isTrainer) {
+            this.onRouteChange('trainer')
+          } else {
+            this.onRouteChange('home');
+          }
         });
       }
       else {
@@ -153,12 +149,8 @@ class App extends Component {
 
 //Load Data into State and Arrays
 //Puts user information into state after signin
- loadUser = (data) => {
-   if(data.height) {
-     //capture height in db
-    
-
-   }
+/*  loadUser = (data) => {
+ 
     this.setState({
       user: {
         id: data.id,
@@ -171,9 +163,9 @@ class App extends Component {
         trainer: data.trainer, 
         joined: data.joined
     }})
-  }
+  } */
 //Loads last items in the stats array to state for display in panel
-  loadLastStat = (data) => {
+/*   loadLastStat = (data) => {
     this.setState({
       stats: {
         date: fixDate(data.statsdate),
@@ -185,7 +177,7 @@ class App extends Component {
         percentwater: data.percentwater
       }
     })
-  }
+  } */
 
 //Training Package Information and calculate sessions left (sl)
   loadUserPack = (data) => {
@@ -326,7 +318,7 @@ class App extends Component {
 
   // Provides images to indicate if the current stats are more, less, or equal to the previous 
   // measurements. This is called when the user is logging in so that the indicators are stored in state.
-  statIndicator = (array) => {
+/*   statIndicator = (array) => {
   //  let x = array.length; 
     let results = [];
 
@@ -346,10 +338,10 @@ class App extends Component {
       percentwater : results[5],
      }});
     
- }
+ } */
  
  // Logic to determine if current stat is more, less or equal to the previous stat
- checkStats = (newStat, lastStat, arrowMeaning) => {
+/*  checkStats = (newStat, lastStat, arrowMeaning) => {
     newStat = parseFloat(newStat);
     lastStat = parseFloat(lastStat);
   
@@ -364,7 +356,7 @@ class App extends Component {
       return arrowMeaning ? <ArrowImage arrow="downred"/>  : <ArrowImage arrow="downgreen"/> 
     } else return " ";
    
-  }
+  } */
 
   //clear the temp arrays when signing out
   clearArrays = (arr) => {
@@ -403,6 +395,7 @@ class App extends Component {
     this.props.resetMeasurements();
     this.props.resetTraining();
     this.props.resetPackage();
+    this.props.resetIndicator();
     //set stats redux state to initial state
     //set training redux store to initial state
   }
@@ -423,45 +416,29 @@ class App extends Component {
 
   renderOption = (route) => {
     console.log(`route: ${route}`)
-    const {  pack, loaded, user, indicator, trainingPackage } = this.state;
   
-    const { height, trainer } = this.state.user;
+    const { trainer } = this.state.user;
  
-    const { packageId, newUser, completed } = this.state.pack;
-    const { isTrainer } = this.state.trainer;
-    const { addSession, onRouteChange, loadUserPack, historyLoaded,
-            getStatsHistory, getTrainingHistory, statAdmin,
-            handleTrainerSubmit } = this;
+    const { newUser } = this.state.pack;
+    const { onRouteChange, handleTrainerSubmit } = this;
     
     if(route === 'home'){
-      return <div> <Dashboard user={user} pack={pack} loaded = {loaded}
-                      getTrainingHistory={getTrainingHistory}
-                          packageArr={trainingHistoryArr}
-                          trainingPackageArr={trainingPackage}
-                          getStatsHistory={getStatsHistory}
-                          historyLoaded={historyLoaded}
-                          loadUserPack={loadUserPack}
-                          workoutDate={this.workoutDate}
-                          trainingDateSelected={this.state.trainingDateSelected}
-                          addSession={addSession}
-                          
-                          onRouteChange={onRouteChange} emptyPackage={this.emptyPackage}
-                          isTrainer={isTrainer} addPackage={this.addPackage}/></div> 
+      return <div> <Dashboard  onRouteChange={onRouteChange} /></div> 
     }
     else if (route === 'stats'){ //converted to component
-      return <div> <History array={statHistoryArr} indicator={indicator} type='Measurements' /></div>
+      return <div> <History  type='Measurements' /></div>
     }
     else if (route === 'trainingHistory'){ //converted to component
-      return <div><History array={trainingHistoryArr}  type='Training'/></div>
+      return <div><History  type='Training'/></div>
     }
     else if (route === 'statsInputForm'){
-      return <div><StatsInputForm height={height} onRouteChange={onRouteChange} statAdmin={statAdmin}/></div>
+      return <div><StatsInputForm onRouteChange={onRouteChange} /></div>
     }   
     else if (route === 'trainer'){
       return <div><Trainer history={allUserHistoryArr} handleTrainerSubmit={handleTrainerSubmit}/></div>
     }
     else if (route === 'packageInputForm'){
-      return <div><PackageInputForm completed={completed} packageId={packageId} newUser={newUser}/></div>
+      return <div><PackageInputForm  newUser={newUser}/></div>
     }   
     else if (route === 'help') {
       return <div><Help /></div>
@@ -500,7 +477,8 @@ const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
   resetMeasurements: stats => dispatch(resetMeasurements()),
   resetTraining: training => dispatch(resetTraining()),
-  resetPackage: pack => dispatch(resetPackage())
+  resetPackage: pack => dispatch(resetPackage()),
+  resetIndicator: dash => dispatch(resetIndicator())
 })
 
 const mapStateToProps = state => ({
