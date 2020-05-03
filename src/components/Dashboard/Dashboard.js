@@ -23,20 +23,32 @@ class Dashboard extends React.Component {
             loaded: false,
             pack:{},
             training: {},
+            email: '',
             stats: [{statsdate:'Loading', weight:0,musclemass:0,fatlevel:0,bmi:0,vv:0,percentwater:0 }]
     }
 }
 
  componentWillMount(){
-    // console.log(`loaded in dashboard: ${this.state.loaded}`);
+     //console.log(`loaded in dashboard: ${this.state.email}, ${this.props.dash}, ${this.props.currentClient.email}`);
+     let tempEmail = '';
         if(!this.props.dash) {
-            this.getData();
+            if(this.props.currentUser.isTrainer){
+                //set email address to client email address from clients redux store
+                console.log('Trainer version of dashboard');
+                this.setState({email: this.props.currentClient.email});
+                tempEmail = this.props.currentClient.email;
+            } else {
+                this.setState({email: this.props.currentUser.email});
+                tempEmail = this.props.currentUser.email;
+            } 
+            this.getData(tempEmail);
 		}
     }
 
     //Get user data on measurements, trainings and packages
-     getData = async () => {
-        const { email } = this.props.currentUser;
+     getData = async (email) => {
+        //const { email } = this.props.currentUser;
+        //const { email } = this.state.email;
         
         const result3 = await getMeasurementsHistory(email,  this.storeInState); 
       
@@ -63,25 +75,26 @@ class Dashboard extends React.Component {
     } 
 
     render() {
-        const { onRouteChange, workoutDate, trainingDateSelected } = this.props;
+        const { onRouteChange } = this.props;
        
         return (
             <div className="wrapper">
             
             <div className="box header">
-                <div className='header-flex'>
+           {/*      <div className='header-flex'>
                     <StatsButton onRouteChange={onRouteChange}/>
                 
-                    <TrainingInputForm 
-                    onRouteChange={onRouteChange}/> 
-                </div>
+                    <TrainingInputForm onRouteChange={onRouteChange}/> 
+                </div> */}
             </div>
             
             <div className='aside-1 aside box'>
                 <Sidebar />
+                <StatsButton onRouteChange={onRouteChange}/>
             </div>       
             
             <div className="box main shadow-3">
+             <TrainingInputForm onRouteChange={onRouteChange}/> 
                  <PackageInfo />
             </div>
             <div className="footer">
@@ -97,7 +110,8 @@ const mapStateToProps = state => ({
     stats: state.measurements.stats,
     trainingList: state.training.trainingList,
     currentPackage: state.pack.currentPackage,
-    indicators: state.indicator.dash
+    dash: state.indicator.dash,
+    currentClient: state.client.currentClient
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -110,11 +124,3 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 
-           /*   {(!completed ? <TrainingInputForm email={email}
-                pack={pack}
-                packagedate={dateStarted}  //FIX THIS
-                addSession={addSession}
-                serverURL={serverURL}
-                workoutDate={workoutDate}
-                trainingDateSelected={trainingDateSelected}
-                onRouteChange={onRouteChange}/> : '')}  */

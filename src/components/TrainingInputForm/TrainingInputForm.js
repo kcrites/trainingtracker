@@ -101,7 +101,7 @@ class TrainingInputForm extends React.Component {
 	render() {
 	
 	return (
-		<nav className='center' style={{display: 'flex', justifyContent: 'center',gridArea:'header'}}>
+		<nav className='center' style={{display: 'flex', justifyContent: '',gridArea:'header'}}>
 			<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
 				<h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Add a Training Session</h1>
 				<div className="pa3 bt b--black-10">	

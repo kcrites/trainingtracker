@@ -1,5 +1,9 @@
 import React from 'react';
 import { serverURL } from '../../server-path';
+import { connect } from 'react-redux';
+import { setClient } from '../../redux/client/client.actions';
+//import { RenderRowTrainer } from '../render-row/render-row.component';
+
 
 const renderRow= (array, action) =>{
   return array.map((item, index)  => 
@@ -22,7 +26,9 @@ class Trainer extends React.Component {
     constructor(props){
       super(props);
       this.state = {
-        loading: null
+        loaded: false,
+        loading: false,
+        trainerId: 'Desire'
       }
     }
      
@@ -31,43 +37,62 @@ componentDidMount() {
 }
 componentWillUnmount() {
   clientListArr = [];
-
   console.log("admin: willUnmount");
 }
 
 getClients = () => {
-  const { loading } = this.state;
+  const { trainerId } = this.state;
   
-  //console.log('trainer loading: ' + loading);
     if(clientListArr.length === 0) {
       fetch(serverURL + 'getclients', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-          trainer: 'Desire'
+          trainer: trainerId
         })
       })
       .then(response => response.json())
       .then(list => {
-        console.log(`client list: ${list.length}`)
         if(list){
           list.forEach(e => {clientListArr.push(e)});
         }
       })
       .then(() => {
-        this.setState({loading: true});
-        console.log(`loading state: ${loading}`);
-        console.log(clientListArr);
+        this.setState({loaded: true});
           })
       .catch(err => {console.log(err)});
     } else {  //The array is already loaded 
-      this.setState({loading: true});
+      this.setState({loaded: true});
     }
   } 
 
+ handleTrainerSubmit = (e) => {
+    fetch(serverURL + 'trainergetclient', {
+			method: 'post',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({
+				email: e.target.value,
+			})
+		})
+		.then(response => response.json())
+		.then(user => {
+			if(user.id){
+			//	console.log(user);
+        this.props.setClient(user);
+        this.props.onRouteChange('home');
+			} else return false;
+        }).catch(err => {
+			console.log(err);
+			return false;
+		});
+        return true;
+  };
+
+
+
   render() {
-    const {loading} = this.state;
-    const {handleTrainerSubmit} = this.props;
+    const {loaded} = this.state;
+    const {handleTrainerSubmit} = this;
     if(clientListArr.length === 0) {
       return("Your Client List is empty");
     } else{
@@ -76,8 +101,8 @@ getClients = () => {
             <div className="pa4">
             <p>Trainer Dashboard: Client List</p>
               <div className="overflow-auto center">
-              {loading === null && <p>Loading ...</p>}
-              { loading && (
+              {loaded === null && <p>Loading ...</p>}
+              { loaded && (
                 <table className="f6 w-75 mw8 " cellSpacing="0">
                   <thead>
                     <tr className="stripe-dark">
@@ -91,7 +116,9 @@ getClients = () => {
                     </tr>
                   </thead>
                   <tbody className="lh-copy">
-                  {renderRow(clientListArr, handleTrainerSubmit)}
+                    {(loaded) ? 
+                  renderRow(clientListArr, handleTrainerSubmit)
+                  : null}
                   </tbody>
               </table> )}
               </div>  
@@ -102,4 +129,13 @@ getClients = () => {
     }
   }
 
-  export default Trainer;
+  const mapStateToProps = state => ({
+    currentUser: state.user.currentUser,
+    client: state.client.currentClient
+  });
+
+  const mapDispatchToState = dispatch => ({
+    setClient: user => dispatch(setClient(user))
+  });
+
+  export default connect(mapStateToProps, mapDispatchToState)(Trainer);

@@ -2,13 +2,13 @@ import { PackageActionTypes } from './package.types';
 
 const INITIAL_STATE = {
     currentPackage:   {
-        dateStarted: undefined,
-        packageId: 0,
+        datestarted: undefined,
+        packageid: null,
         completed: false,
-        sessionCount: 0,
-        sessionsLeft: 0,
-        maxSessions: 0,
-        newUser: false
+        sessioncount: 0,
+        sessionsleft: 0,
+        maxsessions: 0,
+        newuser: false
     }
 }
 

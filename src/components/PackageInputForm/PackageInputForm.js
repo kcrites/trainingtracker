@@ -36,9 +36,11 @@ handlePackIDChange = (event) => {
 
 handleTrainerSubmit = (e) => {
 	
-	const { newPackage } = this.props;
+	let newPackage = false;
 	const { email } = this.props.currentUser
+	const { packageid } = this.props.currentPackage;
 	const { dateInput, maxSessionsInput, packageIDInput } = this.state;
+	if(!packageid) newPackage = true;
     fetch(serverURL + 'addpackage', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},

@@ -17,6 +17,21 @@ const fixDate = (array, dates) => {
   })
 }
 
+export const RenderRowTrainer = ({array, action}) => {
+  console.table(array);
+  return array.map((item, index)  => 
+  <tr key={index} className="stripe-dark">
+    <td className="pa3">{index+1}</td>
+    <td className="pa3">{item.fname}</td>
+    <td className="pa3">{item.packageid}</td>
+    <td className="pa3">{item.sessioncount}</td>
+    <td className="pa3">{item.maxsessions-item.sessioncount}</td>
+    <td className="pa3">{item.email}</td>
+    <td className="pa3"><button type='button' value={item.email} onClick={action}>Select</button></td>
+  </tr>
+);
+} //From Trainer.js
+
 export const RenderRowTraining = ({array}) =>{
    fixDate(array, 2);
   
@@ -27,7 +42,7 @@ export const RenderRowTraining = ({array}) =>{
                 {item.packageid !== 0 ?  <td className="pa3">{item.packagedate}</td> : <td>None</td>}
               </tr>
       );
-}
+} // From history.component.jsx (Training)
 
 export const RenderRowMeasurements = ({array}) =>{
   fixDate(array,1);
@@ -47,13 +62,13 @@ export const RenderRowMeasurements = ({array}) =>{
               <td className="pa3">{item.percentwater} {(index < array.length-1  )? indicator[index][5] : ''}</td>
             </tr>
     );
-}
+} // From history.component.jsx (Measurements)
 
 export const RenderColumn = ({array}) => {
     return array.map((item, index) => 
     <th key={index} className="fw6 tl pa3 bg-white">{item}</th>
     );
-}
+} // From history.component.jsx (Both)
 
 
 // Provides images to indicate if the current stats are more, less, or equal to the previous 

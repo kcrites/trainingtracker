@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import { saveUserToDB } from '../components/sign-up/sign-up.utils';
 //import 'firebase/database';
 
 const config = {
@@ -40,6 +41,8 @@ const config = {
         }catch(error) {
             console.log('error creating user', error.message);
         }
+        //add user to postgres db
+        saveUserToDB(userAuth);
     }
     return userRef;
   };

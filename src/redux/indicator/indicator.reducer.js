@@ -24,6 +24,6 @@ const indicatorReducer = (state = INITIAL_STATE, action) => {
 }
 
 export default indicatorReducer;
-//brings in current state, adds the new currentUser info and then recreates
-//the state object so that React re-renders everything
+//dash is used to determine if the dashboard component has already retrieved data for the user
+//Default is false. If set to true, the Dashboard component should not request data from the database again
 
