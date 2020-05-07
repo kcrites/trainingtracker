@@ -5,7 +5,7 @@ import CustomButton from '../custom-button/custom-button.component';
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
 import './sign-up.styles.scss';
-import { saveUserToDB } from './sign-up.utils';
+//import { saveUserToDB } from './sign-up.utils';
 
 let privacyPolicy = <div><h2>Privacy Policy</h2>
 <p>Your privacy is important to us. It is Karve Software's policy to respect your privacy regarding any information we may collect from you across our website, <a href="http://karvesoftware.com">http://karvesoftware.com</a>, and other sites we own and operate.</p>
@@ -26,7 +26,6 @@ constructor(){
         email: '',
         password: '',
         confirmPassword: '',
-        height: '',
         privacy: false,
         error: false,
         showPopup: false,
@@ -38,7 +37,7 @@ constructor(){
 
 handleSubmit = async e => {
     e.preventDefault();
-    const { displayName, email, password, confirmPassword, height, privacy, isAdmin, isTrainer, trainer } = this.state;
+    const { displayName, email, password, confirmPassword, privacy, trainer } = this.state;
 
     if(password !== confirmPassword){
         alert("Password doesn't match");
@@ -53,19 +52,21 @@ handleSubmit = async e => {
             email,
             password
         );
-    await createUserProfileDocument(user, {displayName, height, isAdmin, isTrainer, trainer});
-    const newUser = {displayName, height, isAdmin, isTrainer, trainer, email};
-    this.setState({
-        displayName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        height: ''
-    })
-    let result = saveUserToDB(newUser);
-    if(!result) return <div>Error Registering</div>
+        console.log('signup: ');
+        console.log(user);
+        await createUserProfileDocument(user, {displayName, privacy, trainer});
+
+        this.setState({
+            displayName: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            
+        })
+
     }catch (error) {
         console.error(error);
+        return <div>Error Registering</div>
     }  
 };
 
@@ -80,14 +81,14 @@ handlePrivacyChange = (event) => {
     this.setState({error: false});
 }
 
-togglePopup() {
+togglePopup= ()=> {
     this.setState({
       showPopup: !this.state.showPopup
     });
   }
 
 render() {
-    const { displayName, email, password, confirmPassword, height } = this.state;
+    const { displayName, email, password, confirmPassword } = this.state;
     return(
         <div className='sign-up'>
             <h2 className='title'>I do not have an account</h2>
@@ -128,14 +129,7 @@ render() {
                     label='confirm password'
                     required
                     />
-                <FormInput
-                    type='text'
-                    name='height'
-                    value={height}
-                    onChange={this.handleChange}
-                    label='height'
-                    required
-                    />
+               
                     	<div className="mv3">
 				       		<label className="db fw6 lh-copy f7 priv-label" htmlFor="privacy">Agree to the privacy policy for this application ->&nbsp; 
 				       		    <input onChange={this.handlePrivacyChange}  type="checkbox" value="true" name="privacy"  id="privacy"/>

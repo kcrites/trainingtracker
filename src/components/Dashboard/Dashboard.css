@@ -50,8 +50,8 @@
   
   @media all and (min-width: 800px) {
     .main    { flex: 3 0px; }
-    .aside-1 { order: 1; } 
-    .main    { order: 2; }
+    .aside-1 { order: 0; } 
+    .aside-2    { order: 2; }
     .footer  { order: 3; }
   }
   

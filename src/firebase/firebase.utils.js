@@ -36,30 +36,22 @@ const config = {
                 displayName,
                 email,
                 createdAt,
-                ...userData
+                ...additionalData
+            }).then(function() {
+                console.log(`Writing to firebaseDB: ${displayName}`);
+            }).catch(function(error) {
+                console.log('Firebase DB Set Error');
             })
+            console.log('firebase:');
+            console.log(userAuth);
+            saveUserToDB(`${!displayName ? additionalData.displayName : displayName}`, email, additionalData);
+          //  options, 1) displayname comes with userAuth, 2) displayname is null
         }catch(error) {
             console.log('error creating user', error.message);
         }
-        //add user to postgres db
-        saveUserToDB(userAuth);
     }
     return userRef;
   };
-
-/*             export const displayUsers = async () => {
-                const userList = fireBase.ref("users").orderByKey();
-                   userList.once("value")
-                 .then(function(snapshot) {
-                     snapshot.forEach(function(childSnapshot) {
-                        // key will be "ada" the first time and "alan" the second time
-                        var key = childSnapshot.key;
-                        // childData will be the actual contents of the child
-                        var childData = childSnapshot.val();
-                    });
-                });
-                console.table(userList)
-            }; */
 
   firebase.initializeApp(config);
 

@@ -1,8 +1,13 @@
 import { serverURL } from '../../server-path';
 
-export const saveUserToDB = (newUser) => {
-    const { displayName, email, password, height, privacy } = newUser;
-   
+export const saveUserToDB = (displayName, email, additionalData) => {
+   if(displayName === null) return;
+   // how do I manage google signin with no additionalData?
+   console.log(additionalData);
+   const privacy = true;
+   const trainer = 'Desire';
+  
+  
     let name = splitName(displayName);
         fetch(serverURL + 'register', {
             method: 'post',
@@ -11,8 +16,7 @@ export const saveUserToDB = (newUser) => {
                 fname: name[0],
                 lname: name[1],
                 email: email,
-                password: password,
-                height: height,
+                trainer: trainer,
                 privacy: privacy
             })
         })

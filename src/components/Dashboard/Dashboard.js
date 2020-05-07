@@ -94,9 +94,13 @@ class Dashboard extends React.Component {
             </div>       
             
             <div className="box main shadow-3">
-             <TrainingInputForm onRouteChange={onRouteChange}/> 
                  <PackageInfo />
             </div>
+           
+            <div className='aside-2 aside box'>
+                <TrainingInputForm onRouteChange={onRouteChange}/> 
+            </div>
+           
             <div className="footer">
                 <Footer onRouteChange={onRouteChange} />
             </div>

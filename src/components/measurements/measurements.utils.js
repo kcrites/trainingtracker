@@ -17,11 +17,12 @@ export const getMeasurementsHistory = (email, storeInState) => {
          storeInState(s, 'stats');
         } else {
             //the stats history table is empty. What to do then?
-            console.log(`stat history table is empty in getStatsHistory`);
+            console.log(`No Measurements Information Available`);
         }
       })
     }catch(error) {
         console.log('Get Stats History Error: ', error);
+        //Set default measurements??
       }
       return true;
     };

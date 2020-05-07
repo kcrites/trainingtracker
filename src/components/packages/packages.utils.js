@@ -17,7 +17,7 @@ export const getPackageHistory = (email, storeInState) => {
                       if(pack.id){
                         storeInState(pack, 'pack');
                         
-                      } else console.log('no package info')
+                      } else console.log('No Package Information Available')
               })
             }catch(error) {
               console.log('Get Stats History Error: ', error);

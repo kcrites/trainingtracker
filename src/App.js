@@ -54,6 +54,8 @@ class App extends Component {
     const { setCurrentUser } = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if(userAuth) {
+        console.log('App:');
+        console.log(userAuth);
         const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot(snapShot => {
@@ -63,7 +65,6 @@ class App extends Component {
               id: snapShot.id,
             ...snapShot.data()
           });
-       //   this.loadUser(this.props.currentUser);
           if(this.props.currentUser.isTrainer) {
             this.onRouteChange('trainer')
           } else {
@@ -96,11 +97,11 @@ class App extends Component {
   }
 
   //clear the temp arrays when signing out
-  clearArrays = (arr) => {
+/*   clearArrays = (arr) => {
     if(arr.length > 0) {
       arr.length = 0;
     }
-  }
+  } */
 
 // Custom routing based on the 'route' variable in state
   onRouteChange = (route) => {
