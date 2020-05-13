@@ -23,7 +23,7 @@ const packageReducer = (state = INITIAL_STATE, action) => {
         case PackageActionTypes.ADD_PACKAGE:
             return {
                 ...state,
-                currentPackage: [ action.payload, ...state.currentPackage]
+                currentPackage:  action.payload
             }
         case PackageActionTypes.RESET_PACKAGE:
             return {

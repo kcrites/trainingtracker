@@ -7,20 +7,27 @@ class PackageInfo extends React.Component {
 		constructor(props){
 		super(props);
 		this.state = {
-			history: []
+			history: [],
+			historySet: false
 		}
 	}
-componentDidMount(){
 
-}
+	componentWillMount(){
+		
+	}
 
+	setHistory = () => {
+		if(!this.state.historySet){
+			this.setState({history: [...this.props.trainingList], historySet: true});
+		}
+	}
 
 render() {
 	const { isTrainer, email } = this.props.currentUser;
 	const { completed, sessioncount, datestarted, maxsessions, packageid} = this.props.currentPackage;
-	const { trainingList } = this.props;
-	const { addPackage } = this.props;
-	
+	const { trainingList, addPackage } = this.props;
+	const { history } = this.state;
+	if(trainingList.length > 0) this.setHistory() ;
 	const sessionsLeft = (maxsessions) ? maxsessions - sessioncount : 0;
 	
 	let formattedDate;
@@ -54,7 +61,7 @@ render() {
        					 <div className="pa3 bt b--black-10">
 							{(trainingList)?
 							<ol className='fw4 tabletext'>
-							{trainingList.reverse().map(item => {
+							{history.reverse().map(item => {
 								if(item.packageid === parseInt(packageid))
 								 return <li key={item.id}>{DateFormat(item.sessiondate)}</li>
 								 else return null;

@@ -4,10 +4,10 @@ import ArrowImage from '../Stats/ArrowImage';
 //from training
 const fixDate = (array, dates) => {
       array.map((item) => {
-        if(dates === 1){
-            let d = new Date(item.statsdate);
+        if(dates === 1){ //Measurements History
+            let d = new Date(item.statsdate );
             item.statsdate = d.toLocaleDateString();
-        } else {
+        } else {  //Training History
             let d1 = new Date(item.sessiondate);
             item.sessiondate = d1.toLocaleDateString();
             let d2 = new Date(item.packagedate);
@@ -18,16 +18,16 @@ const fixDate = (array, dates) => {
 }
 
 export const RenderRowTrainer = ({array, action}) => {
-  console.table(array);
+
   return array.map((item, index)  => 
   <tr key={index} className="stripe-dark">
-    <td className="pa3">{index+1}</td>
-    <td className="pa3">{item.fname}</td>
-    <td className="pa3">{item.packageid}</td>
-    <td className="pa3">{item.sessioncount}</td>
-    <td className="pa3">{item.maxsessions-item.sessioncount}</td>
-    <td className="pa3">{item.email}</td>
-    <td className="pa3"><button type='button' value={item.email} onClick={action}>Select</button></td>
+    <td className="history-cell">{index+1}</td>
+    <td className="history-cell">{item.fname}</td>
+    <td className="history-cell">{item.packageid}</td>
+    <td className="history-cell">{item.sessioncount}</td>
+    <td className="history-cell">{item.maxsessions-item.sessioncount}</td>
+    <td className="history-cell">{item.email}</td>
+    <td className="history-cell"><button type='button' value={item.email} onClick={action}>Select</button></td>
   </tr>
 );
 } //From Trainer.js
@@ -37,9 +37,9 @@ export const RenderRowTraining = ({array}) =>{
   
     return array.map((item, index)  => 
               <tr key={index} className="stripe-dark">
-              <td className="pa3">{index+1}</td>
-                <td className="pa3">{item.sessiondate}</td>
-                {item.packageid !== 0 ?  <td className="pa3">{item.packagedate}</td> : <td>None</td>}
+              <td className="history-cell">{index+1}</td>
+                <td className="history-cell">{item.sessiondate}</td>
+                {item.packageid !== 0 ?  <td className="history-cell">{item.packagedate}</td> : <td className='history-cell'>None</td>}
               </tr>
       );
 } // From history.component.jsx (Training)
@@ -52,21 +52,21 @@ export const RenderRowMeasurements = ({array}) =>{
   }
   return array.map((item, index)  => 
             <tr key={index} className="stripe-dark">
-            <td className="pa3">{index+1}</td>
-              <td className="pa3">{item.statsdate}</td>
-              <td className="pa3">{item.weight} {(index < array.length-1  )? indicator[index][0] : ''}</td>
-              <td className="pa3">{item.musclemass} {(index< array.length-1  )? indicator[index][1] : ''}</td>
-              <td className="pa3">{item.fatlevel} {(index < array.length-1  )? indicator[index][2]: ''}</td>
-              <td className="pa3">{item.bmi} {(index < array.length-1  )? indicator[index][3]: ''}</td>
-              <td className="pa3">{item.vv} {(index < array.length-1  )? indicator[index][4]: ''}</td>
-              <td className="pa3">{item.percentwater} {(index < array.length-1  )? indicator[index][5] : ''}</td>
+            <td className="history-cell">{index+1}</td>
+              <td className="history-cell">{item.statsdate}</td>
+              <td className="history-cell">{item.weight} {(index < array.length-1  )? indicator[index][0] : ''}</td>
+              <td className="history-cell">{item.musclemass} {(index< array.length-1  )? indicator[index][1] : ''}</td>
+              <td className="history-cell">{item.fatlevel} {(index < array.length-1  )? indicator[index][2]: ''}</td>
+              <td className="history-cell">{item.bmi} {(index < array.length-1  )? indicator[index][3]: ''}</td>
+              <td className="history-cell">{item.vv} {(index < array.length-1  )? indicator[index][4]: ''}</td>
+              <td className="history-cell">{item.percentwater} {(index < array.length-1  )? indicator[index][5] : ''}</td>
             </tr>
     );
 } // From history.component.jsx (Measurements)
 
 export const RenderColumn = ({array}) => {
     return array.map((item, index) => 
-    <th key={index} className="fw6 tl pa3 bg-white">{item}</th>
+    <th key={index} className="fw6 tl bg-white history-header">{item}</th>
     );
 } // From history.component.jsx (Both)
 

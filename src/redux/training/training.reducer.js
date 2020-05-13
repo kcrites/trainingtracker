@@ -1,7 +1,7 @@
 import { TrainingActionTypes } from './training.types';
 
 const INITIAL_STATE = {
-    trainingList: null
+    trainingList: []
 }
 
 const trainingReducer = (state = INITIAL_STATE, action) => {
@@ -15,7 +15,7 @@ const trainingReducer = (state = INITIAL_STATE, action) => {
         case TrainingActionTypes.ADD_TRAINING:
             return {
                 ...state,
-                trainingList: [ action.payload, ...state.trainingList]
+                trainingList: [action.payload, ...state.trainingList ]
             }
         case TrainingActionTypes.RESET_TRAINING:
             return {

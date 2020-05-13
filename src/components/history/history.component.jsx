@@ -2,7 +2,7 @@
 import React from 'react';
 import { RenderRowTraining, RenderRowMeasurements, RenderColumn } from '../render-row/render-row.component';
 import { connect } from 'react-redux';
-
+import './history.styles.scss';
 const measurementColumnArray = [
         'Number', 'Date', 'Weight', 'Muscle Mass', 'Fat Level', 'BMI', 'Fat Level Organs', '%Body Water'
     ];
@@ -28,7 +28,12 @@ componentWillMount(){
     this.setState({ history: this.props.stats});
   } else if(this.props.type === 'Training'){
   this.setState({history: this.props.trainingList});
+ 
   }
+}
+
+componentWillUnmount(){
+  this.setState({history: []});
 }
 
 handleSelectorChange = (event) => {
@@ -55,7 +60,7 @@ handleSelectorChange = (event) => {
     const { history } = this.state;
    
     if(history.length === 0) { //MODIFY TO ACCOUNT FOR INITIAL STATE
-      return("Your history is empty");
+      return(<p className='f3 fw7'> Your history is empty</p>);
     } else{
         return (
           <div className="pa4">

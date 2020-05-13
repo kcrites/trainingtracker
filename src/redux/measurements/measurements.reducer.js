@@ -3,7 +3,7 @@ import { MeasurementsActionTypes } from './measurements.types';
 const INITIAL_STATE = {
      stats:  [{
         statsdate: null,
-        weight: null,
+        weight: 0.0,
         musclemass: 0.0,
         fatlevel: 0.0,
         bmi: 0.0,

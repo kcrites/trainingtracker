@@ -7,11 +7,19 @@
   text-align: left;
   } */
 
+.sidebar_table {
+  width: 100%;
+}
+
 .tabletext {
-  font-size: .75em;
+  font-size: .60em;
   font-weight: normal;
   text-align: left;
 }
+  .sb_title {
+    width: 90px
+  }
+
 
 .sidetable:hover {
   background-color: #bdb9b9;

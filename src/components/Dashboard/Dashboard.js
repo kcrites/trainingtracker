@@ -42,14 +42,13 @@ class Dashboard extends React.Component {
                 tempEmail = this.props.currentUser.email;
             } 
             this.getData(tempEmail);
-		}
+        }
     }
 
     //Get user data on measurements, trainings and packages
      getData = async (email) => {
-        //const { email } = this.props.currentUser;
-        //const { email } = this.state.email;
-        
+
+
         const result3 = await getMeasurementsHistory(email,  this.storeInState); 
       
         const result2 = await getTrainingHistory(email,  this.storeInState);
@@ -66,17 +65,17 @@ class Dashboard extends React.Component {
         if(type === 'stats'){
             this.props.setMeasurements(data);
         } else if(type === 'training') {
-            this.setState({[type]: data});
+           // this.setState({[type]: data});
             this.props.setTraining(data);
         } else if(type === 'pack'){ 
-            this.setState({[type]: data});
+           // this.setState({[type]: data});
             this.props.setCurrentPackage(data);
         } 
     } 
 
     render() {
         const { onRouteChange } = this.props;
-       
+      
         return (
             <div className="wrapper">
             

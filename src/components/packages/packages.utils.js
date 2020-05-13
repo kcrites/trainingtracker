@@ -12,9 +12,8 @@ export const getPackageHistory = (email, storeInState) => {
               })
               .then(response => response.json())
               .then(pack => {
-                      //(LOAD TO REDUX STORE)
-                     // console.log('pack:' + pack);
                       if(pack.id){
+                        pack.datestarted = new Date(pack.datestarted);
                         storeInState(pack, 'pack');
                         
                       } else console.log('No Package Information Available')
@@ -35,5 +34,12 @@ storeInState(result, 'packSession');
 }
 return false;
 
+}
 
+export const sortTrainingList = (array) => {
+  //sort array by date
+  array.sort(function(a, b) {
+    var dateA = new Date(a.release), dateB = new Date(b.release);
+    return dateA - dateB;
+});
 }

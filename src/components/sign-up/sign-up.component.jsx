@@ -52,8 +52,7 @@ handleSubmit = async e => {
             email,
             password
         );
-        console.log('signup: ');
-        console.log(user);
+       
         await createUserProfileDocument(user, {displayName, privacy, trainer});
 
         this.setState({

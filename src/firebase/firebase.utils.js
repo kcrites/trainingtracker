@@ -15,12 +15,6 @@ const config = {
     measurementId: "G-4MDFJDG948"
   };
 
-  const userData =  {    
-  height: 0,
-  isTrainer: false,
-  isAdmin: false,
-  trainer: 'Desire',
-  };
 
   export const createUserProfileDocument = async (userAuth, additionalData) => {
     if(!userAuth) return;
@@ -37,15 +31,9 @@ const config = {
                 email,
                 createdAt,
                 ...additionalData
-            }).then(function() {
-                console.log(`Writing to firebaseDB: ${displayName}`);
-            }).catch(function(error) {
-                console.log('Firebase DB Set Error');
             })
-            console.log('firebase:');
-            console.log(userAuth);
             saveUserToDB(`${!displayName ? additionalData.displayName : displayName}`, email, additionalData);
-          //  options, 1) displayname comes with userAuth, 2) displayname is null
+          //  options, 1) displayname comes with userAuth for google, 2) displayname is null for email/password
         }catch(error) {
             console.log('error creating user', error.message);
         }

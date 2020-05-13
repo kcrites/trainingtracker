@@ -11,7 +11,6 @@ class TrainingInputForm extends React.Component {
 		this.state = {
 			sessionDate: '',
 			selfTraining: false
-		
 			}
 		}
 
@@ -28,15 +27,19 @@ class TrainingInputForm extends React.Component {
 		const { email } = this.props.currentUser;
 		const {  onRouteChange } = this.props;
 		const { datestarted, packageid} = this.props.currentPackage;
-		//const { packageId} = this.props.pack;
-		let pId, pDate;
+		let pId, pDate, pYear, pMonth, pDay, formattedDate;
 
 		if(this.state.selfTraining){
 			pDate = null;
 			pId = 0;
 		} else{
-			pDate = datestarted;
+			//Format the date so that it comes in correctly with regards to Timezone
+			pDate = new Date(datestarted);
+			pYear = pDate.getFullYear();
+			pMonth = pDate.getMonth() + 1;
+			pDay = pDate.getDate();
 			pId = parseInt(packageid);
+			formattedDate = `${pYear}-${pMonth}-${pDay}`
 		}
 		let id = -1;
 		fetch(serverURL + 'addtraining', {
@@ -46,24 +49,20 @@ class TrainingInputForm extends React.Component {
 				sessiondate: sessionDate,
 				email: email,
 				packageid: pId,
-				packagedate: pDate
+				packagedate: formattedDate
 			})
 		})
 		.then(response => response.json())
 		.then(data => {
-			
 			if(data.id){
-			//	this.props.loadUser(data);
-			
-			id = data.id;
-				console.log(`data.id: ${data.id}, ${id}`)
-				let newSession = {
-					id: id,
-					sessiondate: sessionDate,
-					email: email,
-					packageid: pId,
-					packagedate: pDate
-			}
+				id = data.id;		
+					let newSession = {
+						id: id,
+						sessiondate: sessionDate,
+						email: email,
+						packageid: pId,
+						packagedate: pDate
+					}
 			if(!this.state.selfTraining){
 				this.updatePackage();
 			}
@@ -72,8 +71,6 @@ class TrainingInputForm extends React.Component {
 			onRouteChange('trainingHistory');
 			}
 		}).catch(err => {console.log(err)});
-
-		
 	}
 
 	updatePackage() {
