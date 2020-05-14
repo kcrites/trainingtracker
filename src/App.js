@@ -142,7 +142,7 @@ class App extends Component {
     else if(route === 'signin'){
       return <div><SignIn /></div>
     }else if(route === 'infopage'){
-      return <div><InfoPage /></div>
+      return <div><InfoPage onRouteChange={onRouteChange}/></div>
     }
 
   }

@@ -1,7 +1,11 @@
 .article {
+   width: 300px;
+   display: flex;
+   flex-direction: column;
 
     .title{
         font-size: 1.25rem;
+        text-align: center;
     }
     .content{
         font-size: 1.0rem;
