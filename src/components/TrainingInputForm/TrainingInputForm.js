@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import './TrainingInputForm.css';
+import './traininginputform.styles.scss';
 import { serverURL } from '../../server-path';
 import { addPackage } from '../../redux/package/package.actions';
 import { addTraining } from '../../redux/training/training.actions';
@@ -22,14 +22,20 @@ class TrainingInputForm extends React.Component {
 		this.setState({selfTraining: event.target.checked});
 	}
 
-	handleSubmitDate = (event) => {
-		const { sessionDate } = this.state;
+	handleSubmitDate = async (event) => {
+		event.preventDefault();
+		const { sessionDate, selfTraining } = this.state;
 		const { email } = this.props.currentUser;
 		const {  onRouteChange } = this.props;
 		const { datestarted, packageid} = this.props.currentPackage;
 		let pId, pDate, pYear, pMonth, pDay, formattedDate;
 
-		if(this.state.selfTraining){
+		if(!packageid && !selfTraining){
+			alert("No Package available, please select Self-Training");
+			return;
+		}
+
+		if(selfTraining){
 			pDate = null;
 			pId = 0;
 		} else{
@@ -63,7 +69,7 @@ class TrainingInputForm extends React.Component {
 						packageid: pId,
 						packagedate: pDate
 					}
-			if(!this.state.selfTraining){
+			if(!selfTraining){
 				this.updatePackage();
 			}
 			this.props.addTraining(newSession);
@@ -86,11 +92,9 @@ class TrainingInputForm extends React.Component {
 			})
 		})
 		.then(response => response.json())
-		.then(userStats => {
-			if(userStats){
-			//	this.props.loadUserPack(userStats);
-			this.props.addPackage(userStats);
-				
+		.then(packUpdate => {
+			if(packUpdate){
+				this.props.addPackage(packUpdate);
 			}
 		}).catch(err => {console.log(err)});
 	}
@@ -102,7 +106,7 @@ class TrainingInputForm extends React.Component {
 			<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
 				<h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Add a Training Session</h1>
 				<div className="pa3 bt b--black-10">	
-					<div className='pa1 br2 shadow-5 form center'>
+					<div className='pa1 br2 shadow-5 training-form center'>
 						<input className='f5 pa1 w-70 center' type='date'onChange={this.handleDateChange}/>
 						<button name='session' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
 					</div>

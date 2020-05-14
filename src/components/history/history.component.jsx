@@ -37,7 +37,10 @@ componentWillUnmount(){
 }
 
 handleSelectorChange = (event) => {
-  const { array } = this.props;
+  //Change to reflect mulitple array sources
+  let  array;
+  if(this.props.type === 'Measurements') array = [...this.props.stats];
+  else array = [...this.props.trainingList];
   let valueInt = parseInt(event.target.value);
   this.setState({viewSelectorInput: event.target.value});
   if(event.target.value === '-1' || (valueInt > array.length-1)){
@@ -59,8 +62,8 @@ handleSelectorChange = (event) => {
     const { displayName } = this.props.currentUser;
     const { history } = this.state;
    
-    if(history.length === 0) { //MODIFY TO ACCOUNT FOR INITIAL STATE
-      return(<p className='f3 fw7'> Your history is empty</p>);
+    if(history.length === 0 ) { //MODIFY TO ACCOUNT FOR INITIAL STATE
+    return(<p className='f3 fw7'> Your {type} history is empty</p>);
     } else{
         return (
           <div className="pa4">

@@ -1,7 +1,7 @@
 import React from 'react';
 import Footer from '../Footer/Footer';
 import Sidebar from '../Sidebar/Sidebar';
-import PackageInfo from '../PackageInfo/PackageInfo';
+import PackageInfo from '../packageinfo/packageinfo.component';
 import StatsButton from '../StatsInputForm/StatsButton';
 import TrainingInputForm from '../TrainingInputForm/TrainingInputForm';
 
@@ -21,10 +21,10 @@ class Dashboard extends React.Component {
         super();
         this.state = {
             loaded: false,
-            pack:{},
-            training: {},
+       //     pack:{},
+       //     training: {},
             email: '',
-            stats: [{statsdate:'Loading', weight:0,musclemass:0,fatlevel:0,bmi:0,vv:0,percentwater:0 }]
+          //  stats: [{statsdate:'Loading', weight:0,musclemass:0,fatlevel:0,bmi:0,vv:0,percentwater:0 }]
     }
 }
 

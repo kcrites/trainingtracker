@@ -1,7 +1,7 @@
 import { MeasurementsActionTypes } from './measurements.types';
 
 const INITIAL_STATE = {
-     stats:  [{
+     stats:  /* [{
         statsdate: null,
         weight: 0.0,
         musclemass: 0.0,
@@ -9,7 +9,8 @@ const INITIAL_STATE = {
         bmi: 0.0,
         vv: 0.0,
         percentwater: 0.0
-    }] 
+    }]  */
+    []
 }
 
 const measurementsReducer = (state = INITIAL_STATE, action) => {

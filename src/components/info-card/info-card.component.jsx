@@ -1,4 +1,5 @@
 import React from 'react';
+import trainerImg from '../../components/Logo/desire.jpg';
 
 const InfoCard = ({title, content, ...otherProps}) => {
 
@@ -8,9 +9,18 @@ const InfoCard = ({title, content, ...otherProps}) => {
 				<div className="pa3 bt b--black-10">	
 					<div className='pa1 br2 shadow-5 form center'>
 						
-                        <input className='f5 pa1 w-70 center' type='date'onChange={this.handleDateChange}/>
-						<button name='session' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
-					
+					<div>
+                                      <img alt='Trainer Profile' src={trainerImg}></img>
+                                  </div>
+							      <div className="mt3">
+							        <label className="db fw6 lh-copy f6" htmlFor="trainer-name">Mobile: 06 4676 7399</label>
+							      </div>
+							      <div className="mv3">
+							        <label className="db fw6 lh-copy f6" htmlFor="link">Website: <a href="http://dmpersonaltraining.com/">here</a></label>
+							      </div>
+                                  <div className="mv3">
+							        <label className="db fw6 lh-copy f6" htmlFor="link">Email: desire@gmail.com</label>
+							      </div>
                     </div>
 					
 				</div>

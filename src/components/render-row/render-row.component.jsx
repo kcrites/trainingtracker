@@ -3,6 +3,7 @@ import ArrowImage from '../Stats/ArrowImage';
 
 //from training
 const fixDate = (array, dates) => {
+  
       array.map((item) => {
         if(dates === 1){ //Measurements History
             let d = new Date(item.statsdate );
@@ -15,6 +16,7 @@ const fixDate = (array, dates) => {
         }
       return array;
   })
+  
 }
 
 export const RenderRowTrainer = ({array, action}) => {
@@ -34,7 +36,6 @@ export const RenderRowTrainer = ({array, action}) => {
 
 export const RenderRowTraining = ({array}) =>{
    fixDate(array, 2);
-  
     return array.map((item, index)  => 
               <tr key={index} className="stripe-dark">
               <td className="history-cell">{index+1}</td>
@@ -46,6 +47,7 @@ export const RenderRowTraining = ({array}) =>{
 
 export const RenderRowMeasurements = ({array}) =>{
   fixDate(array,1);
+
   const indicator = [];
   for(let k = 0; k < array.length-1; k++){
     indicator.push(statIndicator(array, k));

@@ -7,6 +7,7 @@ import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
 import History from './components/history/history.component';
 import Dashboard from './components/Dashboard/Dashboard';
+
 //import Workout from './components/Workout/Workout';
 import { serverURL } from './server-path';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -21,6 +22,7 @@ import { resetMeasurements } from './redux/measurements/measurements.actions';
 import { resetTraining } from './redux/training/training.actions';
 import { resetPackage } from './redux/package/package.actions';
 import { resetIndicator } from './redux/indicator/indicator.actions';
+import InfoPage from './pages/info-page/info-page.component';
 
 const initialState = {   
     route: 'start',
@@ -139,6 +141,8 @@ class App extends Component {
 
     else if(route === 'signin'){
       return <div><SignIn /></div>
+    }else if(route === 'infopage'){
+      return <div><InfoPage /></div>
     }
 
   }

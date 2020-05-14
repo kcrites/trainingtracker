@@ -1,4 +1,5 @@
 import React from 'react';
+import './statsbutton.styles.scss';
 
 const StatsButton = (props) => {
     return (	<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">

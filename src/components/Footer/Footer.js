@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import './Footer.css';
+import './footer.styles.scss';
 
 const Footer = ({onRouteChange, isTrainer}) => {
 	return(
 			<nav className='footer-size' style={{display: 'flex', justifyContent: 'center'}}>
-				{(isTrainer ? <p onClick={() => onRouteChange('trainer')} className='f5 link dim black pa3 pointer'>Client List -</p>
+				{(isTrainer ? <p onClick={() => onRouteChange('trainer')} className='footer-text'>Client List -</p>
 				: ''
 					)}
-				<p onClick={() => onRouteChange('trainerinfo')} className='f5 link dim black  pa1 pointer'>Trainer Information -</p>
-				<p onClick={() => onRouteChange('help')} className='f5 link dim black  pa1 pointer'>Help</p>
+				<p onClick={() => onRouteChange('trainerinfo')} className='footer-text'>Trainer Information -</p>
+				<p onClick={() => onRouteChange('help')} className='footer-text'>Help</p>
+				<p onClick={() => onRouteChange('infopage')} className='footer-text'>infopage</p>
 			</nav>
 			);
 	}

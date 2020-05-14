@@ -26,7 +26,11 @@
     .option {
         padding: 10px 15px;
         cursor: pointer;
-    
+        &:hover {
+            opacity: .60;
+            -webkit-transition: opacity .15s ease-in;
+            transition: opacity .15s ease-in;
+        }
     }
   
 
@@ -37,5 +41,6 @@
          padding-bottom: '0px';
          padding-right: '10px;';
     }
+ 
 
 }

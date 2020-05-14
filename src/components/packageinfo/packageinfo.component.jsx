@@ -1,5 +1,5 @@
 import React from 'react';
-import './PackageInfo.css';
+import './packageinfo.styles.css';
 import DateFormat from '../DateFormat/DateFormat';
 import { connect } from 'react-redux';
 
@@ -12,11 +12,7 @@ class PackageInfo extends React.Component {
 		}
 	}
 
-	componentWillMount(){
-		
-	}
-
-	setHistory = () => {
+	setHistory = () => { //When trainingList is populated add it to state and set a flag
 		if(!this.state.historySet){
 			this.setState({history: [...this.props.trainingList], historySet: true});
 		}
@@ -40,7 +36,6 @@ render() {
 					<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
        				 <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Package Information</h1>
      				   <div className="pa3 bt b--black-10">
-					
 							<table >
 								<tbody className='packtable tabletext'>
 									<tr>
@@ -83,7 +78,7 @@ render() {
 				return (
 					<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
 						<h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Package Information</h1>
-						<div className="pa3 bt b--black-10" >No Packages</div>
+						<div className="error-text-packageinfo" >No Packages</div>
 					</article>
 					)
 			}

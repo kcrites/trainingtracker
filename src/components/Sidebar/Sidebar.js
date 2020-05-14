@@ -5,13 +5,15 @@ import { connect } from 'react-redux';
 
 
 const Sidebar = (props) => {
-        const { statsdate, weight, musclemass, fatlevel, bmi, vv, percentwater} = props.stats[0];
-       let fixed = fixDate(statsdate);
-if(!statsdate){
+      //  if() return <div className='error-text-sidebar'>No Measurements Info</div>
+     
+if(!props.stats[0]){
         return(<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
         <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Measurements</h1>
-        <div className="pa3 bt b--black-10">No Measurements</div></article>);
-} else
+        <div className="error-text-sidebar">No Measurements</div></article>);
+} 
+        const { statsdate, weight, musclemass, fatlevel, bmi, vv, percentwater} = props.stats[0];
+        let fixed = fixDate(statsdate);
     return(
         <article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
         <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Measurements</h1>
