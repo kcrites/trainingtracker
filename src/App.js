@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Navigation from './components/Navigation/navigation.component';
 import StatsInputForm from './components/StatsInputForm/StatsInputForm';
-import Trainer from './components/Trainer/Trainer';
-import PackageInputForm from './components/PackageInputForm/PackageInputForm';
+import Trainer from './components/trainer/trainer.component';
+import PackageInputForm from './components/package-input/package-input.component';
 import Help from './components/Help/Help';
 import TrainerInfo from './components/TrainerInfo/TrainerInfo';
 import History from './components/history/history.component';
@@ -22,7 +22,10 @@ import { resetMeasurements } from './redux/measurements/measurements.actions';
 import { resetTraining } from './redux/training/training.actions';
 import { resetPackage } from './redux/package/package.actions';
 import { resetIndicator } from './redux/indicator/indicator.actions';
+import { resetClient } from './redux/client/client.actions';
 import InfoPage from './pages/info-page/info-page.component';
+import Popout from './components/Popout/Popout';
+
 
 const initialState = {   
     route: 'start',
@@ -88,21 +91,13 @@ class App extends Component {
 
   resetApp = () => {
     this.setState(initialState);
-
     this.setState({dbAwake: true})
     this.props.resetMeasurements();
     this.props.resetTraining();
     this.props.resetPackage();
     this.props.resetIndicator();
-
+    this.props.resetClient();
   }
-
-  //clear the temp arrays when signing out
-/*   clearArrays = (arr) => {
-    if(arr.length > 0) {
-      arr.length = 0;
-    }
-  } */
 
 // Custom routing based on the 'route' variable in state
   onRouteChange = (route) => {
@@ -133,16 +128,25 @@ class App extends Component {
       return <div><PackageInputForm /></div>
     }   
     else if (route === 'help') {
-      return <div><Help /></div>
+      return <div><Help onRouteChange={onRouteChange}/></div>
     }
     else if (route === 'trainerinfo') {
       return <div><TrainerInfo trainer={trainer}/></div>
     }
-
     else if(route === 'signin'){
       return <div><SignIn /></div>
-    }else if(route === 'infopage'){
+    }
+    else if(route === 'infopage'){
       return <div><InfoPage onRouteChange={onRouteChange}/></div>
+    }
+    else if(route === 'popout1'){
+      return <div><Popout onRouteChange={onRouteChange} text={'faq'}/></div>
+    }
+    else if(route === 'popout2'){
+      return <div><Popout onRouteChange={onRouteChange} text={'tech'}/></div>
+    }
+    else if(route === 'popout3'){
+      return <div><Popout onRouteChange={onRouteChange} text={'terms'}/></div>
     }
 
   }
@@ -170,7 +174,8 @@ const mapDispatchToProps = dispatch => ({
   resetMeasurements: stats => dispatch(resetMeasurements()),
   resetTraining: training => dispatch(resetTraining()),
   resetPackage: pack => dispatch(resetPackage()),
-  resetIndicator: dash => dispatch(resetIndicator())
+  resetIndicator: dash => dispatch(resetIndicator()),
+  resetClient: client => dispatch(resetClient())
 })
 
 const mapStateToProps = state => ({

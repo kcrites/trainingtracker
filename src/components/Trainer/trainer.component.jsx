@@ -2,7 +2,10 @@ import React from 'react';
 import { serverURL } from '../../server-path';
 import { connect } from 'react-redux';
 import { setClient } from '../../redux/client/client.actions';
-//import { RenderRowTrainer } from '../render-row/render-row.component';
+import { resetMeasurements } from '../../redux/measurements/measurements.actions';
+import { resetTraining } from '../../redux/training/training.actions';
+import { resetPackage } from '../../redux/package/package.actions';
+import { resetIndicator } from '../../redux/indicator/indicator.actions';
 
 
 const renderRow= (array, action) =>{
@@ -33,6 +36,7 @@ class Trainer extends React.Component {
     }
      
 componentDidMount() {
+  this.resetClientList();
   this.getClients();
 }
 componentWillUnmount() {
@@ -40,7 +44,7 @@ componentWillUnmount() {
   console.log("admin: willUnmount");
 }
 
-getClients = () => {
+getClients = async() => {
   const { trainerId } = this.state;
   
     if(clientListArr.length === 0) {
@@ -65,6 +69,13 @@ getClients = () => {
       this.setState({loaded: true});
     }
   } 
+
+  resetClientList = () => {
+    this.props.resetMeasurements();
+    this.props.resetTraining();
+    this.props.resetPackage();
+    this.props.resetIndicator();
+  }
 
  handleTrainerSubmit = (e) => {
     fetch(serverURL + 'trainergetclient', {
@@ -135,7 +146,11 @@ getClients = () => {
   });
 
   const mapDispatchToState = dispatch => ({
-    setClient: user => dispatch(setClient(user))
+    setClient: user => dispatch(setClient(user)),
+    resetMeasurements: stats => dispatch(resetMeasurements()),
+    resetTraining: training => dispatch(resetTraining()),
+    resetPackage: pack => dispatch(resetPackage()),
+    resetIndicator: dash => dispatch(resetIndicator())
   });
 
   export default connect(mapStateToProps, mapDispatchToState)(Trainer);

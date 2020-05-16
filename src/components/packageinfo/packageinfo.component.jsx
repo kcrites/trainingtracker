@@ -1,6 +1,7 @@
 import React from 'react';
 import './packageinfo.styles.css';
 import DateFormat from '../DateFormat/DateFormat';
+import PackageInputForm from '../package-input/package-input.component';
 import { connect } from 'react-redux';
 
 class PackageInfo extends React.Component { 
@@ -79,6 +80,7 @@ render() {
 					<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
 						<h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Package Information</h1>
 						<div className="error-text-packageinfo" >No Packages</div>
+						{(this.props.currentUser.isTrainer) ? <PackageInputForm /> : null}
 					</article>
 					)
 			}

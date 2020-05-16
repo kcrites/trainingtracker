@@ -34,6 +34,16 @@
     font-size: 150%;
     
   }
+  
+  .name-box{
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    /* border-radius: 5px; */
+    border: 1px solid rgb(99, 97, 97);
+    padding: 5px;
+    font-size: medium;
+  }
+
   .header,
 .footer {
   

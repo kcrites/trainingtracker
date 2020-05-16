@@ -65,10 +65,8 @@ class Dashboard extends React.Component {
         if(type === 'stats'){
             this.props.setMeasurements(data);
         } else if(type === 'training') {
-           // this.setState({[type]: data});
             this.props.setTraining(data);
         } else if(type === 'pack'){ 
-           // this.setState({[type]: data});
             this.props.setCurrentPackage(data);
         } 
     } 
@@ -79,12 +77,8 @@ class Dashboard extends React.Component {
         return (
             <div className="wrapper">
             
-            <div className="box header">
-           {/*      <div className='header-flex'>
-                    <StatsButton onRouteChange={onRouteChange}/>
-                
-                    <TrainingInputForm onRouteChange={onRouteChange}/> 
-                </div> */}
+            <div className="name-box header">
+                {(this.props.currentClient.email) ? <h5>{this.props.currentClient.fname}</h5> : null}
             </div>
             
             <div className='aside-1 aside box'>

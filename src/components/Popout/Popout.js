@@ -1,18 +1,28 @@
 import React from 'react';
+import CustomerButton from '../custom-button/custom-button.component';
+import FAQ from '../Help/faq.component';
+import Terms from '../Help/terms.component';
+import Tech from '../Help/tech.component';
 import './Popout.css';
 
-class Popout extends React.Component {
-    render() {
+const Popout =(props) => {
+   
       return (
         <div className='popup'>
           <div className='popup_inner'>
-            <div style={{fontSize : '.75em'}}>{this.props.text}</div>
-          <button className='button-center' onClick={this.props.closePopup}>Close</button>
+            {props.text === 'faq' ? 
+            <FAQ />
+            :
+            (props.text === 'tech') ?
+              <Tech />
+              : <Terms />
+          }
+          <CustomerButton className='button-center'onClick={() => props.onRouteChange('home')} >Home</CustomerButton>
           </div>
         </div>
       );
     }
-  }
+  
 
 export default Popout;
 

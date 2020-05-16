@@ -1,11 +1,13 @@
 import React from 'react';
 
-const faq = <div><h2>FAQ</h2>
-                <h3>Stats/Measurements</h3>
+const FAQ = () => (
+    <div>
+        <h2>FAQ</h2>
+                <h3>Measurements</h3>
                     <ul className="list">
-                        <li className="question">What are stats?
+                        <li className="question">What are measurements?
                             <ul>
-                            <li className="answer">Stats/Measurements are the weekly measurements that you track including weight, muscle mass, viseral fat, fat %, BMI, and water weight.</li>
+                            <li className="answer">Measurements are the weekly measurements that you track including weight, muscle mass, viseral fat, fat %, BMI, and water weight.</li>
                             </ul>
                         </li>
                         <li className="question">How do I add stats after a new measurement?
@@ -21,13 +23,13 @@ const faq = <div><h2>FAQ</h2>
                     </ul>
                     <h3>Training Sessions</h3>
                     <ul className="list">
-                    <li lassName="question">How do I add a new training session?
+                    <li className="question">How do I add a new training session?
                         <ul>
                             <li>Click on the menu date box on your home page. This will bring up the date selector. Select the date and click "sumbit".</li>
                            
                             </ul>
                         </li>
                     </ul>
-            </div>
+            </div>)
 
-export default faq;
+export default FAQ;
