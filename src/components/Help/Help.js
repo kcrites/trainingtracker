@@ -1,5 +1,5 @@
 import React from 'react';
-import Popout from '../Popout/Popout';
+import Popout from '../popout/popout.component';
 import termsPolicy from './terms.component';
 import techHelp from './tech.component';
 import faq from './faq.component';

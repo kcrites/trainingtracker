@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../Logo/dmpt.jpg';
+import logo from '../logo/dmpt.jpg';
 import { auth } from '../../firebase/firebase.utils';
 
 import './Navigation.css';

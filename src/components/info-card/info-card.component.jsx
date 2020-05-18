@@ -1,5 +1,5 @@
 import React from 'react';
-import trainerImg from '../../components/Logo/desire.jpg';
+import trainerImg from '../../components/logo/desire.jpg';
 import TrainerDetails from '../TrainerInfo/trainer-details.component';
 import './info-card.styles.scss';
 

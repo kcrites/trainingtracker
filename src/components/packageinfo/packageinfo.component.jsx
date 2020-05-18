@@ -1,6 +1,6 @@
 import React from 'react';
 import './packageinfo.styles.css';
-import DateFormat from '../DateFormat/DateFormat';
+import DateFormat from '../date-format/date-format';
 import PackageInputForm from '../package-input/package-input.component';
 import { connect } from 'react-redux';
 

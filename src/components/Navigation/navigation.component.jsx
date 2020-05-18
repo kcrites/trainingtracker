@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as Logo } from '../Logo/dmpt.svg';
+import { ReactComponent as Logo } from '../logo/dmpt.svg';
 import { auth } from '../../firebase/firebase.utils';
 import { connect } from 'react-redux';
 

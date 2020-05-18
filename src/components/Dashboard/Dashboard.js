@@ -1,5 +1,5 @@
 import React from 'react';
-import Footer from '../Footer/Footer';
+import Footer from '../footer/footer';
 import Sidebar from '../Sidebar/Sidebar';
 import PackageInfo from '../packageinfo/packageinfo.component';
 import StatsButton from '../StatsInputForm/StatsButton';
@@ -21,15 +21,11 @@ class Dashboard extends React.Component {
         super();
         this.state = {
             loaded: false,
-       //     pack:{},
-       //     training: {},
             email: '',
-          //  stats: [{statsdate:'Loading', weight:0,musclemass:0,fatlevel:0,bmi:0,vv:0,percentwater:0 }]
     }
 }
 
  componentWillMount(){
-     //console.log(`loaded in dashboard: ${this.state.email}, ${this.props.dash}, ${this.props.currentClient.email}`);
      let tempEmail = '';
         if(!this.props.dash) {
             if(this.props.currentUser.isTrainer){
