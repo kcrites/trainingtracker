@@ -4,7 +4,7 @@ import { auth } from '../../firebase/firebase.utils';
 import { connect } from 'react-redux';
 
 import './navigation.styles.scss';
-const version = '2.x';
+const version = '2.5';
 
 const Navigation = ({onRouteChange, currentUser}) => {
 	if(currentUser) {
