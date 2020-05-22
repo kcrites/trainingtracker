@@ -25,7 +25,6 @@ import { resetIndicator } from './redux/indicator/indicator.actions';
 import { resetClient } from './redux/client/client.actions';
 
 
-
 const initialState = {   
     route: 'start',
     dbAwake: false,
