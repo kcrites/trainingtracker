@@ -1,0 +1,5 @@
+export const TrainingActionTypes = {
+    SET_TRAINING: 'SET_TRAINING',
+    ADD_TRAINING: 'ADD_TRAINING',
+    RESET_TRAINING: 'RESET_TRAINING'
+};

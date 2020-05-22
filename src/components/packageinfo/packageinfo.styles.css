@@ -1,0 +1,27 @@
+.tableInfo {
+  border: 1px solid black;
+   border-collapse: collapse;
+}
+
+.tableHeader {
+	color: blue;
+}
+
+.rows {
+	text-align: left;
+	align-content: left;
+}
+
+.packtable {
+    text-align: center
+}
+
+.error-text-packageinfo {
+    font-size: medium;
+    font-weight: 600;
+    text-align: justify;
+    padding: 16px;
+  }
+
+
+

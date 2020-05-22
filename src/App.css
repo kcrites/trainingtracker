@@ -1,128 +1,28 @@
-.App {
+body {
+  font-family:  'Open Sans Condensed', sans-serif;;
+  /* padding: 20px 60px; from clothing scss*/
+  padding: .5em;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* .App {
   text-align: center;
   font-family: 'Open Sans', sans-serif;
-}
-
-.center {
-  display: flex;
-  justify-content: center;
-}
-/* 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 } */
 
-/* .header {
-  grid-area: header;
-}
-
-.footer {
-  grid-area: footer;
-}
- */
-/* .wrapper {
-        display: grid;
-        grid-gap: 10px;
-        grid-template-columns: 30% 70%;
-        grid-template-areas:
-        "header  header"
-        "sidebar content"
-        "footer  footer ";
-        background-color: #fff;
-        color: #444;
-    }
- */
+/* .center {
+  display: flex;
+  justify-content: center;
+} */
 
 
 
-.header,
-.footer {
-  /* background-color: #999; */
-  border-top: .5px solid #fff;
-}
-/* .sidebar {
-  grid-area: sidebar;
-}
- */
-.sidetitle {
- 
-    font-size: 1.25em;
-    font-weight: 600;
-    margin-bottom: 15px;
-    margin-top: 10px;
-    text-align: left;
-}
 
-.headertitle {
-  
-  font-size: 2em;
-  font-weight: 700;
-  color: white;
-  text-shadow:
-   -1px -1px 0 #777,  
-    1px -1px 0 #777,
-    -1px 1px 0 #777,
-     1px 1px 0 #777;
-  
-}
-
-/* .content {
-  grid-area: content;
-  position: relative;
- 
-}  */
-  .footer {
-  background-color: white;
-  color: #000;
-
-} 
-
-.topleft {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.tabletext {
-    font-size: .75em;
-    text-align: left;
-}
-
-.footertext {
-    font-size: 1em;
-}
-
-.packtable {
-    text-align: left;
-}
-
-/* .sidetable {
-  border-bottom: 3px solid rgb(116, 112, 112);
-}
-
-.sidetable:hover {background-color: #555555;} */

@@ -1,5 +1,5 @@
 import React from 'react';
-import trainerImg from './desire.jpg';
+import trainerImg from '../logo/desire.jpg';
 
 const TrainerInfo = ({trainer}) => { 
    

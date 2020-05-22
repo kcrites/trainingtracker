@@ -1,0 +1,5 @@
+export const PackageActionTypes = {
+    SET_CURRENT_PACKAGE: 'SET_CURRENT_PACKAGE',
+    ADD_PACKAGE: 'ADD_PACKAGE',
+    RESET_PACKAGE: 'RESET_PACKAGE'
+};
