@@ -59,7 +59,7 @@ handleSelectorChange = (event) => {
 
   render(){
     const { type } = this.props;
-    const { displayName } = this.props.currentUser;
+    const { displayName , isTrainer} = this.props.currentUser;
     const { history } = this.state;
    
     if(history.length === 0 ) { //MODIFY TO ACCOUNT FOR INITIAL STATE
@@ -67,7 +67,7 @@ handleSelectorChange = (event) => {
     } else{
         return (
           <div className="pa4">
-          <p className="f3 fw7">{`${type} History for ${displayName}`}</p>
+          <p className="f3 fw7">{`${type} History for ${displayName}`} {(isTrainer) ? 'Back to Dashboard': ''}</p>
             <div className="overflow-auto center">
               <table className="f6 w-75 mw8 " cellSpacing="0">
                 <thead>

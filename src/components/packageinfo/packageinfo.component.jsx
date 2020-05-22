@@ -3,6 +3,7 @@ import './packageinfo.styles.css';
 import DateFormat from '../date-format/date-format';
 import PackageInputForm from '../package-input/package-input.component';
 import { connect } from 'react-redux';
+import PackageTrainingList from './package-training-list.component';
 
 class PackageInfo extends React.Component { 
 		constructor(props){
@@ -20,10 +21,10 @@ class PackageInfo extends React.Component {
 	}
 
 render() {
-	const { isTrainer, email } = this.props.currentUser;
+	const { isTrainer } = this.props.currentUser;
 	const { completed, sessioncount, datestarted, maxsessions, packageid} = this.props.currentPackage;
-	const { trainingList, addPackage } = this.props;
-	const { history } = this.state;
+	const { trainingList } = this.props;
+	
 	if(trainingList.length > 0) this.setHistory() ;
 	const sessionsLeft = (maxsessions) ? maxsessions - sessioncount : 0;
 	
@@ -55,23 +56,18 @@ render() {
 					<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
       				 <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Package Session History</h1>
        					 <div className="pa3 bt b--black-10">
-							{(trainingList)?
-							<ol className='fw4 tabletext'>
-							{history.reverse().map(item => {
-								if(item.packageid === parseInt(packageid))
-								 return <li key={item.id}>{DateFormat(item.sessiondate)}</li>
-								 else return null;
-							})}
-        					</ol> : <p className="fw4 tabletext">No Training Sessions Yet</p>}
+							{(trainingList)
+							? <PackageTrainingList array={this.state.history} packageid={packageid} /> 
+							: <p className="fw4 tabletext">No Training Sessions Yet</p>}
 						</div>
 					</article>
 						</div>
-				: <article className="pa1 pa5-ns" data-name="slab-stat">
-					<h3>You are out of sessions in your current package</h3>
-					{!isTrainer ? 
-						<p>Contact your trainer to set up a new training package</p> : 
-						<button type='button' value={email} onClick={addPackage}>New Package</button>}
-					</article>
+				:  
+					<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
+					<h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Package Information</h1>
+					<div className="error-text-packageinfo" >No Current Package</div>
+					{(isTrainer) ? <PackageInputForm /> : null}
+				</article>
 				)}
 				</div>
 				);
@@ -80,7 +76,7 @@ render() {
 					<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
 						<h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Package Information</h1>
 						<div className="error-text-packageinfo" >No Packages</div>
-						{(this.props.currentUser.isTrainer) ? <PackageInputForm /> : null}
+						{(isTrainer) ? <PackageInputForm /> : null}
 					</article>
 					)
 			}

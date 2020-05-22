@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import './traininginputform.styles.scss';
+import './training-input-form.styles.scss';
 import { serverURL } from '../../server-path';
 import { addPackage } from '../../redux/package/package.actions';
 import { addTraining } from '../../redux/training/training.actions';

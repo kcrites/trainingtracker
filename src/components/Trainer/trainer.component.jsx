@@ -1,7 +1,7 @@
 import React from 'react';
 import { serverURL } from '../../server-path';
 import { connect } from 'react-redux';
-import { setClient } from '../../redux/client/client.actions';
+import { setClient, resetClient } from '../../redux/client/client.actions';
 import { resetMeasurements } from '../../redux/measurements/measurements.actions';
 import { resetTraining } from '../../redux/training/training.actions';
 import { resetPackage } from '../../redux/package/package.actions';
@@ -41,7 +41,6 @@ componentDidMount() {
 }
 componentWillUnmount() {
   clientListArr = [];
-  console.log("admin: willUnmount");
 }
 
 getClients = async() => {
@@ -75,6 +74,7 @@ getClients = async() => {
     this.props.resetTraining();
     this.props.resetPackage();
     this.props.resetIndicator();
+    this.props.resetClient();
   }
 
  handleTrainerSubmit = (e) => {
@@ -147,6 +147,7 @@ getClients = async() => {
 
   const mapDispatchToState = dispatch => ({
     setClient: user => dispatch(setClient(user)),
+    resetClient: user => dispatch(resetClient()),
     resetMeasurements: stats => dispatch(resetMeasurements()),
     resetTraining: training => dispatch(resetTraining()),
     resetPackage: pack => dispatch(resetPackage()),

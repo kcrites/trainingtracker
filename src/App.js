@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import Navigation from './components/navigation/navigation.component';
-import StatsInputForm from './components/StatsInputForm/StatsInputForm';
+import StatsInputForm from './components/stats-input-form/statsinputform.component';
 import Trainer from './components/trainer/trainer.component';
 import PackageInputForm from './components/package-input/package-input.component';
-import Help from './components/Help/Help';
-import TrainerInfo from './components/TrainerInfo/TrainerInfo';
+import Help from './components/help/help.component';
 import History from './components/history/history.component';
 import Dashboard from './components/Dashboard/Dashboard';
 import InfoPage from './pages/info-page/info-page.component';
@@ -104,7 +103,7 @@ class App extends Component {
 
   renderOption = (route) => {
    // console.log(`route: ${route}`)
-    const { trainer } = this.props.currentUser;
+  
     const { onRouteChange } = this;
     
     if(route === 'home'){
@@ -127,9 +126,6 @@ class App extends Component {
     }   
     else if (route === 'help') {
       return <div><Help onRouteChange={onRouteChange}/></div>
-    }
-    else if (route === 'trainerinfo') {
-      return <div><TrainerInfo trainer={trainer}/></div>
     }
     else if(route === 'signin'){
       return <div><SignIn /></div>

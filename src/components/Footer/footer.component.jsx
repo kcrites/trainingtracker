@@ -8,10 +8,9 @@ const Footer = ({onRouteChange, isTrainer}) => {
 				{(isTrainer ? <p onClick={() => onRouteChange('trainer')} className='footer-text'>Client List -</p>
 				: ''
 					)}
-				<p onClick={() => onRouteChange('trainerinfo')} className='footer-text'>Trainer Information</p>
+				<p onClick={() => onRouteChange('infopage')} className='footer-text'>Trainer Information</p>
 				<p className='footer-text'>-</p>
 				<p onClick={() => onRouteChange('help')} className='footer-text'>Help</p>
-				<p onClick={() => onRouteChange('infopage')} className='footer-text'>infopage</p>
 			</nav>
 			);
 	}

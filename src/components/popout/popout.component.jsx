@@ -1,9 +1,9 @@
 import React from 'react';
 import CustomerButton from '../custom-button/custom-button.component';
-import FAQ from '../Help/faq.component';
-import Terms from '../Help/terms.component';
-import Tech from '../Help/tech.component';
-import Privacy from '../Help/privacy.component';
+import FAQ from '../help/faq.component';
+import Terms from '../help/terms.component';
+import Tech from '../help/tech.component';
+import Privacy from '../help/privacy.component';
 import './popout.styles.scss';
 
 const Popout =(props) => {
@@ -44,7 +44,7 @@ const Popout =(props) => {
           {caller}
          
           {(props.text === 'privacy')
-          ? <button onClick={props.closePopup}>Close</button>
+          ? <button className='button-center' onClick={props.closePopup}>Close</button>
           :  <CustomerButton className='button-center'onClick={() => props.onRouteChange(destination)} >Home</CustomerButton>
           }
           </div>

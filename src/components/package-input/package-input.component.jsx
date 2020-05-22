@@ -21,10 +21,11 @@ componentWillMount(){
 		this.setState({allowed: true});
 	}
 	let nextID = 0;
+
 	if(!this.props.currentPackage.packageid){
 		nextID = 100;
 	} else {
-		nextID = parseInt(this.props.currentPackage.packageId) + 1;
+		nextID = parseInt(this.props.currentPackage.packageid) + 1;
 	}
 	this.setState({packageIDInput: nextID})
 }

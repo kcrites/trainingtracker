@@ -1,6 +1,6 @@
 import React from 'react';
 import { fixDate } from '../measurements/measurements.utils';
-import './Sidebar.scss';
+import './sidebar.styles.scss';
 import { connect } from 'react-redux';
 
 

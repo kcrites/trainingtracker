@@ -1,5 +1,5 @@
 import React from 'react';
-import ArrowImage from '../Stats/ArrowImage';
+import ArrowImage from './ArrowImage';
 
 //from training
 const fixDate = (array, dates) => {
