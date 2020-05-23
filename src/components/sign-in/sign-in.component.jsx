@@ -9,7 +9,8 @@ class SignIn extends React.Component {
         super();
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            error: false
         }
     }
 
@@ -21,17 +22,12 @@ class SignIn extends React.Component {
             this.setState({email: '', password: ''})
         }catch (error){
             console.log(error);
+           // alert("Error signing in");
+           this.setState({error: true});
+            return;
         }
         if(this.state.email.length > 1){
-       /*      if(user.istrainer === true) {
-                loadTrainer(user); // LOAD TO A SUPER USER LEVEL??
-                onRouteChange('trainer');
-            } else */ 
-                  //  await this.props.loadUser(this.state);
-                   // this.props.onRouteChange('home');
             }
-        
-        
     }
 
     handleChange = (e) => {
@@ -44,7 +40,9 @@ class SignIn extends React.Component {
             <div className='sign-in'>
                 <h2>I already have an account</h2>
                 <span>Sign in with your email and password</span>
-
+                {(this.state.error) 
+                ? <span className='sign-in-error'>Error signing in. Please try again or register if you don't have an account.</span> 
+                : null}
                 <form onSubmit={this.handleSubmit}>
                     <FormInput
                         name='email'
