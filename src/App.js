@@ -45,9 +45,14 @@ class App extends Component {
         headers: {'Content-Type': 'application/json'},
       })
       .then(response => {
-      if(response.length < 1){
+        
+      if(response.status === 200){
+        this.setState({dbAwake: true});
+      } else {
         console.log('Error waking the DB');
-      } else this.setState({dbAwake: true});
+        alert('Error with the database');
+        return;
+      } 
         
     }).catch(err => {console.log(err)});
     //Method to store user information after signin into state as currentUser
@@ -86,8 +91,8 @@ class App extends Component {
   }
 
   resetApp = () => {
-    this.setState(initialState);
-    this.setState({dbAwake: true})
+    if(this.state.dbAwake) this.setState({dbAwake: true})
+    this.setState({route: 'start'});
     this.props.resetMeasurements();
     this.props.resetTraining();
     this.props.resetPackage();
@@ -151,7 +156,7 @@ class App extends Component {
     const { route, dbAwake} = this.state;
     const { currentUser } = this.props;
     const { onRouteChange, renderOption } = this;
- 
+ console.log(dbAwake);
     return (
       <div className="App">
         <Navigation onRouteChange={onRouteChange} />
