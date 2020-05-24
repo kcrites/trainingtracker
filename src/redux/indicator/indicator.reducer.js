@@ -1,7 +1,8 @@
 import { IndicatorActionTypes } from './indicator.types';
 
 const INITIAL_STATE = {
- dash: false
+ dash: false,
+ dbAwake: false
 };
 
 

@@ -38,7 +38,7 @@ class SignIn extends React.Component {
     render(){
         return(
             <div className='sign-in'>
-                <h2>I already have an account</h2>
+                <h2>App Sign In</h2>
                 <span>Sign in with your email and password</span>
                 {(this.state.error) 
                 ? <span className='sign-in-error'>Error signing in. Please try again or register if you don't have an account.</span> 

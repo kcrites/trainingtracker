@@ -1,6 +1,24 @@
 .sign-in-and-up {
     width: 850px;
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
+    align-content: center;
     margin: 30px auto;
 }
+
+.sign-in-up-link {
+    width: 850px;
+    margin: 5px auto;
+
+    .sign-in-up-text {
+        cursor: pointer;
+        font-weight: 900;
+        font-size: .85rem;
+        &:hover {
+            opacity: .60;
+            -webkit-transition: opacity .15s ease-in;
+            transition: opacity .15s ease-in;
+        }
+    }
+}
+

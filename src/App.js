@@ -156,7 +156,7 @@ class App extends Component {
     const { route, dbAwake} = this.state;
     const { currentUser } = this.props;
     const { onRouteChange, renderOption } = this;
- console.log(dbAwake);
+
     return (
       <div className="App">
         <Navigation onRouteChange={onRouteChange} />
