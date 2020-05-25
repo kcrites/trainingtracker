@@ -1,5 +1,5 @@
 .sign-in-and-up {
-    width: 850px;
+    width: 400px;
     display: flex;
     // justify-content: space-between;
     align-content: center;
@@ -7,7 +7,7 @@
 }
 
 .sign-in-up-link {
-    width: 850px;
+    width: 400px;
     margin: 5px auto;
 
     .sign-in-up-text {
@@ -20,5 +20,8 @@
             transition: opacity .15s ease-in;
         }
     }
+}
+ul li {
+list-style-image: url(../../components/logo/arrow_grey.png);
 }
 
