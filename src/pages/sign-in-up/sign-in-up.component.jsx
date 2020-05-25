@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import SignIn from '../../components/sign-in/sign-in.component';
 import SignUp from '../../components/sign-up/sign-up.component';
 import './sign-in-up.styles.scss';
-//const selectedState = true;
 
 const SignInPage = () => {
 const [selectedState, setSelectedState] = useState(true);
