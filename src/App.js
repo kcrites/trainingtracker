@@ -39,8 +39,8 @@ class App extends Component {
   
   unsubscribeFromAuth = null;
 
-  async componentWillMount(){
-      await fetch(serverURL, {
+   componentWillMount(){
+      fetch(serverURL, {
         method: 'get',
         headers: {'Content-Type': 'application/json'},
       })
