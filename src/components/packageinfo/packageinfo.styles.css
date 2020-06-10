@@ -23,6 +23,17 @@
     padding: 16px;
   }
 
+  .pack-session-row {
+    font-size: .60em;
+    font-weight: normal;
+    text-align: left;
+    /*fw4 = font-weight: 400; */
+  }
+
+  ol {
+    padding-inline-start: 20px;
+  }
+
  
 
 

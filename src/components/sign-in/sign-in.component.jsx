@@ -4,15 +4,6 @@ import CustomButton from '../custom-button/custom-button.component';
 import { signInWithGoogle, auth } from '../../firebase/firebase.utils';
 import './sign-in.styles.scss';
 
-const ErrorPage = () => {
-    return (
-    <div>
-        <span className='sign-in-error'>Error signing in. Please try again or register if you don't have an account.</span>
-        <span className='sign-in-error'>Reset Password <span onClick=''>Here</span></span> 
-     </div>
-    )
-}
-
 class SignIn extends React.Component {
     constructor(){
         super();
