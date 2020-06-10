@@ -23,5 +23,11 @@
     padding: 16px;
   }
 
+  .delete-text-history {
+    font-size: small;
+    font-weight: 600;
+    padding: 5px;
+  }
+
 
 

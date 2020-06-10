@@ -2,12 +2,26 @@
     padding: 16px;
 }
 
+.history-table {
+    font-size: .875rem;
+    width: 75%;
+    max-width: 64rem;
+}
+
 .history-cell {
     padding: 10px 5px;
     
 }
 
-.history-header {
-    padding: 15px 5px;
+.history-page {
+    // padding: 15px 5px;
+    padding: 1.5rem;
+}
+
+.history-title {
+    padding: 10px 0px;
+    font-size: 1.5rem;
+    font-weight: 700;
 }
 // pa3 from tachyons is padding all sides 16px
+// lh-copy = line-height: 1.5;

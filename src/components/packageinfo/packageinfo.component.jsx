@@ -16,8 +16,13 @@ class PackageInfo extends React.Component {
 
 	setHistory = () => { //When trainingList is populated add it to state and set a flag
 		if(!this.state.historySet){
+		
 			this.setState({history: [...this.props.trainingList], historySet: true});
 		}
+	}
+
+	componentWillMount(){
+		//this.setHistory();
 	}
 
 render() {
@@ -25,9 +30,8 @@ render() {
 	const { completed, sessioncount, datestarted, maxsessions, packageid} = this.props.currentPackage;
 	const { trainingList } = this.props;
 	
-	if(trainingList.length > 0) this.setHistory() ;
+	//if(trainingList.length > 0) this.setHistory() ;
 	const sessionsLeft = (maxsessions) ? maxsessions - sessioncount : 0;
-	
 	let formattedDate;
 
 	if(packageid) {
@@ -57,7 +61,7 @@ render() {
       				 <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Package Session History</h1>
        					 <div className="pa3 bt b--black-10">
 							{(trainingList)
-							? <PackageTrainingList array={this.state.history} packageid={packageid} /> 
+							? <PackageTrainingList array={trainingList} packageid={packageid} /> 
 							: <p className="fw4 tabletext">No Training Sessions Yet</p>}
 						</div>
 					</article>

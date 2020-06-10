@@ -34,13 +34,14 @@ export const RenderRowTrainer = ({array, action}) => {
 );
 } //From Trainer.js
 
-export const RenderRowTraining = ({array}) =>{
+export const RenderRowTraining = ({array, action}) =>{
    fixDate(array, 2);
     return array.map((item, index)  => 
               <tr key={index} className="stripe-dark">
               <td className="history-cell">{index+1}</td>
                 <td className="history-cell">{item.sessiondate}</td>
                 {item.packageid !== 0 ?  <td className="history-cell">{item.packagedate}</td> : <td className='history-cell'>None</td>}
+                <td className="history-cell"><button type='button' value={index} onClick={action}>Delete</button></td>
               </tr>
       );
 } // From history.component.jsx (Training)

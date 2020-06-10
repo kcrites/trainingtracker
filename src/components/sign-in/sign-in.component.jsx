@@ -4,6 +4,15 @@ import CustomButton from '../custom-button/custom-button.component';
 import { signInWithGoogle, auth } from '../../firebase/firebase.utils';
 import './sign-in.styles.scss';
 
+const ErrorPage = () => {
+    return (
+    <div>
+        <span className='sign-in-error'>Error signing in. Please try again or register if you don't have an account.</span>
+        <span className='sign-in-error'>Reset Password <span onClick=''>Here</span></span> 
+     </div>
+    )
+}
+
 class SignIn extends React.Component {
     constructor(){
         super();
@@ -41,7 +50,7 @@ class SignIn extends React.Component {
                 <h2>PT Tracker Sign In</h2>
                 <span>Sign in with your email and password</span>
                 {(this.state.error) 
-                ? <span className='sign-in-error'>Error signing in. Please try again or register if you don't have an account.</span> 
+                ? <span className='sign-in-error'>Error signing in. Please try again or register if you don't have an account. Reset Password Here</span> 
                 : null}
                 <form onSubmit={this.handleSubmit}>
                     <FormInput

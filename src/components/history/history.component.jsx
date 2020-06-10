@@ -3,13 +3,15 @@ import React from 'react';
 import { RenderRowTraining, RenderRowMeasurements, RenderColumn } from '../render-row/render-row.component';
 import { connect } from 'react-redux';
 import './history.styles.scss';
+import { deleteTraining } from '../training-sessions/training-sessions.utils';
+import { setIndicator } from '../../redux/indicator/indicator.actions';
 const measurementColumnArray = [
         'Number', 'Date', 'Weight', 'Muscle Mass', 'Fat Level', 'BMI', 'Fat Level Organs', '%Body Water'
     ];
 
   const trainingColumnArray = 
     [
-        'Number', 'Date', 'Package Date'
+        'Number', 'Date', 'Package Date', 'Delete'
     ];
 
 
@@ -19,7 +21,9 @@ class History extends React.Component {
     super(props);
     this.state = {
       history: [],
-      viewSelectorInput: -1
+      viewSelectorInput: -1,
+      trainingDeleted: false,
+      deletedDate:''
     };
   }
 
@@ -57,19 +61,40 @@ handleSelectorChange = (event) => {
 }
 //Add package number (example 2 of 11) on each row by running through in a function and adding to state
 
+handleTrainingDelete = event => {
+  const { id } = this.state.history[event.target.value];
+  const { completed, packageid } = this.props.currentPackage;
+  let completedFlag = false;
+  //set flag to true if the training session being deleted set the completed flag to true
+  if(completed && (this.state.history[event.target.value].packageid === parseInt(packageid))) {
+    completedFlag = true;
+  }
+     if(deleteTraining(id, this.state.history[event.target.value].packageid, completedFlag)) {
+       //set flag to update data from DB 
+       this.props.setIndicator(false);
+       let tempArray = [];
+       tempArray = [...this.state.history];
+       let cut = tempArray.splice([event.target.value],1);
+       this.setState({trainingDeleted: true, history: tempArray, deletedDate: cut});
+     }
+}
+
+
+
   render(){
     const { type } = this.props;
     const { displayName , isTrainer} = this.props.currentUser;
     const { history } = this.state;
    
     if(history.length === 0 ) { //MODIFY TO ACCOUNT FOR INITIAL STATE
-    return(<p className='f3 fw7'> Your {type} history is empty</p>);
+    return(<p className='history-title'> Your {type} history is empty</p>);
     } else{
         return (
-          <div className="pa4">
-          <p className="f3 fw7">{`${type} History for ${displayName}`} {(isTrainer) ? 'Back to Dashboard': ''}</p>
+          <div className="history-page">
+          <div className="history-title">{`${type} History for ${displayName}`} {(isTrainer) ? 'Back to Dashboard': ''}</div>
+         <span className='delete-text-history'>{(this.state.trainingDeleted) ? `Training Session Deleted: ${this.state.deletedDate[0].sessiondate}` : ''}</span>
             <div className="overflow-auto center">
-              <table className="f6 w-75 mw8 " cellSpacing="0">
+              <table className="history-table" cellSpacing="0">
                 <thead>
                   <tr className="stripe-dark">
                     {(type === 'Measurements')
@@ -83,7 +108,7 @@ handleSelectorChange = (event) => {
                 {(type === 'Measurements') ? 
                   <RenderRowMeasurements array={history} indicator={this.props.indicators} />
                 :
-                  <RenderRowTraining array={history} />
+                  <RenderRowTraining array={history} action={this.handleTrainingDelete} />
                 } 
                 </tbody>
               </table>
@@ -104,7 +129,13 @@ handleSelectorChange = (event) => {
 const mapStateToProps = state => ({
   currentUser: state.user.currentUser,
   stats: state.measurements.stats,
-  trainingList: state.training.trainingList
+  trainingList: state.training.trainingList,
+  currentPackage: state.pack.currentPackage
 });
 
-export default connect(mapStateToProps)(History);
+const mapDispatchToProps = dispatch => ({
+   
+  setIndicator: status => dispatch(setIndicator(status))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(History);

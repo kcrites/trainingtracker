@@ -44,7 +44,6 @@ class Dashboard extends React.Component {
     //Get user data on measurements, trainings and packages
      getData = async (email) => {
 
-
         const result3 = await getMeasurementsHistory(email,  this.storeInState); 
       
         const result2 = await getTrainingHistory(email,  this.storeInState);
