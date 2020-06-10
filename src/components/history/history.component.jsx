@@ -93,7 +93,7 @@ handleTrainingDelete = event => {
           <div className="history-page">
           <div className="history-title">{`${type} History for ${displayName}`} {(isTrainer) ? 'Back to Dashboard': ''}</div>
          <span className='delete-text-history'>{(this.state.trainingDeleted) ? `Training Session Deleted: ${this.state.deletedDate[0].sessiondate}` : ''}</span>
-            <div className="overflow-auto center">
+            <div className="overflow-auto center table-div">
               <table className="history-table" cellSpacing="0">
                 <thead>
                   <tr className="stripe-dark">

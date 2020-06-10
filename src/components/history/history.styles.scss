@@ -15,7 +15,7 @@
 
 .history-page {
     // padding: 15px 5px;
-    padding: 1.5rem;
+    padding: 1.25rem;
 }
 
 .history-title {
@@ -23,5 +23,14 @@
     font-size: 1.5rem;
     font-weight: 700;
 }
+.delete-text-history {
+    font-size: small;
+    font-weight: 600;
+    padding: 0px 0px 0px 0px;
+  }
+
+  .table-div {
+      padding-top: 15px;
+  }
 // pa3 from tachyons is padding all sides 16px
 // lh-copy = line-height: 1.5;
