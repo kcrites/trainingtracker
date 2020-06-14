@@ -1,5 +1,6 @@
 import React from 'react';
 import './statsbutton.styles.scss';
+import { withRouter } from 'react-router-dom';
 
 const StatsButton = (props) => {
     return (	<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
@@ -7,11 +8,11 @@ const StatsButton = (props) => {
     <div className="pa3 bt b--black-10">	
  
     <div className='pa1 br2 shadow-5 measure-form center'>
-					<button name='measure' className=' grow f5 link ph3 pv2 dib white bg-light-blue' onClick={() => props.onRouteChange('statsInputForm')}>Add</button>
+					<button name='measure' className=' grow f5 link ph3 pv2 dib white bg-light-blue' onClick={() => props.history.push('/statsinputform')}>Add</button>
 				</div>
                 
             </div></article>
             );
 }
 
-export default StatsButton;
+export default withRouter(StatsButton);

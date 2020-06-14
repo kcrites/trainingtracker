@@ -21,10 +21,13 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
+       
     }
 
     .option {
         padding: 10px 15px;
+        text-decoration: none;
+        color: white;
         cursor: pointer;
         &:hover {
             opacity: .60;

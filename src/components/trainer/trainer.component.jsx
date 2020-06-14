@@ -6,6 +6,7 @@ import { resetMeasurements } from '../../redux/measurements/measurements.actions
 import { resetTraining } from '../../redux/training/training.actions';
 import { resetPackage } from '../../redux/package/package.actions';
 import { resetIndicator } from '../../redux/indicator/indicator.actions';
+import { withRouter } from 'react-router-dom';
 
 
 const renderRow= (array, action) =>{
@@ -90,7 +91,7 @@ getClients = async() => {
 			if(user.id){
 			//	console.log(user);
         this.props.setClient(user);
-        this.props.onRouteChange('home');
+        this.props.history.push('/home');
 			} else return false;
         }).catch(err => {
 			console.log(err);
@@ -154,4 +155,4 @@ getClients = async() => {
     resetIndicator: dash => dispatch(resetIndicator())
   });
 
-  export default connect(mapStateToProps, mapDispatchToState)(Trainer);
+  export default withRouter(connect(mapStateToProps, mapDispatchToState)(Trainer));

@@ -5,6 +5,7 @@ import techHelp from './tech.component';
 import faq from './faq.component';
 import './help.styles.scss';
 import CustomButton from '../custom-button/custom-button.component';
+import { withRouter } from 'react-router-dom';
 
 
 class Help extends React.Component {
@@ -40,18 +41,16 @@ toggleTechPopup() {
 					<fieldset id="help" className="ba b--transparent ph0 mh0 help-main">
 						<legend className="f2 fw6 ph0 mh0 help-title">Help</legend>
 						<div className="help-main help-1">
-							{/* <button className="pop_button" onClick={this.toggleFaqPopup.bind(this)}>FAQ</button> */}
-							<CustomButton inverted onClick={() => this.props.onRouteChange('popout1')}>FAQ</CustomButton>
-							{/* <button className="pop_button" onClick={this.props.onRouteChange('popout')}>FAQ</button>  */}
+							<CustomButton inverted onClick={() => this.props.history.push('/popout1')}>FAQ</CustomButton>
 						</div>
 						<div className="help-main help-2">
-						<CustomButton inverted onClick={() => this.props.onRouteChange('popout2')}>Technical Help</CustomButton>
+						<CustomButton inverted onClick={() => this.props.history.push('/popout2')}>Technical Help</CustomButton>
 							</div>
 						<div className="help-main help-2">
-						<CustomButton inverted onClick={() => this.props.onRouteChange('popout3')}>App Terms Policy</CustomButton>
+						<CustomButton inverted onClick={() => this.props.history.push('/popout3')}>App Terms Policy</CustomButton>
 						</div>
 						<div className='help-main help-2'>
-						<CustomButton inverted onClick={() => this.props.onRouteChange('home')}>Back</CustomButton>
+						<CustomButton inverted onClick={() => this.props.history.push('/home')}>Back</CustomButton>
 						</div>
 						<div>
 							{this.state.showTermsPopup ? 
@@ -88,4 +87,4 @@ toggleTechPopup() {
 	}
 }
 	
-export default Help;
+export default withRouter(Help);

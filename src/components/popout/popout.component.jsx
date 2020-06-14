@@ -4,6 +4,7 @@ import FAQ from '../help/faq.component';
 import Terms from '../help/terms.component';
 import Tech from '../help/tech.component';
 import Privacy from '../help/privacy.component';
+import { withRouter } from 'react-router-dom';
 import './popout.styles.scss';
 
 const Popout =(props) => {
@@ -14,19 +15,19 @@ const Popout =(props) => {
   switch(props.text){
     case 'faq':
       caller = <FAQ />;
-      destination = 'help'
+      destination = '/help'
       break;
     case 'tech':
       caller = <Tech />;
-      destination = 'help'
+      destination = '/help'
       break;
     case 'terms':
       caller = <Terms />;
-      destination = 'help'
+      destination = '/help'
       break;
     case 'privacy':
       caller = <Privacy />
-      destination = 'home'
+      destination = '/home'
       break;
     default:
       caller = 'Error';
@@ -45,7 +46,7 @@ const Popout =(props) => {
          
           {(props.text === 'privacy')
           ? <button className='button-center' onClick={props.closePopup}>Close</button>
-          :  <CustomerButton className='button-center'onClick={() => props.onRouteChange(destination)} >Home</CustomerButton>
+          :  <CustomerButton className='button-center'onClick={() => props.history.push(destination)} >Home</CustomerButton>
           }
           </div>
         </div>
@@ -53,5 +54,5 @@ const Popout =(props) => {
     }
   
 
-export default Popout;
+export default withRouter(Popout);
 

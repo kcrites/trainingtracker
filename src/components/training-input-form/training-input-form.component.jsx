@@ -4,6 +4,7 @@ import './training-input-form.styles.scss';
 import { serverURL } from '../../server-path';
 import { addPackage } from '../../redux/package/package.actions';
 import { addTraining } from '../../redux/training/training.actions';
+import { withRouter } from 'react-router-dom';
 
 class TrainingInputForm extends React.Component {
 	constructor(props){
@@ -26,7 +27,6 @@ class TrainingInputForm extends React.Component {
 		event.preventDefault();
 		const { sessionDate, selfTraining } = this.state;
 		const { email } = this.props.currentUser;
-		const {  onRouteChange } = this.props;
 		const { datestarted, packageid} = this.props.currentPackage;
 		let pId, pDate, pYear, pMonth, pDay, formattedDate;
 
@@ -73,8 +73,7 @@ class TrainingInputForm extends React.Component {
 				this.updatePackage();
 			}
 			this.props.addTraining(newSession);
-		
-			onRouteChange('trainingHistory');
+			this.props.history.push('/traininghistory');
 			}
 		}).catch(err => {console.log(err)});
 	}
@@ -128,4 +127,4 @@ const mapDispatchToProps = dispatch => ({
     addTraining: train => dispatch(addTraining(train))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TrainingInputForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TrainingInputForm));

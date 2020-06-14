@@ -23,10 +23,10 @@ import { resetTraining } from './redux/training/training.actions';
 import { resetPackage } from './redux/package/package.actions';
 import { resetIndicator } from './redux/indicator/indicator.actions';
 import { resetClient } from './redux/client/client.actions';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
 
 const initialState = {   
-    route: 'start',
     dbAwake: false,
   }
 
@@ -71,15 +71,16 @@ class App extends Component {
             ...snapShot.data()
           });
           if(this.props.currentUser.isTrainer) {
-            this.onRouteChange('trainer')
+            this.props.history.push("/trainer");
           } else {
-            this.onRouteChange('home');
+            this.props.history.push("/home");
           }
         });
       }
       else {
+        this.props.history.push('/signin');
         setCurrentUser(userAuth);
-        this.resetApp();
+        this.resetApp();     
       };
       });
  
@@ -100,71 +101,38 @@ class App extends Component {
     this.props.resetClient();
   }
 
-// Custom routing based on the 'route' variable in state
-  onRouteChange = (route) => {
-    this.setState({route: route});
-  }
-
-  renderOption = (route) => {
-   // console.log(`route: ${route}`)
-  
-    const { onRouteChange } = this;
-    
-    if(route === 'home'){
-      return <div> <Dashboard  onRouteChange={onRouteChange} /></div> 
-    }
-    else if (route === 'stats'){ //converted to component
-      return <div> <History  type='Measurements' /></div>
-    }
-    else if (route === 'trainingHistory'){ //converted to component
-      return <div><History  type='Training'/></div>
-    }
-    else if (route === 'statsInputForm'){
-      return <div><StatsInputForm onRouteChange={onRouteChange} /></div>
-    }   
-    else if (route === 'trainer'){
-      return <div><Trainer onRouteChange={onRouteChange}/></div>
-    }
-    else if (route === 'packageInputForm'){
-      return <div><PackageInputForm /></div>
-    }   
-    else if (route === 'help') {
-      return <div><Help onRouteChange={onRouteChange}/></div>
-    }
-    else if(route === 'signin'){
-      return <div><SignIn /></div>
-    }
-    else if(route === 'infopage'){
-      return <div><InfoPage onRouteChange={onRouteChange}/></div>
-    }
-    else if(route === 'popout1'){
-      return <div><Popout onRouteChange={onRouteChange} text={'faq'}/></div>
-    }
-    else if(route === 'popout2'){
-      return <div><Popout onRouteChange={onRouteChange} text={'tech'}/></div>
-    }
-    else if(route === 'popout3'){
-      return <div><Popout onRouteChange={onRouteChange} text={'terms'}/></div>
-    }
-    else if(route === 'popout4'){
-      return <div><Popout onRouteChange={onRouteChange} text={'privacy'}/></div>
-    }
-
-  }
 
   render() {
-    const { route, dbAwake} = this.state;
+    const { dbAwake} = this.state;
     const { currentUser } = this.props;
-    const { onRouteChange, renderOption } = this;
+    
 
     return (
       <div className="App">
-        <Navigation onRouteChange={onRouteChange} />
-
-      {(!currentUser )
-      ? <LoadingPage dbAwake={dbAwake} onRouteChange={onRouteChange} />
-      : renderOption(route)
-      }
+        <Navigation />
+        <Switch>
+          <Route exact path='/' 
+            render={() => !currentUser ? (
+              <LoadingPage dbAwake={dbAwake} />)
+              : (
+                <Redirect to='/home' />
+              )
+            }
+            /> 
+          <Route path='/home' component={Dashboard} />
+          <Route path='/stats'><History type='Measurements' /></Route>
+          <Route path='/traininghistory'><History type='Training' /></Route>
+          <Route path='/statsinputform' component={StatsInputForm} />
+          <Route path='/trainer' component={Trainer} />
+          <Route path='/packageinputform' component={PackageInputForm} />
+          <Route path='/help' component={Help} />
+          <Route path='/signin' component={SignIn} />
+          <Route path='/infopage' component={InfoPage} />
+          <Route exact path='/popout1'><Popout text='faq' /></Route>
+          <Route exact path='/popout2'><Popout text='tech' /></Route>
+          <Route exact path='/popout3'><Popout text='terms' /></Route>
+          <Route exact path='/popout4'><Popout text='privacy' /></Route>
+        </Switch>
       </div>
     );
   }
@@ -183,4 +151,4 @@ const mapStateToProps = state => ({
 	currentUser: state.user.currentUser
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

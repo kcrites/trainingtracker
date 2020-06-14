@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import './history.styles.scss';
 import { deleteTraining } from '../training-sessions/training-sessions.utils';
 import { setIndicator } from '../../redux/indicator/indicator.actions';
+import { withRouter } from 'react-router-dom';
 const measurementColumnArray = [
         'Number', 'Date', 'Weight', 'Muscle Mass', 'Fat Level', 'BMI', 'Fat Level Organs', '%Body Water'
     ];
@@ -27,7 +28,22 @@ class History extends React.Component {
     };
   }
 
-componentWillMount(){
+componentDidMount(){
+  if(this.props.type === 'Measurements'){
+    this.setState({ history: this.props.stats});
+  } else if(this.props.type === 'Training'){
+  this.setState({history: this.props.trainingList});
+
+  }
+}
+componentDidUpdate = (prevProps) => {
+  if(this.props.type !== prevProps.type ) {
+    // fetch the new product based and set it to the state of the component
+    this.switchTypes();
+ };
+};
+
+switchTypes = () => {
   if(this.props.type === 'Measurements'){
     this.setState({ history: this.props.stats});
   } else if(this.props.type === 'Training'){
@@ -83,15 +99,17 @@ handleTrainingDelete = event => {
 
   render(){
     const { type } = this.props;
-    const { displayName , isTrainer} = this.props.currentUser;
+   // const { displayName , isTrainer} = this.props.currentUser;
     const { history } = this.state;
-   
+   if(!this.props.currentUser) {
+     this.props.history.push("/signin");
+   }
     if(history.length === 0 ) { //MODIFY TO ACCOUNT FOR INITIAL STATE
     return(<p className='history-title'> Your {type} history is empty</p>);
     } else{
         return (
           <div className="history-page">
-          <div className="history-title">{`${type} History for ${displayName}`} {(isTrainer) ? 'Back to Dashboard': ''}</div>
+          <div className="history-title">{`${type} History for ${this.props.currentUser.displayName}`} {(this.props.currentUser.isTrainer) ? 'Back to Dashboard': ''}</div>
          <span className='delete-text-history'>{(this.state.trainingDeleted) ? `Training Session Deleted: ${this.state.deletedDate[0].sessiondate}` : ''}</span>
             <div className="overflow-auto center table-div">
               <table className="history-table" cellSpacing="0">
@@ -138,4 +156,4 @@ const mapDispatchToProps = dispatch => ({
   setIndicator: status => dispatch(setIndicator(status))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(History);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(History));

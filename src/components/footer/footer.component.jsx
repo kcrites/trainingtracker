@@ -1,16 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import './footer.styles.scss';
 
-const Footer = ({onRouteChange, isTrainer}) => {
+const Footer = (props) => {
 	return(
 			<nav className='footer-size' style={{display: 'flex', justifyContent: 'center'}}>
-				{(isTrainer ? <p onClick={() => onRouteChange('trainer')} className='footer-text'>Client List -</p>
+				{(props.currentUser.isTrainer ? <p onClick={() => props.history.push('/trainer')} className='footer-text'>Client List -</p>
 				: ''
 					)}
-				<p onClick={() => onRouteChange('infopage')} className='footer-text'>Trainer Information</p>
+				<p onClick={() => props.history.push('/infopage')} className='footer-text'>Trainer Information</p>
 				<p className='footer-text'>-</p>
-				<p onClick={() => onRouteChange('help')} className='footer-text'>Help</p>
+				<p onClick={() => props.history.push('/help')} className='footer-text'>Help</p>
 			</nav>
 			);
 	}
@@ -18,4 +19,4 @@ const Footer = ({onRouteChange, isTrainer}) => {
 const mapStateToProps = state => ({
 		currentUser: state.user.currentUser
 	});
-export default connect(mapStateToProps)(Footer);
+export default withRouter(connect(mapStateToProps)(Footer));

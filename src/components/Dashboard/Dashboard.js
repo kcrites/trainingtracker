@@ -14,6 +14,7 @@ import { setMeasurements } from '../../redux/measurements/measurements.actions';
 import { setTraining } from '../../redux/training/training.actions';
 import { setCurrentPackage } from '../../redux/package/package.actions';
 import { setIndicator } from '../../redux/indicator/indicator.actions';
+import { withRouter } from 'react-router-dom';
 
 import './Dashboard.css';
 
@@ -27,6 +28,10 @@ class Dashboard extends React.Component {
 }
 
  componentWillMount(){
+     if(!this.props.currentUser) {
+         console.log('dashboard currentuser check')
+        this.props.history.push('/signin');
+     } else {
      let tempEmail = '';
         if(!this.props.dash) {
             if(this.props.currentUser.isTrainer){
@@ -39,6 +44,7 @@ class Dashboard extends React.Component {
             } 
             this.getData(tempEmail);
         }
+    }
     }
 
     //Get user data on measurements, trainings and packages
@@ -67,8 +73,12 @@ class Dashboard extends React.Component {
     } 
 
     render() {
-        const { onRouteChange } = this.props;
-      
+        if(!this.props.currentUser) {
+            this.props.history.push("/signin");
+            console.log('afterpush')
+            return <div>Loading page</div>
+          } else {
+    
         return (
             <div className="wrapper">
             
@@ -78,7 +88,7 @@ class Dashboard extends React.Component {
             
             <div className='aside-1 aside box'>
                 <Sidebar />
-                <StatsButton onRouteChange={onRouteChange}/>
+                <StatsButton />
             </div>       
             
             <div className="box main shadow-3">
@@ -86,14 +96,16 @@ class Dashboard extends React.Component {
             </div>
            
             <div className='aside-2 aside box'>
-                <TrainingInputForm onRouteChange={onRouteChange}/> 
+                <TrainingInputForm /> 
             </div>
            
             <div className="footer">
-                <Footer onRouteChange={onRouteChange} />
+                <Footer  />
             </div>
             </div>
         )
+          }
+      
     }
 }
 
@@ -114,5 +126,5 @@ const mapDispatchToProps = dispatch => ({
     setIndicator: status => dispatch(setIndicator(status))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));
 

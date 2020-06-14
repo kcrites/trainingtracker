@@ -2,6 +2,7 @@ import React from 'react';
 import { serverURL } from '../../server-path';
 import { connect } from 'react-redux';
 import { addMeasurements } from '../../redux/measurements/measurements.actions';
+import { withRouter } from 'react-router-dom';
 
 class StatsInputForm extends React.Component {
 	constructor(props){
@@ -15,7 +16,7 @@ class StatsInputForm extends React.Component {
 			statsPercentWater:0,
 			statsDate: ''
 			}
-		}
+		};
 
 	onDateChange = (event) => {
 		this.setState({statsDate: event.target.value})
@@ -68,8 +69,6 @@ class StatsInputForm extends React.Component {
 			if(userStats){
 			let d = new Date(this.state.statsDate);
 			let tempD = d.toLocaleDateString();
-	/* 			this.props.statAdmin(tempD, statsWeight, statsMuscleMass, statsFatLevel, 
-					statsBMI, statsVV, statsPercentWater); */
 
 					this.props.addMeasurements({
 						id: userStats.id,
@@ -82,7 +81,7 @@ class StatsInputForm extends React.Component {
 						percentwater: statsPercentWater,
 						statsdate: tempD
 					});
-				this.props.onRouteChange('stats');
+				this.props.history.push('/stats');
 			}
 		})
 		
@@ -141,4 +140,4 @@ const mapDisplatchToProps = dispatch => ({
 	addMeasurements: stats => dispatch(addMeasurements(stats))
 });
 
-export default connect(mapStateToProps, mapDisplatchToProps)(StatsInputForm);
+export default withRouter(connect(mapStateToProps, mapDisplatchToProps)(StatsInputForm));
