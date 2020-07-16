@@ -23,26 +23,16 @@ class Dashboard extends React.Component {
         super();
         this.state = {
             loaded: false,
-            email: '',
+            
     }
 }
 
  componentWillMount(){
      if(!this.props.currentUser) {
-         console.log('dashboard currentuser check')
         this.props.history.push('/signin');
      } else {
-     let tempEmail = '';
         if(!this.props.dash) {
-            if(this.props.currentUser.isTrainer){
-                //set email address to client email address from clients redux store
-                this.setState({email: this.props.currentClient.email});
-                tempEmail = this.props.currentClient.email;
-            } else {
-                this.setState({email: this.props.currentUser.email});
-                tempEmail = this.props.currentUser.email;
-            } 
-            this.getData(tempEmail);
+            this.getData(this.props.activeEmail);
         }
     }
     }
@@ -75,7 +65,6 @@ class Dashboard extends React.Component {
     render() {
         if(!this.props.currentUser) {
             this.props.history.push("/signin");
-            console.log('afterpush')
             return <div>Loading page</div>
           } else {
     
@@ -115,6 +104,8 @@ const mapStateToProps = state => ({
     trainingList: state.training.trainingList,
     currentPackage: state.pack.currentPackage,
     dash: state.indicator.dash,
+    activeName: state.indicator.activeName,
+    activeEmail: state.indicator.activeEmail,
     currentClient: state.client.currentClient
 });
 

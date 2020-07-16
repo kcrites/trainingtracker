@@ -26,7 +26,7 @@ class TrainingInputForm extends React.Component {
 	handleSubmitDate = async (event) => {
 		event.preventDefault();
 		const { sessionDate, selfTraining } = this.state;
-		const { email } = this.props.currentUser;
+
 		const { datestarted, packageid} = this.props.currentPackage;
 		let pId, pDate, pYear, pMonth, pDay, formattedDate;
 
@@ -47,13 +47,15 @@ class TrainingInputForm extends React.Component {
 			pId = parseInt(packageid);
 			formattedDate = `${pYear}-${pMonth}-${pDay}`
 		}
-		let id = -1;
+
+		let id = -1; 
+	
 		fetch(serverURL + 'addtraining', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
 				sessiondate: sessionDate,
-				email: email,
+				email: this.props.activeEmail,
 				packageid: pId,
 				packagedate: formattedDate
 			})
@@ -65,7 +67,7 @@ class TrainingInputForm extends React.Component {
 					let newSession = {
 						id: id,
 						sessiondate: sessionDate,
-						email: email,
+						email: this.props.activeEmail,
 						packageid: pId,
 						packagedate: pDate
 					}
@@ -80,13 +82,12 @@ class TrainingInputForm extends React.Component {
 
 	updatePackage() {
 		
-		const { email } = this.props.currentUser;
 		const { packageid } = this.props.currentPackage;
 			fetch(serverURL + 'updatepackage', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
-				email: email,
+				email: this.props.activeEmail,
 				packageid: packageid,
 			})
 		})
@@ -119,7 +120,9 @@ class TrainingInputForm extends React.Component {
 
 const mapStateToProps = state => ({
 	currentUser: state.user.currentUser,
-	currentPackage: state.pack.currentPackage
+	currentPackage: state.pack.currentPackage,
+	currentClient: state.client.currentClient,
+	activeEmail: state.indicator.activeEmail
 });
 
 const mapDispatchToProps = dispatch => ({

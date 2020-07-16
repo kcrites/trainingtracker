@@ -2,6 +2,7 @@ import React from 'react';
 import { serverURL } from '../../server-path';
 import { connect } from 'react-redux';
 import { addPackage } from '../../redux/package/package.actions';
+import { withRouter } from 'react-router-dom';
 import './package-input.styles.scss';
 
 class PackageInputForm extends React.Component {
@@ -28,6 +29,12 @@ componentWillMount(){
 		nextID = parseInt(this.props.currentPackage.packageid) + 1;
 	}
 	this.setState({packageIDInput: nextID})
+}
+
+componentDidMount(){
+	if(!this.props.currentUser) {
+        this.props.history.push('/signin');
+     }
 }
 
 handleDateChange = (event) => {
@@ -71,7 +78,7 @@ handleTrainerSubmit = async (e) => {
 
 render() {
 
-const { fname } = this.props.currentClient;
+
 const { allowed, packageIDInput, success } = this.state;
 
 	if(success){
@@ -82,7 +89,7 @@ const { allowed, packageIDInput, success } = this.state;
 			: <div>
 				
 
-        <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Add New Package for {fname}</h1>
+        <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Add New Package for {this.props.currentClient.fname}</h1>
 				
 				<div className='center'>
 					<div className='pa4 br2 shadow-5 center'>
@@ -123,4 +130,4 @@ const mapDispatchToProps = dispatch => ({
 	addPackage: pack => dispatch(addPackage(pack))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(PackageInputForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PackageInputForm));

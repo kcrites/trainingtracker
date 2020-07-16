@@ -52,3 +52,36 @@ export const getTrainingHistory =  (email, storeInState) => {
      
       return true;
   } 
+//Not implemented yet
+  export const addTraining = (sessionObj, storeInState) => {
+    const { sessionDate, email, pId, packageDate, selfTraining} = sessionObj;
+    let id = -1;
+    fetch(serverURL + 'addtraining', {
+			method: 'post',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({
+				sessiondate: sessionDate,
+				email: email,
+				packageid: pId,
+				packagedate: packageDate
+			})
+		})
+		.then(response => response.json())
+		.then(data => {
+			if(data.id){
+				id = data.id;		
+					let newSession = {
+						id: id,
+						sessiondate: sessionDate,
+						email: email,
+						packageid: pId,
+						packagedate: packageDate
+					}
+			if(!selfTraining){
+				this.updatePackage();
+			}
+			storeInState(newSession);
+			this.props.history.push('/traininghistory');
+			}
+		}).catch(err => {console.log(err)});
+  }

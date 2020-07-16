@@ -2,7 +2,9 @@ import { IndicatorActionTypes } from './indicator.types';
 
 const INITIAL_STATE = {
  dash: false,
- dbAwake: false
+ dbAwake: false,
+ activeName: null,
+ activeEmail: null
 };
 
 
@@ -17,8 +19,20 @@ const indicatorReducer = (state = INITIAL_STATE, action) => {
         case IndicatorActionTypes.RESET_INDICATOR:
                 return {
                    ...state,
-                    dash: false
+                    dash: false,
+                    activeEmail: null,
+                    activeName: null
                 }
+        case IndicatorActionTypes.SET_ACTIVE_NAME:
+            return {
+                ...state,
+                activeName: action.payload
+            }
+        case IndicatorActionTypes.SET_ACTIVE_EMAIL:
+            return {
+                ...state,
+                activeEmail: action.payload
+            }
         default:
             return state;
     }

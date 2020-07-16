@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './history.styles.scss';
 import { deleteTraining } from '../training-sessions/training-sessions.utils';
 import { setIndicator } from '../../redux/indicator/indicator.actions';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 const measurementColumnArray = [
         'Number', 'Date', 'Weight', 'Muscle Mass', 'Fat Level', 'BMI', 'Fat Level Organs', '%Body Water'
     ];
@@ -109,7 +109,8 @@ handleTrainingDelete = event => {
     } else{
         return (
           <div className="history-page">
-          <div className="history-title">{`${type} History for ${this.props.currentUser.displayName}`} {(this.props.currentUser.isTrainer) ? 'Back to Dashboard': ''}</div>
+          <div className="history-title">{`${type} History for ${this.props.activeName}`}</div>
+          <div><Link className='option' to='/home'>Back to Dashboard</Link></div>
          <span className='delete-text-history'>{(this.state.trainingDeleted) ? `Training Session Deleted: ${this.state.deletedDate[0].sessiondate}` : ''}</span>
             <div className="overflow-auto center table-div">
               <table className="history-table" cellSpacing="0">
@@ -148,7 +149,8 @@ const mapStateToProps = state => ({
   currentUser: state.user.currentUser,
   stats: state.measurements.stats,
   trainingList: state.training.trainingList,
-  currentPackage: state.pack.currentPackage
+  currentPackage: state.pack.currentPackage,
+  activeName: state.indicator.activeName
 });
 
 const mapDispatchToProps = dispatch => ({

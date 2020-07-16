@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
 import './navigation.styles.scss';
-const version = '2.5.1';
+const version = '2.6';
 
-const Navigation = ({ currentUser, history}) => {
+const Navigation = ({ currentUser }) => {
 	if(currentUser) {
 		return(
 			<nav className='app-header'>

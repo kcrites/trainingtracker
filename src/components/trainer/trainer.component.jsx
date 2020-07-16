@@ -5,7 +5,7 @@ import { setClient, resetClient } from '../../redux/client/client.actions';
 import { resetMeasurements } from '../../redux/measurements/measurements.actions';
 import { resetTraining } from '../../redux/training/training.actions';
 import { resetPackage } from '../../redux/package/package.actions';
-import { resetIndicator } from '../../redux/indicator/indicator.actions';
+import { resetIndicator, setActiveName, setActiveEmail } from '../../redux/indicator/indicator.actions';
 import { withRouter } from 'react-router-dom';
 
 
@@ -36,7 +36,13 @@ class Trainer extends React.Component {
       }
     }
      
-componentDidMount() {
+componentWillMount(){
+  if(!this.props.currentUser) {
+    this.props.history.push('/signin');
+ }
+}
+
+    componentDidMount() {
   this.resetClientList();
   this.getClients();
 }
@@ -91,6 +97,8 @@ getClients = async() => {
 			if(user.id){
 			//	console.log(user);
         this.props.setClient(user);
+        this.props.setActiveName(user.fname);
+        this.props.setActiveEmail(user.email);
         this.props.history.push('/home');
 			} else return false;
         }).catch(err => {
@@ -152,7 +160,9 @@ getClients = async() => {
     resetMeasurements: stats => dispatch(resetMeasurements()),
     resetTraining: training => dispatch(resetTraining()),
     resetPackage: pack => dispatch(resetPackage()),
-    resetIndicator: dash => dispatch(resetIndicator())
+    resetIndicator: dash => dispatch(resetIndicator()),
+    setActiveName: activeName => dispatch(setActiveName(activeName)),
+    setActiveEmail: activeEmail => dispatch(setActiveEmail(activeEmail))
   });
 
   export default withRouter(connect(mapStateToProps, mapDispatchToState)(Trainer));

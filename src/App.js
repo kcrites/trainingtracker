@@ -21,7 +21,7 @@ import './App.css';
 import { resetMeasurements } from './redux/measurements/measurements.actions';
 import { resetTraining } from './redux/training/training.actions';
 import { resetPackage } from './redux/package/package.actions';
-import { resetIndicator } from './redux/indicator/indicator.actions';
+import { resetIndicator, setActiveName, setActiveEmail } from './redux/indicator/indicator.actions';
 import { resetClient } from './redux/client/client.actions';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
@@ -40,6 +40,7 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   async componentWillMount(){
+    if(!this.state.dbAwake){
       await fetch(serverURL, {
         method: 'get',
         headers: {'Content-Type': 'application/json'},
@@ -48,14 +49,16 @@ class App extends Component {
         
       if(response.status === 200){
         this.setState({dbAwake: true});
+        //set dbawake in REDUX
       } else {
         console.log('Error waking the DB');
         alert('Error with the database');
         return;
       } 
         
-    }).catch(err => {console.log(err)});
-    //Method to store user information after signin into state as currentUser
+     }).catch(err => {console.log(err)});
+    }
+     //Method to store user information after signin into state as currentUser
    
     const { setCurrentUser } = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -70,20 +73,26 @@ class App extends Component {
               id: snapShot.id,
             ...snapShot.data()
           });
+          
           if(this.props.currentUser.isTrainer) {
             this.props.history.push("/trainer");
           } else {
+            //set active name and email to current user values
+            this.props.setActiveName(this.props.currentUser.displayName);
+            this.props.setActiveEmail(this.props.currentUser.email);
             this.props.history.push("/home");
           }
         });
       }
       else {
-        this.props.history.push('/signin');
-        setCurrentUser(userAuth);
-        this.resetApp();     
+       // this.props.history.push('/signin');
+       if(this.state.dbAwake) {
+          setCurrentUser(userAuth);
+          this.resetApp();     }
+          this.props.history.push('/signin');
       };
       });
- 
+    
   }
 
   componentWillUnmount(){
@@ -93,7 +102,6 @@ class App extends Component {
 
   resetApp = () => {
     if(this.state.dbAwake) this.setState({dbAwake: true})
-    this.setState({route: 'start'});
     this.props.resetMeasurements();
     this.props.resetTraining();
     this.props.resetPackage();
@@ -144,7 +152,9 @@ const mapDispatchToProps = dispatch => ({
   resetTraining: training => dispatch(resetTraining()),
   resetPackage: pack => dispatch(resetPackage()),
   resetIndicator: dash => dispatch(resetIndicator()),
-  resetClient: client => dispatch(resetClient())
+  resetClient: client => dispatch(resetClient()),
+  setActiveName: activeName => dispatch(setActiveName(activeName)),
+  setActiveEmail: activeEmail => dispatch(setActiveEmail(activeEmail))
 })
 
 const mapStateToProps = state => ({
