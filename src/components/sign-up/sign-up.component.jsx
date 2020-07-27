@@ -27,8 +27,11 @@ handleSubmit = async e => {
     e.preventDefault();
     const { displayName, email, password, confirmPassword, privacy, trainer } = this.state;
 
-    if(password !== confirmPassword){
-        alert("Password doesn't match");
+    if(password === '' || password !== confirmPassword){
+        alert("Password doesn't match or is blank");
+        return;
+    } else if (email === ''){
+        alert('Email address is empty');
         return;
     }
     if(!privacy){
@@ -68,7 +71,8 @@ handlePrivacyChange = (event) => {
     this.setState({error: false});
 }
 
-togglePopup= ()=> {
+togglePopup = (e) => {
+    e.preventDefault();
     this.setState({
       showPopup: !this.state.showPopup
     });
@@ -121,7 +125,7 @@ render() {
 				       		<label className="db fw6 lh-copy f7 priv-label" htmlFor="privacy">Agree to the privacy policy for this application ->&nbsp; 
 				       		    <input onChange={this.handlePrivacyChange}  type="checkbox" value="true" name="privacy"  id="privacy"/>
                                 <span className="req">{' '}* required</span></label>
-                <CustomButton onClick={this.togglePopup.bind(this)} isPrivacy>
+                <CustomButton onClick={this.togglePopup} isPrivacy>
                             {' '}Read Privacy Policy{' '}
                 </CustomButton>
 				      	</div>
@@ -134,7 +138,7 @@ render() {
 								: null
 								}
 						  </div>
-                <CustomButton type='submit'>Sign Up</CustomButton>
+                <CustomButton onClick={this.handleSubmit} type='submit'>Sign Up</CustomButton>
                
             </form>
         </div>

@@ -47,21 +47,22 @@ export const getTrainingHistory =  (email, storeInState) => {
           } 
         }).catch(err => {
                     console.log('Error Deleting Training Session: ' + err);
+                    return false;
                 });
    
      
       return true;
   } 
 //Not implemented yet
-  export const addTraining = (sessionObj, storeInState) => {
-    const { sessionDate, email, pId, packageDate, selfTraining} = sessionObj;
+  export const addTrainingSession = (sessionObj, storeInState) => {
+    const { sessionDate, activeEmail, pId, packageDate, selfTraining} = sessionObj;
     let id = -1;
     fetch(serverURL + 'addtraining', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
 				sessiondate: sessionDate,
-				email: email,
+				email: activeEmail,
 				packageid: pId,
 				packagedate: packageDate
 			})
@@ -73,15 +74,33 @@ export const getTrainingHistory =  (email, storeInState) => {
 					let newSession = {
 						id: id,
 						sessiondate: sessionDate,
-						email: email,
+						email: activeEmail,
 						packageid: pId,
 						packagedate: packageDate
 					}
 			if(!selfTraining){
-				this.updatePackage();
+				updatePackage(activeEmail, pId);
 			}
 			storeInState(newSession);
 			this.props.history.push('/traininghistory');
 			}
 		}).catch(err => {console.log(err)});
   }
+
+  const updatePackage = (email, packageid) => {
+	
+			fetch(serverURL + 'updatepackage', {
+			method: 'post',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({
+				email: email,
+				packageid: packageid,
+			})
+		})
+		.then(response => response.json())
+		.then(packUpdate => {
+			if(packUpdate){
+				this.props.addPackage(packUpdate);
+			}
+		}).catch(err => {console.log(err)});
+	}

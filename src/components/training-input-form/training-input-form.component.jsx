@@ -49,7 +49,18 @@ class TrainingInputForm extends React.Component {
 		}
 
 		let id = -1; 
+
+/* 		let sessionObj = {
+			sessionDate: sessionDate,
+			pId: pId,
+			selfTraining: selfTraining,
+			datestarted: datestarted,
+			activeEmail: this.props.activeEmail
+		} */
+	//1. Add session to DB	
+	//addTrainingSession(sessionDate, pId)
 	
+
 		fetch(serverURL + 'addtraining', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
@@ -81,7 +92,6 @@ class TrainingInputForm extends React.Component {
 	}
 
 	updatePackage() {
-		
 		const { packageid } = this.props.currentPackage;
 			fetch(serverURL + 'updatepackage', {
 			method: 'post',
@@ -98,6 +108,11 @@ class TrainingInputForm extends React.Component {
 			}
 		}).catch(err => {console.log(err)});
 	}
+//2. store new session in state
+/* 	storeInState = (newSession, type) => {
+		this.props.addTraining(newSession);
+		this.props.history.push('/traininghistory');
+}  */
 
 	render() {
 	

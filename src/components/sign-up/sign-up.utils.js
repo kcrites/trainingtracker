@@ -3,7 +3,7 @@ import { serverURL } from '../../server-path';
 export const saveUserToDB = (displayName, email, additionalData) => {
    if(displayName === null) return;
    // how do I manage google signin with no additionalData?
-   console.log(additionalData);
+   
    const privacy = true;
    const trainer = 'Desire';
   
