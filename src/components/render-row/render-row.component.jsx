@@ -45,6 +45,17 @@ export const RenderRowTraining = ({array, action}) =>{
               </tr>
       );
 } // From history.component.jsx (Training)
+export const RenderRowTrainingByPackage = ({array, action}) =>{
+  fixDate(array, 2);
+   return array.map((item, index)  => 
+             <tr key={index} className="stripe-dark">
+             <td className="history-cell">{index+1}</td>
+               {item.packageid !== 0 ?  <td className="history-cell">{item.packagedate}</td> : <td className='history-cell'>None</td>}
+               <td className="history-cell">{item.sessiondate}</td>
+               <td className="history-cell"><button type='button' value={index} onClick={action}>Delete</button></td>
+             </tr>
+     );
+} // From history.component.jsx (Training)
 
 export const RenderRowMeasurements = ({array}) =>{
   fixDate(array,1);
@@ -68,6 +79,7 @@ export const RenderRowMeasurements = ({array}) =>{
 } // From history.component.jsx (Measurements)
 
 export const RenderColumn = ({array}) => {
+  console.log(array)
     return array.map((item, index) => 
     <th key={index} className="fw6 tl bg-white history-header">{item}</th>
     );

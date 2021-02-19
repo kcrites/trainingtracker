@@ -28,7 +28,8 @@ const packageReducer = (state = INITIAL_STATE, action) => {
         case PackageActionTypes.RESET_PACKAGE:
             return {
                ...state,
-                currentPackage: INITIAL_STATE.currentPackage
+                currentPackage: INITIAL_STATE.currentPackage,
+                allPackages: INITIAL_STATE.allPackages
             }
         default:
             return state;

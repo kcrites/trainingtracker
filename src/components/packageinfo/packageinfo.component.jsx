@@ -69,7 +69,7 @@ render() {
 				:  
 					<article className=" mw5 mw6-ns br3 hidden ba b--black-10 mv1">
 					<h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">Package Information</h1>
-					<div className="error-text-packageinfo" >No Current Package</div>
+					<div className="error-text-packageinfo" >No Current Package</div><div></div>
 					{(isTrainer) ? <PackageInputForm /> : null}
 				</article>
 				)}

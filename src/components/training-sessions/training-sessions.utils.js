@@ -1,4 +1,5 @@
 import { serverURL } from '../../server-path';
+import { showSessionsByPackage } from '../packages/packages.utils';
 
 export const getTrainingHistory =  (email, storeInState) => {
     const tempHistoryArr = [];
@@ -18,6 +19,10 @@ export const getTrainingHistory =  (email, storeInState) => {
             });
            
             storeInState(train, 'training');
+            //sortbypackage then storeinstate
+            let tempArray = [...train];
+            storeInState(showSessionsByPackage(tempArray), 'sessionsbypack');
+           // storeInState(tempArray, );
           } 
         }).catch(err => {
                     console.log('Get Training History Error: ' + err);

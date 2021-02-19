@@ -120,7 +120,11 @@ render() {
                     label='confirm password'
                     required
                     />
-               
+                    <label for="trainers">Choose your trainer: </label>
+               <select style={{width:'150px'}}name='trainers'>
+                   <option value='Desire'>Desire</option>
+                   <option value='Hayden'>Hayden</option>
+               </select>
                     	<div className="mv3">
 				       		<label className="db fw6 lh-copy f7 priv-label" htmlFor="privacy">Agree to the privacy policy for this application ->&nbsp; 
 				       		    <input onChange={this.handlePrivacyChange}  type="checkbox" value="true" name="privacy"  id="privacy"/>

@@ -1,7 +1,8 @@
 import { TrainingActionTypes } from './training.types';
 
 const INITIAL_STATE = {
-    trainingList: []
+    trainingList: [],
+    trainingListByPack: []
 }
 
 const trainingReducer = (state = INITIAL_STATE, action) => {
@@ -16,6 +17,11 @@ const trainingReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 trainingList: [action.payload, ...state.trainingList ]
+            }
+        case TrainingActionTypes.SET_TRAINING_BY_PACKAGE:
+            return {
+                ...state,
+                trainingListByPack: action.payload
             }
         case TrainingActionTypes.RESET_TRAINING:
             return {

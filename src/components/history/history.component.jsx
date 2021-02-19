@@ -1,19 +1,12 @@
 
 import React from 'react';
-import { RenderRowTraining, RenderRowMeasurements, RenderColumn } from '../render-row/render-row.component';
+import MeasurementsHistory  from './measurementshistory.component';
+import TrainingHistory from './traininghistory.component';
 import { connect } from 'react-redux';
 import './history.styles.scss';
 import { deleteTraining } from '../training-sessions/training-sessions.utils';
 import { setIndicator } from '../../redux/indicator/indicator.actions';
 import { withRouter, Link } from 'react-router-dom';
-const measurementColumnArray = [
-        'Number', 'Date', 'Weight', 'Muscle Mass', 'Fat Level', 'BMI', 'Fat Level Organs', '%Body Water'
-    ];
-
-  const trainingColumnArray = 
-    [
-        'Number', 'Date', 'Package Date', 'Delete'
-    ];
 
 
 class History extends React.Component {
@@ -24,7 +17,9 @@ class History extends React.Component {
       history: [],
       viewSelectorInput: -1,
       trainingDeleted: false,
-      deletedDate:''
+      deletedDate:'',
+      sessionIndicator: false,
+      sessionToggle: false
     };
   }
 
@@ -33,6 +28,7 @@ componentDidMount(){
     this.setState({ history: this.props.stats});
   } else if(this.props.type === 'Training'){
   this.setState({history: this.props.trainingList});
+ // showSessionsByPackage( this.props.trainingList);//temp
 
   }
 }
@@ -54,6 +50,10 @@ switchTypes = () => {
 
 componentWillUnmount(){
   this.setState({history: []});
+}
+
+handleSessionChange = () => {
+  this.setState({sessionToggle: !this.state.sessionToggle});
 }
 
 handleSelectorChange = (event) => {
@@ -99,7 +99,6 @@ handleTrainingDelete = event => {
 
   render(){
     const { type } = this.props;
-   // const { displayName , isTrainer} = this.props.currentUser;
     const { history } = this.state;
    if(!this.props.currentUser) {
      this.props.history.push("/signin");
@@ -110,10 +109,16 @@ handleTrainingDelete = event => {
         return (
           <div className="history-page">
           <div className="history-title">{`${type} History for ${this.props.activeName}`}</div>
-          <div><Link className='option' to='/home'>Back to Dashboard</Link></div>
+          <div><Link className='option' to='/home'>Back to Dashboard</Link>
+          {(type=== 'Measurements') ? null : <span onClick={this.handleSessionChange}> | Training View</span>}</div> 
          <span className='delete-text-history'>{(this.state.trainingDeleted) ? `Training Session Deleted: ${this.state.deletedDate[0].sessiondate}` : ''}</span>
             <div className="overflow-auto center table-div">
-              <table className="history-table" cellSpacing="0">
+              
+              {(type === 'Measurements')
+                  ? <MeasurementsHistory array={history} indicator={this.props.indicators} />
+                  : <TrainingHistory array={history} action={this.handleTrainingDelete} type={this.state.sessionToggle} />
+              } 
+                {/* Add Component here 
                 <thead>
                   <tr className="stripe-dark">
                     {(type === 'Measurements')
@@ -127,10 +132,10 @@ handleTrainingDelete = event => {
                 {(type === 'Measurements') ? 
                   <RenderRowMeasurements array={history} indicator={this.props.indicators} />
                 :
-                  <RenderRowTraining array={history} action={this.handleTrainingDelete} />
+                  <RenderRowTrainingByPackage array={history} action={this.handleTrainingDelete} />
                 } 
-                </tbody>
-              </table>
+                </tbody>*/}
+             
             </div>
             <br></br>
             Show: <select onChange={this.handleSelectorChange}>
@@ -150,7 +155,8 @@ const mapStateToProps = state => ({
   stats: state.measurements.stats,
   trainingList: state.training.trainingList,
   currentPackage: state.pack.currentPackage,
-  activeName: state.indicator.activeName
+  activeName: state.indicator.activeName,
+ // allPackages: state.pack.allPackages //temp
 });
 
 const mapDispatchToProps = dispatch => ({

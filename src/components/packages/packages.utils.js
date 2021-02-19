@@ -43,3 +43,34 @@ export const sortTrainingList = (array) => {
     return dateA - dateB;
 });
 }
+
+/* export const getAllPackageHistory =  (email, storeInState) => {
+   fetch(serverURL + 'getallpackages', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          email: email
+        })
+      })
+      .then(response => response.json())
+      .then(pack => {
+          if(pack[0]){
+           
+            pack.datestarted = new Date(pack.datestarted);
+            storeInState(pack, 'allpack');
+            
+          } else console.log('No Package Information Available')
+      }).catch(err => {
+                  console.log('Get Packages History Error: ' + err);
+              });
+ 
+  
+    return true;
+} ; */
+
+export const showSessionsByPackage = (allSessions) => {
+
+allSessions.sort((a,b) => (a.packageid < b.packageid) ? 1 : (a.packageid === b.packageid) ? ((a.sessiondate < b.sessiondate) ? 1 : -1) : -1);
+console.table(allSessions)
+return allSessions;
+};

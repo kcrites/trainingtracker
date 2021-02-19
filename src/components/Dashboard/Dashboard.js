@@ -8,10 +8,10 @@ import ClientName from '../client-name/client-name.component';
 
 import { getMeasurementsHistory } from '../measurements/measurements.utils';
 import { getTrainingHistory } from '../training-sessions/training-sessions.utils';
-import { getPackageHistory} from '../packages/packages.utils';
+import { getPackageHistory } from '../packages/packages.utils';
 import { connect } from 'react-redux';
 import { setMeasurements } from '../../redux/measurements/measurements.actions';
-import { setTraining } from '../../redux/training/training.actions';
+import { setTraining, setTrainingByPack } from '../../redux/training/training.actions';
 import { setCurrentPackage } from '../../redux/package/package.actions';
 import { setIndicator } from '../../redux/indicator/indicator.actions';
 import { withRouter } from 'react-router-dom';
@@ -46,7 +46,7 @@ class Dashboard extends React.Component {
          
         const result1 = await getPackageHistory(email,  this.storeInState); //Only returns active package (1)
 
-        if(result1 && result2 && result3){
+        if(result1 && result2 && result3 ){
             this.setState({loaded: true})
             this.props.setIndicator(true);
         }
@@ -59,7 +59,9 @@ class Dashboard extends React.Component {
             this.props.setTraining(data);
         } else if(type === 'pack'){ 
             this.props.setCurrentPackage(data);
-        } 
+        } else if(type === 'sessionsbypack'){
+            this.props.setTrainingByPack(data);
+        }
     } 
 
     render() {
@@ -106,7 +108,7 @@ const mapStateToProps = state => ({
     dash: state.indicator.dash,
     activeName: state.indicator.activeName,
     activeEmail: state.indicator.activeEmail,
-    currentClient: state.client.currentClient
+    currentClient: state.client.currentClient,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -114,7 +116,9 @@ const mapDispatchToProps = dispatch => ({
     setMeasurements: stats => dispatch(setMeasurements(stats)),
     setCurrentPackage: pack => dispatch(setCurrentPackage(pack)),
     setTraining: train => dispatch(setTraining(train)),
-    setIndicator: status => dispatch(setIndicator(status))
+    setIndicator: status => dispatch(setIndicator(status)),
+    setTrainingByPack: sessions => dispatch(setTrainingByPack(sessions))
+    
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));

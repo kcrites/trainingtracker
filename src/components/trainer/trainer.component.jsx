@@ -40,14 +40,19 @@ componentWillMount(){
   if(!this.props.currentUser) {
     this.props.history.push('/signin');
  }
+ this.getTrainerId(this.props.currentUser);
 }
 
-    componentDidMount() {
+componentDidMount() {
   this.resetClientList();
   this.getClients();
 }
 componentWillUnmount() {
   clientListArr = [];
+}
+
+getTrainerId = currentUser => {
+  console.log(currentUser);
 }
 
 getClients = async() => {

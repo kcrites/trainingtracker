@@ -13,3 +13,4 @@ export const resetPackage = data => ({
     type: PackageActionTypes.RESET_PACKAGE,
     payload: data
 });
+
