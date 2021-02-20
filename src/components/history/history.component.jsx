@@ -52,7 +52,7 @@ componentWillUnmount(){
   this.setState({history: []});
 }
 
-handleSessionChange = () => {
+handleSessionChange = () => { //Manages when changing from session to session by package view
   this.setState({sessionToggle: !this.state.sessionToggle});
   if(this.state.viewSelectorInput !== -1){
    this.reduceList(this.props.trainingListByPack, this.state.viewSelectorInput)
@@ -60,7 +60,7 @@ handleSessionChange = () => {
   else this.setState({history: this.props.trainingListByPack});
 }
 
-reduceList = (array, valueInt) => {
+reduceList = (array, valueInt) => { //Manages when the user selects limit on items in table
   let i = 0, tempArray = [];
   while(i <= valueInt-1){
     tempArray.push(array[i]);
@@ -80,12 +80,6 @@ handleSelectorChange = (event) => {
     this.setState({history: array});
     return 
   } else {
-  /*   let i = 0, tempArray = [];
-    while(i <= valueInt-1){
-      tempArray.push(array[i]);
-      i++;
-    }
-    this.setState({history: tempArray}); */
     this.reduceList(array, valueInt);
   } 
 }

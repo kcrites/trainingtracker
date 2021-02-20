@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
 import './navigation.styles.scss';
-const version = '2.6';
+const version = '2.75';
 
 const Navigation = ({ currentUser }) => {
 	if(currentUser) {
