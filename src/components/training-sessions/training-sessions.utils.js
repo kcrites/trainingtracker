@@ -17,12 +17,9 @@ export const getTrainingHistory =  (email, storeInState) => {
             train.forEach(e => {
               tempHistoryArr.push(e);
             });
-           
             storeInState(train, 'training');
-            //sortbypackage then storeinstate
             let tempArray = [...train];
             storeInState(showSessionsByPackage(tempArray), 'sessionsbypack');
-           // storeInState(tempArray, );
           } 
         }).catch(err => {
                     console.log('Get Training History Error: ' + err);

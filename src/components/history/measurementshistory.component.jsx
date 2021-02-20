@@ -15,7 +15,7 @@ return(
         </tr>
     </thead>
     <tbody className="lh-copy">
-         <RenderRowMeasurements array={props.stats} indicator={props.indicators} />
+         <RenderRowMeasurements array={props.array} indicator={props.indicators} />
     </tbody>
     </table>
 </div>)};

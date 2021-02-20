@@ -19,7 +19,7 @@ class History extends React.Component {
       trainingDeleted: false,
       deletedDate:'',
       sessionIndicator: false,
-      sessionToggle: false
+      sessionToggle: true
     };
   }
 
@@ -54,25 +54,39 @@ componentWillUnmount(){
 
 handleSessionChange = () => {
   this.setState({sessionToggle: !this.state.sessionToggle});
+  if(this.state.viewSelectorInput !== -1){
+   this.reduceList(this.props.trainingListByPack, this.state.viewSelectorInput)
+  }
+  else this.setState({history: this.props.trainingListByPack});
+}
+
+reduceList = (array, valueInt) => {
+  let i = 0, tempArray = [];
+  while(i <= valueInt-1){
+    tempArray.push(array[i]);
+    i++;
+  }
+  this.setState({history: tempArray});
 }
 
 handleSelectorChange = (event) => {
   //Change to reflect mulitple array sources
   let  array;
   if(this.props.type === 'Measurements') array = [...this.props.stats];
-  else array = [...this.props.trainingList];
+  else array = ((this.state.sessionToggle) ? [...this.props.trainingList] : [...this.props.trainingListByPack]);
   let valueInt = parseInt(event.target.value);
-  this.setState({viewSelectorInput: event.target.value});
+  this.setState({viewSelectorInput: valueInt});
   if(event.target.value === '-1' || (valueInt > array.length-1)){
     this.setState({history: array});
     return 
   } else {
-    let i = 0, tempArray = [];
+  /*   let i = 0, tempArray = [];
     while(i <= valueInt-1){
       tempArray.push(array[i]);
       i++;
     }
-    this.setState({history: tempArray});
+    this.setState({history: tempArray}); */
+    this.reduceList(array, valueInt);
   } 
 }
 //Add package number (example 2 of 11) on each row by running through in a function and adding to state
@@ -109,33 +123,16 @@ handleTrainingDelete = event => {
         return (
           <div className="history-page">
           <div className="history-title">{`${type} History for ${this.props.activeName}`}</div>
-          <div><Link className='option' to='/home'>Back to Dashboard</Link>
-          {(type=== 'Measurements') ? null : <span onClick={this.handleSessionChange}> | Training View</span>}</div> 
+          <button className=' training-link' ><Link to='/home'>Back to Dashboard</Link></button><span>  </span>
+          {(type === 'Measurements') ? null : <button className='training-link' onClick={this.handleSessionChange}>  
+          {(this.state.sessionToggle) ? 'Training by Package View' : 'Training by Session View'}</button>}
          <span className='delete-text-history'>{(this.state.trainingDeleted) ? `Training Session Deleted: ${this.state.deletedDate[0].sessiondate}` : ''}</span>
             <div className="overflow-auto center table-div">
               
               {(type === 'Measurements')
                   ? <MeasurementsHistory array={history} indicator={this.props.indicators} />
                   : <TrainingHistory array={history} action={this.handleTrainingDelete} type={this.state.sessionToggle} />
-              } 
-                {/* Add Component here 
-                <thead>
-                  <tr className="stripe-dark">
-                    {(type === 'Measurements')
-                    ? <RenderColumn array={measurementColumnArray} />
-                    : <RenderColumn array={trainingColumnArray} />
-                    }
-                  
-                  </tr>
-                </thead>
-                <tbody className="lh-copy">
-                {(type === 'Measurements') ? 
-                  <RenderRowMeasurements array={history} indicator={this.props.indicators} />
-                :
-                  <RenderRowTrainingByPackage array={history} action={this.handleTrainingDelete} />
-                } 
-                </tbody>*/}
-             
+              }             
             </div>
             <br></br>
             Show: <select onChange={this.handleSelectorChange}>
@@ -156,7 +153,7 @@ const mapStateToProps = state => ({
   trainingList: state.training.trainingList,
   currentPackage: state.pack.currentPackage,
   activeName: state.indicator.activeName,
- // allPackages: state.pack.allPackages //temp
+  trainingListByPack: state.training.trainingListByPack
 });
 
 const mapDispatchToProps = dispatch => ({

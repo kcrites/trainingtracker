@@ -79,7 +79,6 @@ export const RenderRowMeasurements = ({array}) =>{
 } // From history.component.jsx (Measurements)
 
 export const RenderColumn = ({array}) => {
-  console.log(array)
     return array.map((item, index) => 
     <th key={index} className="fw6 tl bg-white history-header">{item}</th>
     );

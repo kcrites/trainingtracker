@@ -20,9 +20,9 @@ return(
     </thead>
     <tbody className="lh-copy">
         {(props.type) ? 
-                  <RenderRowTraining array={props.trainingList} action={props.handleTrainingDelete} />
+                  <RenderRowTraining array={props.array} action={props.handleTrainingDelete} />
                 :
-                  <RenderRowTrainingByPackage array={props.trainingListByPack} action={props.handleTrainingDelete} />
+                  <RenderRowTrainingByPackage array={props.array} action={props.handleTrainingDelete} />
                 } 
     </tbody>
     </table>

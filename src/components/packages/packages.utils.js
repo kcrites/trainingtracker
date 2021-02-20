@@ -71,6 +71,5 @@ export const sortTrainingList = (array) => {
 export const showSessionsByPackage = (allSessions) => {
 
 allSessions.sort((a,b) => (a.packageid < b.packageid) ? 1 : (a.packageid === b.packageid) ? ((a.sessiondate < b.sessiondate) ? 1 : -1) : -1);
-console.table(allSessions)
 return allSessions;
 };
