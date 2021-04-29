@@ -16,7 +16,8 @@ const trainingReducer = (state = INITIAL_STATE, action) => {
         case TrainingActionTypes.ADD_TRAINING:
             return {
                 ...state,
-                trainingList: [action.payload, ...state.trainingList ]
+                trainingList: [action.payload, ...state.trainingList ],
+                trainingListByPack: [action.payload, ...state.trainingListByPack]
             }
         case TrainingActionTypes.SET_TRAINING_BY_PACKAGE:
             return {

@@ -53,11 +53,20 @@ componentWillUnmount(){
 }
 
 handleSessionChange = () => { //Manages when changing from session to session by package view
-  this.setState({sessionToggle: !this.state.sessionToggle});
-  if(this.state.viewSelectorInput !== -1){
-   this.reduceList(this.props.trainingListByPack, this.state.viewSelectorInput)
+  //true = trainingList, false = trainingListByPack
+  
+  if(!this.state.sessionToggle){
+    this.setState({history: this.props.trainingList});
+  
   }
-  else this.setState({history: this.props.trainingListByPack});
+  else {
+    if(this.state.viewSelectorInput !== -1){
+    this.reduceList(this.props.trainingListByPack, this.state.viewSelectorInput)
+    }
+    else {this.setState({history: this.props.trainingListByPack});
+    }
+  }
+  this.setState({sessionToggle: !this.state.sessionToggle});
 }
 
 reduceList = (array, valueInt) => { //Manages when the user selects limit on items in table
