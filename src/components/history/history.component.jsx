@@ -19,7 +19,9 @@ class History extends React.Component {
       trainingDeleted: false,
       deletedDate:'',
       sessionIndicator: false,
-      sessionToggle: true
+      sessionToggle: true,
+      selfToggle: false,
+      showSelfToggle: false
     };
   }
 
@@ -78,6 +80,21 @@ reduceList = (array, valueInt) => { //Manages when the user selects limit on ite
   this.setState({history: tempArray});
 }
 
+filterSelf = (array, action, caller) => {
+  let tempArray;
+  if(caller === 'all'){
+   if(action) {
+    tempArray = array.filter(session => session.packageid  !== 0);
+    this.setState({history: tempArray});
+   } else this.setState({history: this.props.trainingList});
+  } else if(caller === 'only'){
+    if(action){
+    tempArray = array.filter(session => session.packageid  === 0);
+    this.setState({history: tempArray});
+    } else this.setState({history: this.props.trainingList});
+  }
+}
+
 handleSelectorChange = (event) => {
   //Change to reflect mulitple array sources
   let  array;
@@ -112,7 +129,19 @@ handleTrainingDelete = event => {
      }
 }
 
+handleHideSelf = ({target}) => {
+ // console.log(target.checked);
+  this.filterSelf(this.props.trainingList, target.checked, 'all');
+  //filter self trainings
+  this.setState({selfToggle: target.checked})
+}
 
+handleShowSelf = ({target}) => {
+  //console.log(target.checked);
+  this.filterSelf(this.props.trainingList, target.checked, 'only');
+  //filter self trainings
+  this.setState({selfToggle: target.checked})
+}
 
   render(){
     const { type } = this.props;
@@ -129,7 +158,11 @@ handleTrainingDelete = event => {
           <button className=' training-link' ><Link to='/home'>Back to Dashboard</Link></button><span>  </span>
           {(type === 'Measurements') ? null : <button className='training-link' onClick={this.handleSessionChange}>  
           {(this.state.sessionToggle) ? 'Training by Package View' : 'Training by Session View'}</button>}
-         <span className='delete-text-history'>{(this.state.trainingDeleted) ? `Training Session Deleted: ${this.state.deletedDate[0].sessiondate}` : ''}</span>
+          <div><span className="self-text">Hide Self Trainings</span><input className="self-checkbox" type='checkbox' name='hide_self' onClick={this.handleHideSelf}/>
+              <span className="self-text">- Show Only Self Trainings</span><input className="self-checkbox" type='checkbox' disabled={this.state.showSelfToggle}  name='only_self' onClick={this.handleShowSelf} />
+          </div>
+         <span className='delete-text-history'>{(this.state.trainingDeleted) ? 
+            `Training Session Deleted: ${this.state.deletedDate[0].sessiondate}` : ''}</span>
             <div className="overflow-auto center table-div">
               
               {(type === 'Measurements')
