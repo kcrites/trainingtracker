@@ -4,10 +4,10 @@ export const measurementColumnArray = [
 
 export const trainingColumnArray = 
 [
-    'Number', 'Date', 'Package Date', 'Delete'
+    'Number', 'Date', 'Package Date', 'Type', 'Delete'
 ];
 
 export const trainingByPackageColumnArray = 
 [
-    'Number', 'Package Date', 'Date', 'Delete'
+    'Number', 'Package Date', 'Date', 'Type', 'Delete'
 ];

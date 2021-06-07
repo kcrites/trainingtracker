@@ -20,6 +20,10 @@ export const getTrainingHistory =  (email, storeInState) => {
             storeInState(train, 'training');
             let tempArray = [...train];
             storeInState(showSessionsByPackage(tempArray), 'sessionsbypack');
+            let tempSelfArray = filterTrainingList(train, 'onlyself');
+            let tempNoSelfArray = filterTrainingList(train, 'nonself');
+            storeInState(tempSelfArray, 'trainingonlyself');
+            storeInState(tempNoSelfArray, 'trainingnoself');
           } 
         }).catch(err => {
                     console.log('Get Training History Error: ' + err);
@@ -87,6 +91,19 @@ export const getTrainingHistory =  (email, storeInState) => {
 			this.props.history.push('/traininghistory');
 			}
 		}).catch(err => {console.log(err)});
+  };
+
+  const addDescriptions = (email, sessionid, newDesc) => {
+    //add description to the DB
+
+  }
+
+  const updateDescription = (email, sessionid, newDesc) => {
+    //update description
+  };
+
+  const getDescriptions = (email) => {
+    //get all user's description
   }
 
   const updatePackage = (email, packageid) => {
@@ -105,4 +122,14 @@ export const getTrainingHistory =  (email, storeInState) => {
 				this.props.addPackage(packUpdate);
 			}
 		}).catch(err => {console.log(err)});
-	}
+	};
+
+  const filterTrainingList = (array, action) => {
+
+      //filter array based on action
+  
+        if(action === 'onlyself'){
+          return array.filter(session => session.packageid  === 0);
+        
+        } else return  array.filter(session => session.packageid !== 0);
+        };

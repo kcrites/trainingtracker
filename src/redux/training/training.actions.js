@@ -18,3 +18,15 @@ export const resetTraining = data => ({
     type: TrainingActionTypes.RESET_TRAINING,
     payload: data
 });
+export const setTrainingOnlySelf = data => ({
+    type: TrainingActionTypes.SET_TRAINING_ONLY_SELF,
+    payload: data
+});
+export const setTrainingNoSelf = data => ({
+    type: TrainingActionTypes.SET_TRAINING_NO_SELF,
+    payload: data
+});
+export const setDescriptions = data => ({
+    type: TrainingActionTypes.SET_DESCRIPTIONS,
+    payload: data
+});

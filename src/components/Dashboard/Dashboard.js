@@ -11,7 +11,7 @@ import { getTrainingHistory } from '../training-sessions/training-sessions.utils
 import { getPackageHistory } from '../packages/packages.utils';
 import { connect } from 'react-redux';
 import { setMeasurements } from '../../redux/measurements/measurements.actions';
-import { setTraining, setTrainingByPack } from '../../redux/training/training.actions';
+import { setTraining, setTrainingByPack, setTrainingNoSelf, setTrainingOnlySelf } from '../../redux/training/training.actions';
 import { setCurrentPackage } from '../../redux/package/package.actions';
 import { setIndicator } from '../../redux/indicator/indicator.actions';
 import { withRouter } from 'react-router-dom';
@@ -61,6 +61,10 @@ class Dashboard extends React.Component {
             this.props.setCurrentPackage(data);
         } else if(type === 'sessionsbypack'){
             this.props.setTrainingByPack(data);
+        }else if(type === 'trainingonlyself'){
+            this.props.setTrainingOnlySelf(data);
+        } else if(type === 'trainingnoself'){
+            this.props.setTrainingNoSelf(data);
         }
     } 
 
@@ -117,7 +121,9 @@ const mapDispatchToProps = dispatch => ({
     setCurrentPackage: pack => dispatch(setCurrentPackage(pack)),
     setTraining: train => dispatch(setTraining(train)),
     setIndicator: status => dispatch(setIndicator(status)),
-    setTrainingByPack: sessions => dispatch(setTrainingByPack(sessions))
+    setTrainingByPack: sessions => dispatch(setTrainingByPack(sessions)),
+    setTrainingNoSelf: noself => dispatch(setTrainingNoSelf(noself)),
+    setTrainingOnlySelf: onlyself => dispatch(setTrainingOnlySelf(onlyself))
     
 })
 

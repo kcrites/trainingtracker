@@ -7,6 +7,7 @@ import './history.styles.scss';
 import { deleteTraining } from '../training-sessions/training-sessions.utils';
 import { setIndicator } from '../../redux/indicator/indicator.actions';
 import { withRouter, Link } from 'react-router-dom';
+import HistoryBar from '../history-bar/historybar.component';
 
 
 class History extends React.Component {
@@ -20,8 +21,10 @@ class History extends React.Component {
       deletedDate:'',
       sessionIndicator: false,
       sessionToggle: true,
-      selfToggle: false,
-      showSelfToggle: false
+      onlySelfToggle: false,
+      noSelfToggle: false,
+      showSelfToggle: true,
+      showPackToggle: true
     };
   }
 
@@ -41,7 +44,7 @@ componentDidUpdate = (prevProps) => {
  };
 };
 
-switchTypes = () => {
+switchTypes = () => { //shows either measurements or training session in the history component
   if(this.props.type === 'Measurements'){
     this.setState({ history: this.props.stats});
   } else if(this.props.type === 'Training'){
@@ -54,12 +57,10 @@ componentWillUnmount(){
   this.setState({history: []});
 }
 
-handleSessionChange = () => { //Manages when changing from session to session by package view
-  //true = trainingList, false = trainingListByPack
-  
+handleSessionChange = () => { //Manages when changing from session to session-by-package view
+  //sessionToggle: true = trainingList, false = trainingListByPack
   if(!this.state.sessionToggle){
     this.setState({history: this.props.trainingList});
-  
   }
   else {
     if(this.state.viewSelectorInput !== -1){
@@ -80,20 +81,6 @@ reduceList = (array, valueInt) => { //Manages when the user selects limit on ite
   this.setState({history: tempArray});
 }
 
-filterSelf = (array, action, caller) => {
-  let tempArray;
-  if(caller === 'all'){
-   if(action) {
-    tempArray = array.filter(session => session.packageid  !== 0);
-    this.setState({history: tempArray});
-   } else this.setState({history: this.props.trainingList});
-  } else if(caller === 'only'){
-    if(action){
-    tempArray = array.filter(session => session.packageid  === 0);
-    this.setState({history: tempArray});
-    } else this.setState({history: this.props.trainingList});
-  }
-}
 
 handleSelectorChange = (event) => {
   //Change to reflect mulitple array sources
@@ -111,16 +98,18 @@ handleSelectorChange = (event) => {
 }
 //Add package number (example 2 of 11) on each row by running through in a function and adding to state
 
-handleTrainingDelete = event => {
+handleTrainingDelete = event => { 
   const { id } = this.state.history[event.target.value];
   const { completed, packageid } = this.props.currentPackage;
   let completedFlag = false;
   //set flag to true if the training session being deleted set the completed flag to true
+  console.log('delete function')
   if(completed && (this.state.history[event.target.value].packageid === parseInt(packageid))) {
     completedFlag = true;
   }
-     if(deleteTraining(id, this.state.history[event.target.value].packageid, completedFlag)) {
-       //set flag to update data from DB 
+  
+  if(deleteTraining(id, this.state.history[event.target.value].packageid, completedFlag)) {
+    //set flag to update data from DB 
        this.props.setIndicator(false);
        let tempArray = [];
        tempArray = [...this.state.history];
@@ -129,18 +118,22 @@ handleTrainingDelete = event => {
      }
 }
 
-handleHideSelf = ({target}) => {
- // console.log(target.checked);
-  this.filterSelf(this.props.trainingList, target.checked, 'all');
-  //filter self trainings
-  this.setState({selfToggle: target.checked})
+handleNoSelf = ({target}) => {
+  if(!this.state.noSelfToggle){
+    this.setState({noSelfToggle: target.checked, history: this.props.trainingListNoSelf, showSelfToggle: false})
+  } else if(this.state.sessionToggle) {
+    this.setState({noSelfToggle: false, history: this.props.trainingList, showSelfToggle: true})
+    }
+    else this.setState({noSelfToggle: false, history: this.props.trainingListByPack, showSelfToggle: true})
 }
 
-handleShowSelf = ({target}) => {
-  //console.log(target.checked);
-  this.filterSelf(this.props.trainingList, target.checked, 'only');
-  //filter self trainings
-  this.setState({selfToggle: target.checked})
+handleOnlySelf = ({target}) => {
+  if(!this.state.onlySelfToggle){
+  this.setState({onlySelfToggle: target.checked, history: this.props.trainingListOnlySelf, showPackToggle: false})
+} else if(this.state.sessionToggle) {
+  this.setState({onlySelfToggle: false, history: this.props.trainingList, showPackToggle: true})
+  }
+  else this.setState({onlySelfToggle: false, history: this.props.trainingListByPack, showPackToggle: true})
 }
 
   render(){
@@ -154,22 +147,19 @@ handleShowSelf = ({target}) => {
     } else{
         return (
           <div className="history-page">
-          <div className="history-title">{`${type} History for ${this.props.activeName}`}</div>
-          <button className=' training-link' ><Link to='/home'>Back to Dashboard</Link></button><span>  </span>
-          {(type === 'Measurements') ? null : <button className='training-link' onClick={this.handleSessionChange}>  
-          {(this.state.sessionToggle) ? 'Training by Package View' : 'Training by Session View'}</button>}
-          <div><span className="self-text">Hide Self Trainings</span><input className="self-checkbox" type='checkbox' name='hide_self' onClick={this.handleHideSelf}/>
-              <span className="self-text">- Show Only Self Trainings</span><input className="self-checkbox" type='checkbox' disabled={this.state.showSelfToggle}  name='only_self' onClick={this.handleShowSelf} />
-          </div>
-         <span className='delete-text-history'>{(this.state.trainingDeleted) ? 
-            `Training Session Deleted: ${this.state.deletedDate[0].sessiondate}` : ''}</span>
-            <div className="overflow-auto center table-div">
-              
-              {(type === 'Measurements')
-                  ? <MeasurementsHistory array={history} indicator={this.props.indicators} />
-                  : <TrainingHistory array={history} action={this.handleTrainingDelete} type={this.state.sessionToggle} />
-              }             
+          <article className=" mw9 mw9-ns br3 hidden ba b--black-10 mv1">
+            <h1 className="f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3">{`${type} History for ${this.props.activeName}`}</h1>
+            <div className="pa3 bt b--black-10">	
+            <HistoryBar type={type} />
+                    <div className="overflow-auto center table-div">
+                      
+                      {(type === 'Measurements')
+                          ? <MeasurementsHistory array={history} indicator={this.props.indicators} />
+                          : <TrainingHistory array={history} action={this.handleTrainingDelete} type={this.state.sessionToggle} />
+                      }             
+                    </div>
             </div>
+          </article>
             <br></br>
             Show: <select onChange={this.handleSelectorChange}>
                       <option value="-1">All</option>
@@ -189,7 +179,9 @@ const mapStateToProps = state => ({
   trainingList: state.training.trainingList,
   currentPackage: state.pack.currentPackage,
   activeName: state.indicator.activeName,
-  trainingListByPack: state.training.trainingListByPack
+  trainingListByPack: state.training.trainingListByPack,
+  trainingListNoSelf: state.training.trainingListNoSelf,
+  trainingListOnlySelf: state.training.trainingListOnlySelf
 });
 
 const mapDispatchToProps = dispatch => ({

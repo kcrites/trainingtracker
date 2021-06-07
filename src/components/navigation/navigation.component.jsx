@@ -3,9 +3,10 @@ import { ReactComponent as Logo } from '../logo/dmpt.svg';
 import { auth } from '../../firebase/firebase.utils';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
+import { version } from '../../server-path';
 
 import './navigation.styles.scss';
-const version = '2.75';
+
 
 const Navigation = ({ currentUser }) => {
 	if(currentUser) {

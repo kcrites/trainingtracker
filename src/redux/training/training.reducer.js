@@ -2,7 +2,10 @@ import { TrainingActionTypes } from './training.types';
 
 const INITIAL_STATE = {
     trainingList: [],
-    trainingListByPack: []
+    trainingListByPack: [],
+    trainingListNoSelf: [],
+    trainingListOnlySelf: [],
+    descriptions: []
 }
 
 const trainingReducer = (state = INITIAL_STATE, action) => {
@@ -28,6 +31,21 @@ const trainingReducer = (state = INITIAL_STATE, action) => {
             return {
                ...state,
                 trainingList: INITIAL_STATE.trainingList
+            }
+        case TrainingActionTypes.SET_TRAINING_ONLY_SELF:
+            return {
+                ...state,
+                trainingListOnlySelf: action.payload
+            }
+        case TrainingActionTypes.SET_TRAINING_NO_SELF:
+            return {
+                ...state,
+                trainingListNoSelf: action.payload
+            }
+        case TrainingActionTypes.SET_DESCRIPTIONS:
+            return {
+                ...state,
+                descriptions: action.payload
             }
         default:
             return state;

@@ -36,11 +36,13 @@ export const RenderRowTrainer = ({array, action}) => {
 
 export const RenderRowTraining = ({array, action}) =>{
    fixDate(array, 2);
+   console.log(action)
     return array.map((item, index)  => 
               <tr key={index} className="stripe-dark">
               <td className="history-cell">{index+1}</td>
                 <td className="history-cell">{item.sessiondate}</td>
                 {item.packageid !== 0 ?  <td className="history-cell">{item.packagedate}</td> : <td className='history-cell'>Self</td>}
+                <td className="history-cell">type</td>
                 <td className="history-cell"><button type='button' value={index} onClick={action}>Delete</button></td>
               </tr>
       );
@@ -52,6 +54,7 @@ export const RenderRowTrainingByPackage = ({array, action}) =>{
              <td className="history-cell">{index+1}</td>
                {item.packageid !== 0 ?  <td className="history-cell">{item.packagedate}</td> : <td className='history-cell'>Self</td>}
                <td className="history-cell">{item.sessiondate}</td>
+               <td className="history-cell">type</td>
                <td className="history-cell"><button type='button' value={index} onClick={action}>Delete</button></td>
              </tr>
      );

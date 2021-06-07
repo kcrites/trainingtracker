@@ -4,6 +4,7 @@ import { RenderColumn, RenderRowTraining, RenderRowTrainingByPackage } from '../
 
 
 const TrainingHistory = (props) => {
+    console.log(props)
 return(
 <div>
 <table className="history-table" cellSpacing="0">
@@ -19,9 +20,9 @@ return(
     </thead>
     <tbody className="lh-copy">
         {(props.type) ? 
-                  <RenderRowTraining array={props.array} action={props.handleTrainingDelete} />
+                  <RenderRowTraining array={props.array} action={props.action} />
                 :
-                  <RenderRowTrainingByPackage array={props.array} action={props.handleTrainingDelete} />
+                  <RenderRowTrainingByPackage array={props.array} action={props.action} />
                 } 
     </tbody>
     </table>

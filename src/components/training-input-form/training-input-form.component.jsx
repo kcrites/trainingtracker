@@ -11,7 +11,8 @@ class TrainingInputForm extends React.Component {
 		super(props);
 		this.state = {
 			sessionDate: '',
-			selfTraining: false
+			selfTraining: false,
+			type: 'training'
 			}
 		}
 
@@ -49,17 +50,6 @@ class TrainingInputForm extends React.Component {
 		}
 
 		let id = -1; 
-
-/* 		let sessionObj = {
-			sessionDate: sessionDate,
-			pId: pId,
-			selfTraining: selfTraining,
-			datestarted: datestarted,
-			activeEmail: this.props.activeEmail
-		} */
-	//1. Add session to DB	
-	//addTrainingSession(sessionDate, pId)
-	
 
 		fetch(serverURL + 'addtraining', {
 			method: 'post',
@@ -108,11 +98,10 @@ class TrainingInputForm extends React.Component {
 			}
 		}).catch(err => {console.log(err)});
 	}
-//2. store new session in state
-/* 	storeInState = (newSession, type) => {
-		this.props.addTraining(newSession);
-		this.props.history.push('/traininghistory');
-}  */
+
+handleTypeSelect = (event) => {
+	this.setState({type: event.target.value})
+}
 
 	render() {
 	
@@ -125,7 +114,15 @@ class TrainingInputForm extends React.Component {
 						<input className='f5 pa1 w-70 center' type='date'onChange={this.handleDateChange}/>
 						<button name='session' className='w-30 grow f5 link ph3 pv2 dib white bg-light-blue' onClick={this.handleSubmitDate}>Submit</button>
 					</div>
-					<span className='f7'>Self-training</span>{" "}<input type='checkbox' onChange={this.handleSelfChange} name='selfTraining'/>
+					<span className='f7'>Self-training</span>{" "}<input type='checkbox' onChange={this.handleSelfChange} name='selfTraining'/>{" "}
+					<span className="f7">Training Type  </span><select className="f7" name="type" id="type" onChange={this.handleTypeSelect}>
+															<option value="training">Training</option>
+															<option value="run">Run</option>
+															<option value="indoorcycle">Indoor Cycle</option>
+															<option value="outdoorcycle">Outdoor Cycle</option>
+															<option value="football">Football</option>
+															<option value="other">Other</option>
+															</select>
 				</div>
 			</article>
 		</nav>
