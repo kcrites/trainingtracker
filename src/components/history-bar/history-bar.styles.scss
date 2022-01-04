@@ -1,5 +1,36 @@
-.delete-text-history {
+.bar-text-bold {
     font-size: small;
     font-weight: 600;
     padding: 0px 0px 0px 0px;
+  }
+
+  .bar-text-small {
+      font-size: small;
+      font-weight: 300;
+      padding: 0px 0px 0px 0px;
+  }
+
+  .training-menu {
+      
+}
+
+
+.training-link {
+    cursor: pointer;
+    font-size: small;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-style:  black 2px;
+    background-color: lightsteelblue;
+    padding: 5px 5px 5px 5px
+  }
+
+  .training-link-inverted {
+    font-size: small;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-style:  black 2px;
+    height: 28px;
+    background-color: rgb(235, 238, 241);
+    padding: 5px 5px 5px 5px
   }

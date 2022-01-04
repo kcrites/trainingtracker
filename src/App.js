@@ -8,6 +8,7 @@ import History from './components/history/history.component';
 import Dashboard from './components/Dashboard/Dashboard';
 import InfoPage from './pages/info-page/info-page.component';
 import Popout from './components/popout/popout.component';
+import Cal from './components/calendar/cal';
 
 import { serverURL } from './server-path';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -136,6 +137,7 @@ class App extends Component {
           <Route path='/help' component={Help} />
           <Route path='/signin' component={SignIn} />
           <Route path='/infopage' component={InfoPage} />
+          <Route path='/cal' component={Cal} />
           <Route exact path='/popout1'><Popout text='faq' /></Route>
           <Route exact path='/popout2'><Popout text='tech' /></Route>
           <Route exact path='/popout3'><Popout text='terms' /></Route>

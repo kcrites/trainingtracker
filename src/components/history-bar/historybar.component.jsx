@@ -37,16 +37,18 @@ render(){
                 {(type === 'Measurements') ? null : <button className='training-link' onClick={this.handleSessionChange}>  
                 {(this.state.sessionToggle) ? 'Training by Package View' : 'Training by Session View'}</button>}
                 <span> </span>
-                <button className="training-link-inverted" >
-                  Hide Self Trainings <input type='checkbox' className="self-checkbox" name='hide_self' disabled={!this.state.showPackToggle} onClick={this.handleNoSelf}/>
-                  </button>
+                {(type === 'Measurements') ? null : <button className="training-link-inverted" >
+                  Hide Self Trainings <input type='checkbox' className="self-checkbox" name='hide_self' disabled={!this.state.showPackToggle} onClick={this.props.handleNoSelf}/>
+                  </button>}
                   <span> </span>
-                  <button className="training-link-inverted">
-                  Show Only Self Trainings <input type='checkbox' className="self-checkbox" disabled={!this.state.showSelfToggle}  name='only_self' onClick={this.handleOnlySelf} />
-                </button>
+                  {(type === 'Measurements') ? null : <button className="training-link-inverted">
+                  Hide PT Trainings <input type='checkbox' className="self-checkbox" disabled={!this.state.showSelfToggle}  name='only_self' onClick={this.props.handleOnlySelf} />
+                </button>}
         </div>
-        <span className='delete-text-history'>Package Information: Package Date: {this.state.packageDate} - Sessions Used: {this.props.currentPackage.sessioncount} - Sessions Left: {this.props.currentPackage.maxsessions - this.props.currentPackage.sessioncount}</span>
-            <span className='delete-text-history'>{(this.state.trainingDeleted) ? 
+        <span className='bar-text-small'>Package Information: Package Date: </span><span className='bar-text-bold'>{this.state.packageDate}</span>
+        <span className='bar-text-small'> - Sessions Used: </span><span className='bar-text-bold'>{this.props.currentPackage.sessioncount} </span>
+        <span className='bar-text-small'>- Sessions Left: </span><span className='bar-text-bold'>{this.props.currentPackage.maxsessions - this.props.currentPackage.sessioncount}</span>
+            <span className='bar-text-bold'>{(this.state.trainingDeleted) ? 
                   `Training Session Deleted: ${this.state.deletedDate[0].sessiondate}` : ''}
             </span>
        </div>

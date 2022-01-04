@@ -22,6 +22,7 @@ const Navigation = ({ currentUser }) => {
 					: <Link className='option' to='/home'>Home</Link>}
 				<Link className='option' to='/traininghistory' >Training</Link>
 				<Link className='option' to='/stats'>Measurements</Link>
+				<Link className='option' to='/cal'>Cal</Link>
 				<span onClick={() => auth.signOut()}className='option'>Sign Out</span>
 				</div>
 			</nav>
