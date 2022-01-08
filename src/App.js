@@ -8,7 +8,7 @@ import History from './components/history/history.component';
 import Dashboard from './components/Dashboard/Dashboard';
 import InfoPage from './pages/info-page/info-page.component';
 import Popout from './components/popout/popout.component';
-import Cal from './components/calendar/cal';
+import Cal from './components/calendar/cal1';
 
 import { serverURL } from './server-path';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
