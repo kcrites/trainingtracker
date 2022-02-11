@@ -7,7 +7,7 @@
     "jquery": "^3.5.1",
     "lodash": "^4.17.15",
     "moment": "^2.29.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react": "^16.11.0",
     "react-bootstrap": "^1.0.0-beta.17",
     "react-dom": "^16.11.0",
